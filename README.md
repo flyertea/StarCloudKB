@@ -10,6 +10,8 @@
 </p>
 <hr/>
 
+This is mutiple language version MaxKB
+
 MaxKB = Max Knowledge Base，是一款基于 LLM 大语言模型的开源知识库问答系统，旨在成为企业的最强大脑。
 
 - **开箱即用**：支持直接上传文档、自动爬取在线文档，支持文本自动拆分、向量化、RAG（检索增强生成），智能问答交互体验好；
