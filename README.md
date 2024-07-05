@@ -1,86 +1,63 @@
-<p align="center"><img src= "https://github.com/1Panel-dev/maxkb/assets/52996290/c0694996-0eed-40d8-b369-322bf2a380bf" alt="MaxKB" width="300" /></p>
-<h3 align="center">基于 LLM 大语言模型的知识库问答系统</h3>
-<p align="center"><a href="https://trendshift.io/repositories/9113" target="_blank"><img src="https://trendshift.io/api/badge/repositories/9113" alt="1Panel-dev%2FMaxKB | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a></p>
-<p align="center">
-  <a href="https://www.gnu.org/licenses/gpl-3.0.html#license-text"><img src="https://img.shields.io/github/license/1Panel-dev/maxkb?color=%231890FF" alt="License: GPL v3"></a>
-  <a href="https://app.codacy.com/gh/1Panel-dev/maxkb?utm_source=github.com&utm_medium=referral&utm_content=1Panel-dev/maxkb&utm_campaign=Badge_Grade_Dashboard"><img src="https://app.codacy.com/project/badge/Grade/da67574fd82b473992781d1386b937ef" alt="Codacy"></a>
-  <a href="https://github.com/1Panel-dev/maxkb/releases/latest"><img src="https://img.shields.io/github/v/release/1Panel-dev/maxkb" alt="Latest release"></a>
-  <a href="https://github.com/1Panel-dev/maxkb"><img src="https://img.shields.io/github/stars/1Panel-dev/maxkb?color=%231890FF&style=flat-square" alt="Stars"></a>    
-  <a href="https://hub.docker.com/r/1panel/maxkb"><img src="https://img.shields.io/docker/pulls/1panel/maxkb?label=downloads" alt="Download"></a>  
-</p>
+# StarCloudKB  （ Still in the early stage of development, don't use this until I remove this line)
+
+<h3 align="center">Knowledge Base Question Answering System Based on LLM Large Language Models</h3>
+
 <hr/>
 
-This is mutiple language version MaxKB
+StarCloudKB, originating from MaxKB, enhances the original system with multi-language support and role assignment features.
 
-MaxKB = Max Knowledge Base，是一款基于 LLM 大语言模型的开源知识库问答系统，旨在成为企业的最强大脑。
+MaxKB = Max Knowledge Base, is an open-source knowledge base question answering system based on LLM large language models, designed to be the ultimate brain for enterprises.
 
-- **开箱即用**：支持直接上传文档、自动爬取在线文档，支持文本自动拆分、向量化、RAG（检索增强生成），智能问答交互体验好；
-- **模型中立**：支持对接各种大语言模型，包括本地私有大模型（Llama 3 / Qwen 2 等）、国内公共大模型（通义千问 / 智谱 AI / 百度千帆 / Kimi / DeepSeek 等）和国外公共大模型（OpenAI / Azure OpenAI / Gemini 等）；
-- **灵活编排**：内置强大的工作流引擎，支持编排 AI 工作过程，满足复杂业务场景下的需求；
-- **无缝嵌入**：支持零编码快速嵌入到第三方业务系统，让已有系统快速拥有智能问答能力，提高用户满意度。
+- **Out-of-the-box**: Supports direct document uploads, automatic online document crawling, text auto-splitting, vectorization, RAG (Retrieval-Augmented Generation), and provides an excellent intelligent Q&A interaction experience.
+- **Model-neutral**: Supports integration with various large language models, including local private models (Llama 3 / Qwen 2, etc.), domestic public models (Tongyi Qianwen / Zhipu AI / Baidu Qianfan / Kimi / DeepSeek, etc.), and international public models (OpenAI / Azure OpenAI / Gemini, etc.).
+- **Flexible orchestration**: Built-in powerful workflow engine supports AI work process orchestration to meet the demands of complex business scenarios.
+- **Seamless embedding**: Supports rapid, zero-code embedding into third-party business systems, enabling existing systems to quickly gain intelligent Q&A capabilities and improve user satisfaction.
 
-## 快速开始
+## Quick Start
 
-```
+```bash
 docker run -d --name=maxkb -p 8080:8080 -v ~/.maxkb:/var/lib/postgresql/data cr2.fit2cloud.com/1panel/maxkb
 
-# 用户名: admin
-# 密码: MaxKB@123..
+# Username: admin
+# Password: MaxKB@123..
 ```
+You can also quickly deploy MaxKB + Ollama + Llama 3 through the [1Panel App Store](https://apps.fit2cloud.com/1panel), getting a local large model-based knowledge base question answering system online within 30 minutes and embedding it into third-party business systems.
 
-你也可以通过 [1Panel 应用商店](https://apps.fit2cloud.com/1panel) 快速部署 MaxKB + Ollama + Llama 3，30 分钟内即可上线基于本地大模型的知识库问答系统，并嵌入到第三方业务系统中。
+For intranet environments, it is recommended to use the [offline installation package](https://community.fit2cloud.com/#/products/maxkb/downloads) for installation and deployment.
 
-如果是内网环境，推荐使用 [离线安装包](https://community.fit2cloud.com/#/products/maxkb/downloads) 进行安装部署。
+You can also experience it online: [DataEase Assistant](https://dataease.io/docs/v2/), an intelligent Q&A system built on MaxKB, already embedded in the DataEase product and online documentation.
 
-你也可以在线体验：[DataEase 小助手](https://dataease.io/docs/v2/)，它是基于 MaxKB 搭建的智能问答系统，已经嵌入到 DataEase 产品及在线文档中。
+If you need to build a technical blog or knowledge base, it is recommended to use the [Halo open-source website building tool](https://github.com/halo-dev/halo/). You can experience the official [technical blog](https://blog.fit2cloud.com/) and [knowledge base](https://kb.fit2cloud.com) cases from FIT2CLOUD.
 
-如果你需要搭建技术博客或者知识库，推荐使用 [Halo 开源建站工具](https://github.com/halo-dev/halo/)，你可以体验下飞致云官方的 [技术博客](https://blog.fit2cloud.com/) 和 [知识库](https://kb.fit2cloud.com) 案例。
+For more questions, you can check the user manual or communicate with us through the forum.
 
-如你有更多问题，可以查看使用手册，或者通过论坛与我们交流。
+- [User Manual](https://github.com/1Panel-dev/MaxKB/wiki/1-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2)
 
-- [使用手册](https://github.com/1Panel-dev/MaxKB/wiki/1-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2)
-- [演示视频](https://www.bilibili.com/video/BV1BE421M7YM/)
-- [论坛求助](https://bbs.fit2cloud.com/c/mk/11)
-- 技术交流群
-
-<image height="150px" width="150px" src="https://github.com/1Panel-dev/MaxKB/assets/52996290/a083d214-02be-4178-a1db-4f428124153a"/>
-     
-
-
-## UI 展示
+## UI Showcase
 
 <table style="border-collapse: collapse; border: 1px solid black;">
   <tr>
-    <td style="padding: 5px;background-color:#fff;"><img src= "https://github.com/1Panel-dev/MaxKB/assets/80892890/2b893a25-ae46-48da-b6a1-61d23015565e" alt="MaxKB Demo1"   /></td>
-    <td style="padding: 5px;background-color:#fff;"><img src= "https://github.com/1Panel-dev/MaxKB/assets/80892890/3e50e7ff-cdc4-4a37-b430-d84975f11d4e" alt="MaxKB Demo2"   /></td>
+    <td style="padding: 5px;background-color:#fff;"><img src="https://github.com/1Panel-dev/MaxKB/assets/80892890/2b893a25-ae46-48da-b6a1-61d23015565e" alt="MaxKB Demo1" /></td>
+    <td style="padding: 5px;background-color:#fff;"><img src="https://github.com/1Panel-dev/MaxKB/assets/80892890/3e50e7ff-cdc4-4a37-b430-d84975f11d4e" alt="MaxKB Demo2" /></td>
   </tr>
   <tr>
-    <td style="padding: 5px;background-color:#fff;"><img src= "https://github.com/1Panel-dev/MaxKB/assets/80892890/dfdcc03f-ef36-4f75-bb82-797c0f9da1ad" alt="MaxKB Demo3"   /></td>
-    <td style="padding: 5px;background-color:#fff;"><img src= "https://github.com/1Panel-dev/MaxKB/assets/52996290/f8e36cad-b6d5-44bb-a9ab-8fa8e289377a" alt="MaxKB Demo4"   /></td>
+    <td style="padding: 5px;background-color:#fff;"><img src="https://github.com/1Panel-dev/MaxKB/assets/80892890/dfdcc03f-ef36-4f75-bb82-797c0f9da1ad" alt="MaxKB Demo3" /></td>
+    <td style="padding: 5px;background-color:#fff;"><img src="https://github.com/1Panel-dev/MaxKB/assets/52996290/f8e36cad-b6d5-44bb-a9ab-8fa8e289377a" alt="MaxKB Demo4" /></td>
   </tr>
 </table>
 
-## 技术栈
+## Tech Stack
 
-- 前端：[Vue.js](https://cn.vuejs.org/)
-- 后端：[Python / Django](https://www.djangoproject.com/)
-- LangChain：[LangChain](https://www.langchain.com/)
-- 向量数据库：[PostgreSQL / pgvector](https://www.postgresql.org/)
-- 大模型：各种本地私有或者公共大模型
-  
-## 飞致云的其他明星项目
+- Frontend: [Vue.js](https://cn.vuejs.org/)
+- Backend: [Python / Django](https://www.djangoproject.com/)
+- LangChain: [LangChain](https://www.langchain.com/)
+- Vector Database: [PostgreSQL / pgvector](https://www.postgresql.org/)
+- Large Models: Various local private or public large models
 
-- [1Panel](https://github.com/1panel-dev/1panel/) - 现代化、开源的 Linux 服务器运维管理面板
-- [JumpServer](https://github.com/jumpserver/jumpserver/) - 广受欢迎的开源堡垒机
-- [DataEase](https://github.com/dataease/dataease/) - 人人可用的开源数据可视化分析工具
-- [MeterSphere](https://github.com/metersphere/metersphere/) - 现代化、开源的测试管理及接口测试工具
-- [Halo](https://github.com/halo-dev/halo/) - 强大易用的开源建站工具
 
 ## License
 
-Copyright (c) 2014-2024 飞致云 FIT2CLOUD, All rights reserved.
-
-Licensed under The GNU General Public License version 3 (GPLv3)  (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+Licensed under The GNU General Public License version 3 (GPLv3) (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
 <https://www.gnu.org/licenses/gpl-3.0.html>
 
