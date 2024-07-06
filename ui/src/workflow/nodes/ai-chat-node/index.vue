@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-8">节点设置</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('nodeSettings') }}</h5>
     <el-card shadow="never" class="card-never" style="--el-card-padding: 12px">
       <el-form
         @submit.prevent
@@ -16,11 +16,11 @@
         ref="aiChatNodeFormRef"
       >
         <el-form-item
-          label="AI 模型"
+          :label="$t('aiModel')"
           prop="model_id"
           :rules="{
             required: true,
-            message: '请选择 AI 模型',
+            message: $t('selectAIModel'),
             trigger: 'change'
           }"
         >
@@ -30,7 +30,7 @@
             @keyup="isKeyDown = false"
             :teleported="false"
             v-model="chat_data.model_id"
-            placeholder="请选择 AI 模型"
+            :placeholder="$t('selectAIModel')"
             class="w-full"
             popper-class="select-model"
             :clearable="true"
@@ -55,7 +55,7 @@
                   <span>{{ item.name }}</span>
                 </div>
                 <el-icon class="check-icon" v-if="item.id === chat_data.model_id"
-                  ><Check
+                ><Check
                 /></el-icon>
               </el-option>
               <!-- 不可用 -->
@@ -73,10 +73,10 @@
                     class="model-icon mr-8"
                   ></span>
                   <span>{{ item.name }}</span>
-                  <span class="danger">（不可用）</span>
+                  <span class="danger">（{{ $t('notAvailable') }}）</span>
                 </div>
                 <el-icon class="check-icon" v-if="item.id === chat_data.model_id"
-                  ><Check
+                ><Check
                 /></el-icon>
               </el-option>
             </el-option-group>
@@ -84,30 +84,30 @@
               <div class="w-full text-left cursor" @click="openCreateModel()">
                 <el-button type="primary" link>
                   <el-icon class="mr-4"><Plus /></el-icon>
-                  添加模型
+                  {{ $t('addModel') }}
                 </el-button>
               </div>
             </template>
           </el-select>
         </el-form-item>
-        <el-form-item label="角色设定">
+        <el-form-item :label="$t('roleSetting')">
           <el-input
             v-model="chat_data.system"
-            placeholder="角色设定"
+            :placeholder="$t('roleSetting')"
             type="textarea"
             :autosize="{ minRows: 1, maxRows: 3 }"
           />
         </el-form-item>
-        <el-form-item label="提示词" prop="prompt">
+        <el-form-item :label="$t('prompt')" prop="prompt">
           <template #label>
             <div class="flex align-center">
               <div class="mr-4">
-                <span>提示词<span class="danger">*</span></span>
+                <span>{{ $t('prompt') }}<span class="danger">*</span></span>
               </div>
               <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
-                <template #content
-                  >通过调整提示词内容，可以引导大模型聊天方向，该提示词会被固定在上下文的开头，可以使用变量。</template
-                >
+                <template #content>
+                  {{ $t('promptTooltip') }}
+                </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
               </el-tooltip>
             </div>
@@ -120,7 +120,7 @@
             :placeholder="defaultPrompt"
           />
         </el-form-item>
-        <el-form-item label="历史聊天记录">
+        <el-form-item :label="$t('historyChatRecords')">
           <el-input-number
             v-model="chat_data.dialogue_number"
             :min="0"
@@ -153,6 +153,9 @@ import applicationApi from '@/api/application'
 import useStore from '@/stores'
 import { relatedObject } from '@/utils/utils'
 import type { Provider } from '@/api/type/model'
+import { useI18n } from 'vue-i18n' // 导入国际化
+
+const { t } = useI18n() // 使用国际化
 
 const { model } = useStore()
 const isKeyDown = ref(false)
@@ -169,10 +172,7 @@ const {
 } = app.config.globalProperties.$route as any
 
 // @ts-ignore
-const defaultPrompt = `已知信息：
-{{知识库检索.data}}
-问题：
-{{开始.question}}`
+const defaultPrompt = t('defaultPrompt')
 const form = {
   model_id: '',
   system: '',

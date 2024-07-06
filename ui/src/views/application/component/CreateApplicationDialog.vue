@@ -30,7 +30,7 @@
           show-word-limit
         />
       </el-form-item>
-      <el-form-item label="选择应用类型">
+      <el-form-item :label="$t('views.application.applicationForm.form.appType.label')">
         <el-radio-group v-model="applicationForm.type" class="card__radio">
           <el-row :gutter="16">
             <el-col :span="12">
@@ -40,8 +40,8 @@
                 :class="applicationForm.type === 'SIMPLE' ? 'active' : ''"
               >
                 <el-radio value="SIMPLE" size="large">
-                  <p class="mb-4">简单配置</p>
-                  <el-text type="info">适合新手创建小助手</el-text>
+                  <p class="mb-4">{{ $t('views.application.applicationForm.form.appType.simple') }}</p>
+                  <el-text type="info">{{ $t('views.application.applicationForm.form.appType.simpleDescription') }}</el-text>
                 </el-radio>
               </el-card>
             </el-col>
@@ -52,8 +52,8 @@
                 :class="isWorkFlow(applicationForm.type) ? 'active' : ''"
               >
                 <el-radio value="WORK_FLOW" size="large">
-                  <p class="mb-4">高级编排</p>
-                  <el-text type="info">适合高级用户自定义小助手的工作流</el-text>
+                  <p class="mb-4">{{ $t('views.application.applicationForm.form.appType.advanced') }}</p>
+                  <el-text type="info">{{ $t('views.application.applicationForm.form.appType.advancedDescription') }}</el-text>
                 </el-radio>
               </el-card>
             </el-col>

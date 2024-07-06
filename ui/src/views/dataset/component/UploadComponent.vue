@@ -1,5 +1,5 @@
 <template>
-  <h4 class="title-decoration-1 mb-8">上传文档</h4>
+  <h4 class="title-decoration-1 mb-8">{{ $t('uploadDocument') }}</h4>
   <el-form
     ref="FormRef"
     :model="form"
@@ -9,8 +9,8 @@
   >
     <el-form-item>
       <el-radio-group v-model="form.fileType" @change="radioChange">
-        <el-radio value="txt">文本文件</el-radio>
-        <el-radio value="QA">QA 问答对</el-radio>
+        <el-radio value="txt">{{ $t('textFile') }}</el-radio>
+        <el-radio value="QA">{{ $t('qaPair') }}</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item prop="fileList" v-if="form.fileType === 'QA'">
@@ -32,21 +32,21 @@
         <img src="@/assets/upload-icon.svg" alt="" />
         <div class="el-upload__text">
           <p>
-            拖拽文件至此上传或
-            <em class="hover" @click.prevent="handlePreview(false)"> 选择文件 </em>
-            <em class="hover" @click.prevent="handlePreview(true)"> 选择文件夹 </em>
+            {{ $t('dragFilesHere') }}
+            <em class="hover" @click.prevent="handlePreview(false)"> {{ $t('selectFile') }} </em>
+            <em class="hover" @click.prevent="handlePreview(true)"> {{ $t('selectFolder') }} </em>
           </p>
           <div class="upload__decoration">
-            <p>当前支持 XLSX / XLS / CSV 格式的文档</p>
-            <p>每次最多上传50个文件，每个文件不超过 100MB</p>
+            <p>{{ $t('supportedFormats') }}</p>
+            <p>{{ $t('uploadLimit') }}</p>
           </div>
         </div>
       </el-upload>
       <el-button type="primary" link @click="downloadTemplate('excel')">
-        下载 Excel 模板
+        {{ $t('downloadExcelTemplate') }}
       </el-button>
       <el-divider direction="vertical" />
-      <el-button type="primary" link @click="downloadTemplate('csv')"> 下载 CSV 模板 </el-button>
+      <el-button type="primary" link @click="downloadTemplate('csv')"> {{ $t('downloadCsvTemplate') }} </el-button>
     </el-form-item>
     <el-form-item prop="fileList" v-else>
       <el-upload
@@ -67,15 +67,13 @@
         <img src="@/assets/upload-icon.svg" alt="" />
         <div class="el-upload__text">
           <p>
-            拖拽文件至此上传或
-            <em class="hover" @click.prevent="handlePreview(false)"> 选择文件 </em>
-            <em class="hover" @click.prevent="handlePreview(true)"> 选择文件夹 </em>
+            {{ $t('dragFilesHere') }}
+            <em class="hover" @click.prevent="handlePreview(false)"> {{ $t('selectFile') }} </em>
+            <em class="hover" @click.prevent="handlePreview(true)"> {{ $t('selectFolder') }} </em>
           </p>
           <div class="upload__decoration">
-            <p>
-              支持格式：TXT、Markdown、PDF、DOCX、HTML 每次最多上传50个文件，每个文件不超过 100MB
-            </p>
-            <p>若使用【高级分段】建议上传前规范文件的分段标识</p>
+            <p>{{ $t('supportedFormatsText') }}</p>
+            <p>{{ $t('advancedSegmentation') }}</p>
           </div>
         </div>
       </el-upload>
@@ -91,8 +89,8 @@
               <div class="ml-8">
                 <p>{{ item && item?.name }}</p>
                 <el-text type="info" size="small">{{
-                  filesize(item && item?.size) || '0K'
-                }}</el-text>
+                    filesize(item && item?.size) || '0K'
+                  }}</el-text>
               </div>
             </div>
             <el-button text @click="deleteFile(index)">
@@ -111,6 +109,9 @@ import { filesize, getImgUrl, isRightType } from '@/utils/utils'
 import { MsgError } from '@/utils/message'
 import documentApi from '@/api/document'
 import useStore from '@/stores'
+import { useI18n } from 'vue-i18n' // 导入国际化
+
+const { t } = useI18n() // 使用国际化
 const { dataset } = useStore()
 const documentsFiles = computed(() => dataset.documentsFiles)
 const documentsType = computed(() => dataset.documentsType)
@@ -120,7 +121,7 @@ const form = ref({
 })
 
 const rules = reactive({
-  fileList: [{ required: true, message: '请上传文件', trigger: 'change' }]
+  fileList: [{ required: true, message: t('pleaseUploadFiles'), trigger: 'change' }]
 })
 const FormRef = ref()
 
@@ -130,7 +131,7 @@ watch(form.value, (value) => {
 })
 
 function downloadTemplate(type: string) {
-  documentApi.exportQATemplate(`${type}模版.${type == 'csv' ? type : 'xlsx'}`, type)
+  documentApi.exportQATemplate(`${type}template.${type == 'csv' ? type : 'xlsx'}`, type)
 }
 
 function radioChange() {
@@ -146,19 +147,19 @@ const fileHandleChange = (file: any, fileList: UploadFiles) => {
   //1、判断文件大小是否合法，文件限制不能大于100M
   const isLimit = file?.size / 1024 / 1024 < 100
   if (!isLimit) {
-    MsgError('文件大小超过 100MB')
+    MsgError(t('fileSizeExceeded'))
     fileList.splice(-1, 1) //移除当前超出大小的文件
     return false
   }
   if (!isRightType(file?.name, form.value.fileType)) {
-    MsgError('文件格式不支持')
+    MsgError(t('unsupportedFileFormat'))
     fileList.splice(-1, 1)
     return false
   }
 }
 
 const onExceed = () => {
-  MsgError('每次最多上传50个文件')
+  MsgError(t('uploadLimitExceeded'))
 }
 
 const handlePreview = (bool: boolean) => {

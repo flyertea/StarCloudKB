@@ -2,6 +2,8 @@ import type LogicFlow from '@logicflow/core'
 import { type GraphModel } from '@logicflow/core'
 import { MsgSuccess, MsgError, MsgConfirm } from '@/utils/message'
 import { WorkflowType } from '@/enums/workflow'
+import { useI18n } from 'vue-i18n' // 导入国际化
+
 let selected: any | null = null
 
 function translationNodeData(nodeData: any, distance: any) {
@@ -40,6 +42,7 @@ const TRANSLATION_DISTANCE = 40
 let CHILDREN_TRANSLATION_DISTANCE = 40
 
 export function initDefaultShortcut(lf: LogicFlow, graph: GraphModel) {
+  const { t } = useI18n() // 使用国际化
   const { keyboard } = lf
   const {
     options: { keyboard: keyboardOptions }
@@ -59,13 +62,13 @@ export function initDefaultShortcut(lf: LogicFlow, graph: GraphModel) {
       (node: any) => node.type === WorkflowType.Start || node.type === WorkflowType.Base
     )
     if (base_nodes.length > 0) {
-      MsgError(base_nodes[0]?.properties?.stepName + '不能被复制')
+      MsgError(t('nodeCannotBeCopied', { stepName: base_nodes[0]?.properties?.stepName }))
       return
     }
     selected = elements
     selected.nodes.forEach((node: any) => translationNodeData(node, TRANSLATION_DISTANCE))
     selected.edges.forEach((edge: any) => translationEdgeData(edge, TRANSLATION_DISTANCE))
-    MsgSuccess('已复制节点')
+    MsgSuccess(t('nodeCopied'))
     return false
   }
   const paste_node = () => {
@@ -96,11 +99,11 @@ export function initDefaultShortcut(lf: LogicFlow, graph: GraphModel) {
     }
     const nodes = elements.nodes.filter((node) => ['start-node', 'base-node'].includes(node.type))
     if (nodes.length > 0) {
-      MsgError(`${nodes[0].properties?.stepName}节点不允许删除`)
+      MsgError(t('nodeCannotBeDeleted', { stepName: nodes[0].properties?.stepName }))
       return
     }
-    MsgConfirm(`提示`, `确定删除该节点？`, {
-      confirmButtonText: '删除',
+    MsgConfirm(t('deleteNode'), t('deleteNodeConfirmation'), {
+      confirmButtonText: t('delete'),
       confirmButtonClass: 'danger'
     }).then(() => {
       if (!keyboardOptions?.enabled) return true

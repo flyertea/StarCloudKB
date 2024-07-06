@@ -7,7 +7,8 @@ import { HtmlResize } from '@logicflow/extension'
 import { h as lh } from '@logicflow/core'
 import { createApp, h } from 'vue'
 import directives from '@/directives'
-import i18n from '@/locales'
+import i18n, { t } from '@/locales' // 导入国际化配置
+
 import { WorkflowType } from '@/enums/workflow'
 import { nodeDict } from '@/workflow/common/data'
 class AppNode extends HtmlResize.view {
@@ -187,14 +188,14 @@ class AppNodeModel extends HtmlResize.model {
     this.width = this.properties?.width || 340
 
     const circleOnlyAsTarget = {
-      message: '只允许从右边的锚点连出',
+      message: t('message'),
       validate: (sourceNode: any, targetNode: any, sourceAnchor: any) => {
         return sourceAnchor.type === 'right'
       }
     }
 
     this.sourceRules.push({
-      message: '只允许连一个节点',
+      message: t('onlyOneNode'),
       validate: (sourceNode: any, targetNode: any, sourceAnchor: any, targetAnchor: any) => {
         return !this.graphModel.edges.some(
           (item) =>
@@ -205,7 +206,7 @@ class AppNodeModel extends HtmlResize.model {
 
     this.sourceRules.push(circleOnlyAsTarget)
     this.targetRules.push({
-      message: '只允许连接左边的锚点',
+      message: t('onlyLeftAnchor'),
       validate: (sourceNode: any, targetNode: any, sourceAnchor: any, targetAnchor: any) => {
         return targetAnchor.type === 'left'
       }

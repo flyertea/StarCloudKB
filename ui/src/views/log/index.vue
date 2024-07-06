@@ -1,5 +1,5 @@
 <template>
-  <LayoutContainer header="对话日志">
+  <LayoutContainer :header="$t('views.login.chatLog.header')">
     <div class="p-24">
       <div class="mb-16">
         <el-select v-model="history_day" class="mr-12 w-240" @change="changeHandle">
@@ -13,12 +13,12 @@
         <el-input
           v-model="search"
           @change="getList"
-          placeholder="搜索"
+          :placeholder="$t('views.login.chatLog.searchPlaceholder')"
           prefix-icon="Search"
           class="w-240"
           clearable
         />
-        <el-button class="float-right" @click="exportLog">导出</el-button>
+        <el-button class="float-right" @click="exportLog">{{ $t('views.login.chatLog.export') }}</el-button>
       </div>
 
       <app-table
@@ -31,12 +31,12 @@
         :row-class-name="setRowClass"
         class="log-table"
       >
-        <el-table-column prop="abstract" label="摘要" show-overflow-tooltip />
-        <el-table-column prop="chat_record_count" label="对话提问数" align="right" />
+        <el-table-column prop="abstract" :label="$t('views.login.chatLog.columns.abstract')" show-overflow-tooltip />
+        <el-table-column prop="chat_record_count" :label="$t('views.login.chatLog.columns.dialogueCount')" align="right" />
         <el-table-column prop="star_num" align="right">
           <template #header>
             <div>
-              <span>用户反馈</span>
+              <span>{{ $t('views.login.chatLog.columns.userFeedback') }}</span>
               <el-popover :width="190" trigger="click" :visible="popoverVisible">
                 <template #reference>
                   <el-button
@@ -51,7 +51,7 @@
                 <div class="filter">
                   <div class="form-item mb-16">
                     <div @click.stop>
-                      赞同 >=
+                      {{ $t('views.login.chatLog.filters.agree') }} >=
                       <el-input-number
                         v-model="filter.min_star"
                         :min="0"
@@ -66,7 +66,7 @@
                   </div>
                   <div class="form-item mb-16">
                     <div @click.stop>
-                      反对 >=
+                      {{ $t('views.login.chatLog.filters.disagree') }} >=
                       <el-input-number
                         v-model="filter.min_trample"
                         :min="0"
@@ -81,8 +81,8 @@
                   </div>
                 </div>
                 <div class="text-right">
-                  <el-button size="small" @click="filterChange('clear')">清除</el-button>
-                  <el-button type="primary" @click="filterChange" size="small">确认</el-button>
+                  <el-button size="small" @click="filterChange('clear')">{{ $t('views.login.chatLog.filters.clear') }}</el-button>
+                  <el-button type="primary" @click="filterChange" size="small">{{ $t('views.login.chatLog.filters.confirm') }}</el-button>
                 </div>
               </el-popover>
             </div>
@@ -101,16 +101,16 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="mark_sum" label="改进标注" align="right" />
-        <el-table-column label="时间" width="180">
+        <el-table-column prop="mark_sum" :label="$t('views.login.chatLog.columns.improvementMark')" align="right" />
+        <el-table-column :label="$t('views.login.chatLog.columns.time')" width="180">
           <template #default="{ row }">
             {{ datetimeFormat(row.create_time) }}
           </template>
         </el-table-column>
 
-        <!-- <el-table-column label="操作" width="70" align="left">
+        <!-- <el-table-column :label="$t('views.login.chatLog.columns.actions')" width="70" align="left">
           <template #default="{ row }">
-            <el-tooltip effect="dark" content="删除" placement="top">
+            <el-tooltip effect="dark" :content="$t('views.login.chatLog.actions.delete')" placement="top">
               <el-button type="primary" text @click.stop="deleteLog(row)">
                 <el-icon><Delete /></el-icon>
               </el-button>
@@ -142,8 +142,12 @@ import logApi from '@/api/log'
 import { datetimeFormat } from '@/utils/time'
 import useStore from '@/stores'
 import type { Dict } from '@/api/type/common'
+import { useI18n } from 'vue-i18n'
+
 const { application, log } = useStore()
 const route = useRoute()
+const { t } = useI18n()
+
 const {
   params: { id }
 } = route
@@ -151,19 +155,19 @@ const {
 const dayOptions = [
   {
     value: 7,
-    label: '过去7天'
+    label: t('views.login.chatLog.dayOptions.past7Days')
   },
   {
     value: 30,
-    label: '过去30天'
+    label: t('views.login.chatLog.dayOptions.past30Days')
   },
   {
     value: 90,
-    label: '过去90天'
+    label: t('views.login.chatLog.dayOptions.past90Days')
   },
   {
     value: 183,
-    label: '过去半年'
+    label: t('views.login.chatLog.dayOptions.pastHalfYear')
   }
 ]
 
@@ -241,7 +245,7 @@ const next_disable = computed(() => {
   return (
     index >= tableData.value.length &&
     index + (paginationConfig.current_page - 1) * paginationConfig.page_size >=
-      paginationConfig.total - 1
+    paginationConfig.total - 1
   )
 })
 /**
@@ -280,14 +284,18 @@ const setRowClass = ({ row }: any) => {
 }
 
 function deleteLog(row: any) {
-  MsgConfirm(`是否删除对话：${row.abstract} ?`, `删除后无法恢复，请谨慎操作。`, {
-    confirmButtonText: '删除',
-    confirmButtonClass: 'danger'
-  })
+  MsgConfirm(
+    t('views.login.chatLog.confirmDelete', { abstract: row.abstract }),
+    t('views.login.chatLog.deleteWarning'),
+    {
+      confirmButtonText: t('views.login.common.delete'),
+      confirmButtonClass: 'danger'
+    }
+  )
     .then(() => {
       loading.value = true
       logApi.delChatLog(id as string, row.id, loading).then(() => {
-        MsgSuccess('删除成功')
+        MsgSuccess(t('views.login.chatLog.deleteSuccess'))
         getList()
       })
     })

@@ -25,9 +25,17 @@ export default {
     }
   },
   applicationForm: {
+    saveTime: "保存时间",
+    addComponent: "添加组件",
+    debug: "调试",
+    save: "保存",
+    publish: "发布",
+    publishSuccess: "发布成功",
+    basicComponents: "基础组件",
     title: {
       create: '创建应用',
       edit: '设置',
+      save_publish: '保存并发布',
       info: '应用信息'
     },
     form: {
@@ -40,6 +48,13 @@ export default {
         label: '应用描述',
         placeholder: '描述该应用的应用场景及用途，如：StarCloudKB 小助手回答用户提出的 StarCloudKB 产品使用问题'
       },
+      appType: {
+        label: "选择应用类型",
+        simple: "简单配置",
+        simpleDescription: "适合新手创建小助手",
+        advanced: "高级编排",
+        advancedDescription: "适合高级用户自定义小助手的工作流"
+      },
       aiModel: {
         label: 'AI 模型',
         placeholder: '请选择 AI 模型',
@@ -51,6 +66,7 @@ export default {
         tooltip:
           '通过调整提示词内容，可以引导大模型聊天方向，该提示词会被固定在上下文的开头。可以使用变量：{data} 是携带知识库中已知信息；{question} 是用户提出的问题。'
       },
+
       multipleRoundsDialogue: '多轮对话',
       relatedKnowledgeBase: '关联知识库',
       relatedKnowledgeBaseWhere: '关联知识库展示在这里',

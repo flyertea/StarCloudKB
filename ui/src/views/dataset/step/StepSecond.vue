@@ -2,23 +2,21 @@
   <div class="set-rules">
     <el-row>
       <el-col :span="10" class="p-24">
-        <h4 class="title-decoration-1 mb-16">设置分段规则</h4>
+        <h4 class="title-decoration-1 mb-16">{{ $t('setSegmentationRules') }}</h4>
         <div class="set-rules__right">
           <el-scrollbar>
             <div class="left-height" @click.stop>
               <el-radio-group v-model="radio" class="set-rules__radio">
                 <el-card shadow="never" class="mb-16" :class="radio === '1' ? 'active' : ''">
                   <el-radio value="1" size="large">
-                    <p class="mb-4">智能分段（推荐)</p>
-                    <el-text type="info">不了解如何设置分段规则推荐使用智能分段</el-text>
+                    <p class="mb-4">{{ $t('intelligentSegmentation') }}</p>
+                    <el-text type="info">{{ $t('intelligentSegmentationInfo') }}</el-text>
                   </el-radio>
                 </el-card>
                 <el-card shadow="never" class="mb-16" :class="radio === '2' ? 'active' : ''">
                   <el-radio value="2" size="large">
-                    <p class="mb-4">高级分段</p>
-                    <el-text type="info"
-                      >用户可根据文档规范自行设置分段标识符、分段长度以及清洗规则
-                    </el-text>
+                    <p class="mb-4">{{ $t('advancedSegmentation') }}</p>
+                    <el-text type="info">{{ $t('advancedSegmentationInfo') }}</el-text>
                   </el-radio>
 
                   <el-card
@@ -30,10 +28,10 @@
                     <div class="set-rules__form">
                       <div class="form-item mb-16">
                         <div class="title flex align-center mb-8">
-                          <span style="margin-right: 4px">分段标识</span>
+                          <span style="margin-right: 4px">{{ $t('segmentationMarker') }}</span>
                           <el-tooltip
                             effect="dark"
-                            content="按照所选符号先后顺序做递归分割，分割结果超出分段长度将截取至分段长度。"
+                            :content="$t('segmentationMarkerTooltip')"
                             placement="right"
                           >
                             <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
@@ -46,7 +44,7 @@
                             allow-create
                             default-first-option
                             filterable
-                            placeholder="请选择"
+                            :placeholder="$t('selectPlaceholder')"
                           >
                             <el-option
                               v-for="(item, index) in splitPatternList"
@@ -59,7 +57,7 @@
                         </div>
                       </div>
                       <div class="form-item mb-16">
-                        <div class="title mb-8">分段长度</div>
+                        <div class="title mb-8">{{ $t('segmentationLength') }}</div>
                         <el-slider
                           v-model="form.limit"
                           show-input
@@ -69,10 +67,10 @@
                         />
                       </div>
                       <div class="form-item mb-16">
-                        <div class="title mb-8">自动清洗</div>
+                        <div class="title mb-8">{{ $t('autoClean') }}</div>
                         <el-switch size="small" v-model="form.with_filter" />
                         <div style="margin-top: 4px">
-                          <el-text type="info">去掉重复多余符号空格、空行、制表符</el-text>
+                          <el-text type="info">{{ $t('autoCleanInfo') }}</el-text>
                         </div>
                       </div>
                     </div>
@@ -83,18 +81,18 @@
           </el-scrollbar>
           <div>
             <el-checkbox v-model="checkedConnect" @change="changeHandle">
-              导入时添加分段标题为关联问题（适用于标题为问题的问答对）
+              {{ $t('addSegmentationTitle') }}
             </el-checkbox>
           </div>
           <div class="text-right mt-8">
-            <el-button @click="splitDocument">生成预览</el-button>
+            <el-button @click="splitDocument">{{ $t('generatePreview') }}</el-button>
           </div>
         </div>
       </el-col>
 
       <el-col :span="14" class="p-24 border-l">
         <div v-loading="loading">
-          <h4 class="title-decoration-1 mb-8">分段预览</h4>
+          <h4 class="title-decoration-1 mb-8">{{ $t('segmentationPreview') }}</h4>
 
           <ParagraphPreview v-model:data="paragraphList" :isConnect="checkedConnect" />
         </div>
@@ -138,10 +136,10 @@ function changeHandle(val: boolean) {
       item.content.map((v: any) => {
         v['problem_list'] = v.title.trim()
           ? [
-              {
-                content: v.title.trim()
-              }
-            ]
+            {
+              content: v.title.trim()
+            }
+          ]
           : []
       })
     })
@@ -175,10 +173,10 @@ function splitDocument() {
           item.content.map((v: any) => {
             v['problem_list'] = v.title.trim()
               ? [
-                  {
-                    content: v.title.trim()
-                  }
-                ]
+                {
+                  content: v.title.trim()
+                }
+              ]
               : []
           })
         })

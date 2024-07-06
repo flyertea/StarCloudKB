@@ -11,7 +11,7 @@ export default {
       setting: 'Settings',
       delete: {
         tooltip: 'Delete',
-        confirmTitle: 'Are you sure you want to delete this application?',
+        confirmTitle: 'Are you sure you want to delete this application - ',
         confirmMessage:
           'Deleting this application will no longer provide its services. Please proceed with caution.',
         confirmButton: 'Delete',
@@ -26,9 +26,17 @@ export default {
     }
   },
   applicationForm: {
+    saveTime: "Last save at",
+    addComponent: "Add Component",
+    debug: "Debug",
+    save: "Save",
+    publish: "Publish",
+    publishSuccess: "Publish Success",
+    basicComponents: "Basic Components",
     title: {
       create: 'Create Application',
       edit: 'Edit Settings',
+      save_publish: 'Save & Publish',
       info: 'Application Information'
     },
     form: {
@@ -42,6 +50,13 @@ export default {
         placeholder:
           'Describe the application scenario and use, e.g.: StarCloudKB assistant answering user questions about StarCloudKB product usage'
       },
+      appType: {
+        label: "Select Application Type",
+        simple: "Simple",
+        simpleDescription: "Suitable for beginners to create assistants",
+        advanced: "Advanced",
+        advancedDescription: "Suitable for advanced users to customize assistant workflows"
+      },
       aiModel: {
         label: 'AI Model',
         placeholder: 'Please select an AI model',
@@ -53,6 +68,13 @@ export default {
         tooltip:
           'By adjusting the content of the prompt, you can guide the direction of the large model conversation. This prompt will be fixed at the beginning of the context. Variables used: {data} carries known information from the knowledge base; {question} is the question posed by the user.'
       },
+      saveTime: "Last save at",
+      addComponent: "Add Component",
+      debug: "Debug",
+      save: "Save",
+      publish: "Publish",
+      publishSuccess: "Publish Success",
+      basicComponents: "Basic Components",
       multipleRoundsDialogue: 'Multiple Rounds Dialogue',
       relatedKnowledgeBase: 'Related Knowledge Base',
       relatedKnowledgeBaseWhere: 'Associated knowledge bases are displayed here',

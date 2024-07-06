@@ -3,27 +3,31 @@
   <login-layout v-loading="loading">
     <LoginContainer :subTitle="$t('views.login.welcomeMessage')">
       <h2 class="mb-24"> {{$t('views.login.normalLogin')}}
-      <el-dropdown trigger="click" type="primary">
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item
-              v-for="(lang, index) in langList"
-              :key="index"
-              :value="lang.value"
-              @click="changeLang(lang.value)"
+        <el-dropdown trigger="click" type="primary">
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item
+                v-for="(lang, index) in langList"
+                :key="index"
+                :value="lang.value"
+                @click="changeLang(lang.value)"
+              >
+                {{ lang.label }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+          <div class="dropdown-content">
+            <AppIcon
+              iconName="app-translate"
+              class="cursor color-secondary ml-8"
+              style="font-size: 20px"
             >
-              {{ lang.label }}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-        <AppIcon
-          iconName="app-translate"
-          class="cursor color-secondary mr-16 ml-8"
-          style="font-size: 20px"
-        >
-        </AppIcon>
-      </el-dropdown>
-      </h2>
+            </AppIcon>
+            {{ currentLangLabel }}
+
+          </div>
+        </el-dropdown>
+        </h2>
       <el-form
         class="login-form"
         :rules="rules"
@@ -85,11 +89,20 @@ import { useI18n } from 'vue-i18n'
 
 
 
-import { langList } from '@/locales/index'
+import { langList as computedLangList } from '@/locales/index'
 import { useLocale } from '@/locales/useLocale'
 
-
+const { t ,locale } = useI18n()
 const { changeLocale } = useLocale()
+// 获取当前语言的标签
+// 解包 langList 并查找当前语言的标签
+const langList = computedLangList.value
+const currentLangLabel = computed(() => {
+  const currentLang = locale.value
+  const lang = langList.find(l => l.value === currentLang)
+  return lang ? lang.label : ''
+})
+
 const changeLang = (lang: string) => {
   changeLocale(lang)
 }
@@ -102,7 +115,7 @@ const loginForm = ref<LoginRequest>({
   password: ''
 })
 
-const { t } = useI18n()
+
 
 const rules = computed<FormRules>(() => ({
   username: [
@@ -121,6 +134,7 @@ const rules = computed<FormRules>(() => ({
   ]
 }))
 
+
 const loginFormRef = ref<FormInstance>()
 
 const login = () => {
@@ -137,4 +151,10 @@ const login = () => {
 </script>
 <style lang="scss" scope>
 .el-dropdown {float:right;}
+.dropdown-content {
+  display: flex;
+  align-items: center;
+  color:#666；
+}
+
 </style>

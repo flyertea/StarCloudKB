@@ -1,5 +1,5 @@
 <template>
-  <h4 class="title-decoration-1 mb-16">基本信息</h4>
+  <h4 class="title-decoration-1 mb-16">{{ $t('basicInformation') }}</h4>
   <el-form
     ref="FormRef"
     :model="form"
@@ -7,20 +7,20 @@
     label-position="top"
     require-asterisk-position="right"
   >
-    <el-form-item label="知识库名称" prop="name">
+    <el-form-item :label="$t('knowledgeBaseName')" prop="name">
       <el-input
         v-model="form.name"
-        placeholder="请输入知识库名称"
+        :placeholder="$t('enterKnowledgeBaseName')"
         maxlength="64"
         show-word-limit
         @blur="form.name = form.name.trim()"
       />
     </el-form-item>
-    <el-form-item label="知识库描述" prop="desc">
+    <el-form-item :label="$t('knowledgeBaseDescription')" prop="desc">
       <el-input
         v-model="form.desc"
         type="textarea"
-        placeholder="描述知识库的内容，详尽的描述将帮助AI能深入理解该知识库的内容，能更准确的检索到内容，提高该知识库的命中率。"
+        :placeholder="$t('knowledgeBaseDescriptionPlaceholder')"
         maxlength="256"
         show-word-limit
         :autosize="{ minRows: 3 }"
@@ -33,8 +33,10 @@
 import { ref, reactive, onMounted, onUnmounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import useStore from '@/stores'
-import type { datasetData } from '@/api/type/dataset'
 import { isAllPropertiesEmpty } from '@/utils/utils'
+import { useI18n } from 'vue-i18n' // 导入国际化
+
+const { t } = useI18n() // 使用国际化
 
 const props = defineProps({
   data: {
@@ -55,8 +57,8 @@ const form = ref<datasetData>({
 })
 
 const rules = reactive({
-  name: [{ required: true, message: '请输入知识库名称', trigger: 'blur' }],
-  desc: [{ required: true, message: '请输入知识库描述', trigger: 'blur' }]
+  name: [{ required: true, message: t('enterKnowledgeBaseName'), trigger: 'blur' }],
+  desc: [{ required: true, message: t('enterKnowledgeBaseDescription'), trigger: 'blur' }]
 })
 const FormRef = ref()
 

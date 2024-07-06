@@ -6,29 +6,31 @@
           @click="router.push({ path: `/application/${id}/WORK_FLOW/overview` })"
         ></back-button>
         <h4>{{ detail?.name }}</h4>
-        <el-text type="info" class="ml-16 color-secondary" v-if="saveTime"
-          >保存时间：{{ datetimeFormat(saveTime) }}</el-text
-        >
+        <el-text type="info" class="ml-16 color-secondary" v-if="saveTime">
+          {{ $t('views.application.applicationForm.saveTime') }}：{{ datetimeFormat(saveTime) }}
+        </el-text>
       </div>
       <div>
         <el-button icon="Plus" @click="showPopover = !showPopover" v-click-outside="clickoutside">
-          添加组件
+          {{ $t('views.application.applicationForm.addComponent') }}
         </el-button>
         <el-button @click="clickShowDebug" :disabled="showDebug">
           <AppIcon iconName="app-play-outlined" class="mr-4"></AppIcon>
-          调试</el-button
-        >
+          {{ $t('views.application.applicationForm.debug') }}
+        </el-button>
         <el-button @click="saveApplication">
           <AppIcon iconName="app-save-outlined" class="mr-4"></AppIcon>
-          保存
+          {{ $t('views.application.applicationForm.save') }}
         </el-button>
-        <el-button type="primary" @click="publicHandle"> 发布 </el-button>
+        <el-button type="primary" @click="publicHandle">
+          {{ $t('views.application.applicationForm.publish') }}
+        </el-button>
       </div>
     </div>
     <!-- 下拉框 -->
     <el-collapse-transition>
       <div v-show="showPopover" class="workflow-dropdown-menu border border-r-4">
-        <h5 class="title">基础组件</h5>
+        <h5 class="title">{{ $t('views.application.applicationForm.basicComponents') }}</h5>
         <template v-for="(item, index) in menuNodes" :key="index">
           <div
             class="workflow-dropdown-item cursor flex p-8-12"
@@ -83,20 +85,22 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import Workflow from '@/workflow/index.vue'
 import { menuNodes } from '@/workflow/common/data'
 import { iconComponent } from '@/workflow/icons/utils'
 import applicationApi from '@/api/application'
-import { MsgSuccess, MsgConfirm, MsgError } from '@/utils/message'
+import { MsgSuccess, MsgError } from '@/utils/message'
 import { datetimeFormat } from '@/utils/time'
 import useStore from '@/stores'
 import { WorkFlowInstance } from '@/workflow/common/validate'
+import { useI18n } from 'vue-i18n'
 
 const { application } = useStore()
 const router = useRouter()
 const route = useRoute()
+const { t } = useI18n()
 
 const {
   params: { id }
@@ -122,7 +126,7 @@ function publicHandle() {
       }
       applicationApi.putPublishApplication(id as String, obj, loading).then(() => {
         getDetail()
-        MsgSuccess('发布成功')
+        MsgSuccess(t('views.application.applicationForm.publishSuccess'))
       })
     })
     .catch((res: any) => {

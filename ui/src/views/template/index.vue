@@ -1,8 +1,8 @@
 <template>
-  <LayoutContainer header="模型设置">
+  <LayoutContainer :header="$t('modelSettings')">
     <div class="template-manage flex main-calc-height">
       <div class="template-manage__left p-8 border-r">
-        <h4 class="p-16" style="padding-bottom: 8px">供应商</h4>
+        <h4 class="p-16" style="padding-bottom: 8px">{{ $t('providers') }}</h4>
         <common-list
           :data="provider_list"
           v-loading="loading"
@@ -17,7 +17,7 @@
                 style="height: 20px; width: 20px"
                 :iconName="active_provider === row ? 'app-all-menu-active' : 'app-all-menu'"
               ></AppIcon>
-              <span>全部模型</span>
+              <span>{{ $t('allModels') }}</span>
             </div>
             <div class="flex" v-else>
               <span :innerHTML="row.icon" alt="" style="height: 20px; width: 20px" class="mr-8" />
@@ -30,11 +30,11 @@
         <div class="p-24 pb-0">
           <h4>{{ active_provider?.name }}</h4>
           <div class="flex-between mt-16 mb-16">
-            <el-button type="primary" @click="openCreateModel(active_provider)">添加模型</el-button>
+            <el-button type="primary" @click="openCreateModel(active_provider)">{{ $t('addModel') }}</el-button>
             <el-input
               v-model="model_search_form.name"
               @change="list_model"
-              placeholder="按名称搜索"
+              :placeholder="$t('searchByName')"
               prefix-icon="Search"
               style="max-width: 240px"
               clearable
@@ -66,7 +66,7 @@
                   </el-col>
                 </template>
               </el-row>
-              <el-empty description="暂无数据" v-else />
+              <el-empty :description="$t('noData')" v-else />
             </div>
           </el-scrollbar>
         </div>
@@ -95,10 +95,14 @@ import { splitArray } from '@/utils/common'
 import CreateModelDialog from '@/views/template/component/CreateModelDialog.vue'
 import SelectProviderDialog from '@/views/template/component/SelectProviderDialog.vue'
 
+import { useI18n } from 'vue-i18n' // 导入国际化
+
+const { t } = useI18n() // 使用国际化
+
 const allObj = {
   icon: '',
   provider: '',
-  name: '全部模型'
+  name: t('allModels')
 }
 
 const loading = ref<boolean>(false)

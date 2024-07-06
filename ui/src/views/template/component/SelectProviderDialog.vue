@@ -6,7 +6,7 @@
     :close-on-press-escape="false"
     :destroy-on-close="true"
     :before-close="close"
-    title="选择供应商"
+    :title="$t('selectProvider')"
     append-to-body
   >
     <el-row :gutter="12" v-loading="loading">

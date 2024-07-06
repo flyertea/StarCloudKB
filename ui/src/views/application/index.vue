@@ -63,8 +63,8 @@
                 />
               </template>
               <div class="status-tag">
-                <el-tag type="warning" v-if="isWorkFlow(item.type)">高级编排</el-tag>
-                <el-tag v-else>简单配置</el-tag>
+                <el-tag type="warning" v-if="isWorkFlow(item.type)">{{ $t('views.application.applicationForm.form.appType.advanced') }}</el-tag>
+                <el-tag v-else>{{ $t('views.application.applicationForm.form.appType.simple') }}</el-tag>
               </div>
 
               <template #footer>

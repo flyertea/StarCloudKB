@@ -1,5 +1,5 @@
 <template>
-  <LayoutContainer :header="isCreate ? '创建知识库' : '上传文档'" class="create-dataset">
+  <LayoutContainer :header="isCreate ? $t('createKnowledgeBase') : $t('uploadDocument')" class="create-dataset">
     <template #backButton>
       <back-button @click="back"></back-button>
     </template>
@@ -17,23 +17,23 @@
       </div>
     </div>
     <div class="create-dataset__footer text-right border-t" v-if="active !== 2">
-      <el-button @click="router.go(-1)" :disabled="loading">取消</el-button>
-      <el-button @click="prev" v-if="active === 1" :disabled="loading">上一步</el-button>
+      <el-button @click="router.go(-1)" :disabled="loading">{{ $t('cancel') }}</el-button>
+      <el-button @click="prev" v-if="active === 1" :disabled="loading">{{ $t('previousStep') }}</el-button>
       <el-button
         @click="next"
         type="primary"
         v-if="active === 0"
         :disabled="loading || StepFirstRef?.loading"
       >
-        创建并导入
+        {{ $t('createAndImport') }}
       </el-button>
       <el-button @click="submit" type="primary" v-if="active === 1" :disabled="loading">
-        开始导入
+        {{ $t('startImport') }}
       </el-button>
     </div>
   </LayoutContainer>
 </template>
-<script setup lang="ts">
+<script setup="" lang="ts">
 import { ref, computed, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import StepFirst from './step/StepFirst.vue'
@@ -43,8 +43,10 @@ import datasetApi from '@/api/dataset'
 import documentApi from '@/api/document'
 import type { datasetData } from '@/api/type/dataset'
 import { MsgConfirm, MsgSuccess } from '@/utils/message'
-
 import useStore from '@/stores'
+import { useI18n } from 'vue-i18n' // 导入国际化
+
+const { t } = useI18n() // 使用国际化
 const { dataset, document } = useStore()
 const baseInfo = computed(() => dataset.baseInfo)
 const webInfo = computed(() => dataset.webInfo)
@@ -92,7 +94,7 @@ async function next() {
       if (id) {
         // QA文档上传
         documentApi.postQADocument(id as string, fd, loading).then((res) => {
-          MsgSuccess('提交成功')
+          MsgSuccess(t('submitSuccess'))
           clearStore()
           router.push({ path: `/dataset/${id}/document` })
         })
@@ -143,7 +145,7 @@ function submit() {
     document
       .asyncPostDocument(id as string, documents)
       .then(() => {
-        MsgSuccess('提交成功')
+        MsgSuccess(t('submitSuccess'))
         clearStore()
         router.push({ path: `/dataset/${id}/document` })
       })
@@ -160,8 +162,8 @@ function submit() {
 }
 function back() {
   if (baseInfo.value || webInfo.value || documentsFiles.value?.length > 0) {
-    MsgConfirm(`提示`, `当前的更改尚未保存，确认退出吗?`, {
-      confirmButtonText: '确认',
+    MsgConfirm(t('warning'), t('unsavedChanges'), {
+      confirmButtonText: t('confirm'),
       type: 'warning'
     })
       .then(() => {
@@ -177,6 +179,7 @@ onUnmounted(() => {
   clearStore()
 })
 </script>
+
 <style lang="scss" scoped>
 .create-dataset {
   &__steps {

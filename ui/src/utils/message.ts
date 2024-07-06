@@ -1,5 +1,5 @@
 import { ElMessageBox, ElMessage } from 'element-plus'
-
+import { t } from '@/locales' // 导入国际化配置
 export const MsgSuccess = (message: string) => {
   ElMessage.success({
     message: message,
@@ -44,8 +44,8 @@ export const MsgError = (message: string) => {
 export const MsgConfirm = (title: string, description: string, options?: any) => {
   const defaultOptions: Object = {
     showCancelButton: true,
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
+    confirmButtonText: t('confirm'),
+    cancelButtonText: t('cancel'),
     ...options
   }
   return ElMessageBox.confirm(description, title, defaultOptions)
