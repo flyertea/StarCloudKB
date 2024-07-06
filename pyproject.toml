@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "智能知识库"
 authors = ["shaohuzhang1 <shaohu.zhang@fit2cloud.com>"]
 readme = "README.md"
+package-mode = false  # 添加这一行
 
 [tool.poetry.dependencies]
 python = "^3.11"
