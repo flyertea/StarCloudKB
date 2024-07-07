@@ -6,7 +6,7 @@ import ElementPlus from 'element-plus'
 // 导入ElementPlus的所有图标
 import * as ElementPlusIcons from '@element-plus/icons-vue'
 // 导入中文语言包
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+// import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 // 导入英文语言包
 import en from 'element-plus/es/locale/lang/en'
 
@@ -84,7 +84,7 @@ for (const [key, component] of Object.entries(ElementPlusIcons)) {
 }
 // 使用ElementPlus，并设置中文语言
 app.use(ElementPlus, {
-  locale: zhCn
+  locale: en
 })
 
 // 使用主题配置

@@ -14,7 +14,7 @@
       </template>
     </ul>
     <slot name="empty" v-else>
-      <el-empty description="暂无数据" />
+      <el-empty description="No Data" />
     </slot>
   </div>
 </template>

@@ -50,7 +50,7 @@
       </div>
       <el-scrollbar>
         <div class="document-detail-height">
-          <el-empty v-if="paragraphDetail.length == 0" description="暂无数据" />
+          <el-empty v-if="paragraphDetail.length == 0" description="No Data" />
 
           <InfiniteScroll
             v-else

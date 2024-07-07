@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="创建问题"
+    :title="$t('createQuestion')"
     v-model="dialogVisible"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -13,10 +13,10 @@
       :model="form"
       require-asterisk-position="right"
     >
-      <el-form-item label="问题" prop="data">
+      <el-form-item :label="$t('question')" prop="data">
         <el-input
           v-model="form.data"
-          placeholder="请输入问题，支持输入多个，一行一个。"
+          :placeholder="$t('enterQuestion')"
           :rows="10"
           type="textarea"
         />
@@ -24,9 +24,9 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click.prevent="dialogVisible = false"> 取消 </el-button>
+        <el-button @click.prevent="dialogVisible = false">{{ $t('cancel') }}</el-button>
         <el-button type="primary" @click="submit(problemFormRef)" :loading="loading">
-          确定
+          {{ $t('confirm') }}
         </el-button>
       </span>
     </template>
@@ -38,7 +38,9 @@ import { useRoute } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 import { MsgSuccess } from '@/utils/message'
 import useStore from '@/stores'
+import { useI18n } from 'vue-i18n' // 导入国际化
 
+const { t } = useI18n() // 使用国际化
 const route = useRoute()
 const {
   params: { id }
@@ -54,7 +56,7 @@ const form = ref<any>({
 })
 
 const rules = reactive({
-  data: [{ required: true, message: '请输入问题', trigger: 'blur' }]
+  data: [{ required: true, message: t('enterQuestionError'), trigger: 'blur' }]
 })
 
 const dialogVisible = ref<boolean>(false)
@@ -79,7 +81,7 @@ const submit = async (formEl: FormInstance | undefined) => {
         return item !== ''
       })
       problem.asyncPostProblem(id, arr, loading).then((res: any) => {
-        MsgSuccess('创建成功')
+        MsgSuccess(t('createSuccess'))
         emit('refresh')
         dialogVisible.value = false
       })

@@ -63,7 +63,7 @@
                 </template>
               </el-input>
             </div>
-            <el-empty v-if="paragraphList.length == 0" description="暂无数据" />
+            <el-empty v-if="paragraphList.length == 0" description="No Data" />
 
             <InfiniteScroll
               v-else

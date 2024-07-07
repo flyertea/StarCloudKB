@@ -22,17 +22,17 @@
           <div class="flex-between lighter">
             {{ item.type }}
             <div class="info" v-if="item.conditions.length > 1">
-              <span>符合以下</span>
+              <span>{{ $t('matchFollowing') }}</span>
               <el-select
                 :teleported="false"
                 v-model="item.condition"
                 size="small"
                 style="width: 60px; margin: 0 8px"
               >
-                <el-option label="所有" value="and" />
-                <el-option label="任一" value="or" />
+                <el-option :label="$t('all')" value="and" />
+                <el-option :label="$t('any')" value="or" />
               </el-select>
-              <span>条件</span>
+              <span>{{ $t('condition') }}</span>
             </div>
           </div>
           <div v-if="index !== form_data.branch.length - 1" class="mt-8">
@@ -44,7 +44,7 @@
                     :rules="{
                       type: 'array',
                       required: true,
-                      message: '请选择变量',
+                      message: $t('selectVariable'),
                       trigger: 'change'
                     }"
                   >
@@ -52,7 +52,7 @@
                       ref="nodeCascaderRef"
                       :nodeModel="nodeModel"
                       class="w-full"
-                      placeholder="请选择变量"
+                      :placeholder="$t('selectVariable')"
                       v-model="condition.field"
                     />
                   </el-form-item>
@@ -62,7 +62,7 @@
                     :prop="'branch.' + index + '.conditions.' + cIndex + '.compare'"
                     :rules="{
                       required: true,
-                      message: '请选择条件',
+                      message: $t('selectCondition'),
                       trigger: 'change'
                     }"
                   >
@@ -72,7 +72,7 @@
                       @keyup="isKeyDown = false"
                       :teleported="false"
                       v-model="condition.compare"
-                      placeholder="请选择条件"
+                      :placeholder="$t('selectCondition')"
                       clearable
                       @change="changeCondition($event, index, cIndex)"
                     >
@@ -88,11 +88,11 @@
                     :prop="'branch.' + index + '.conditions.' + cIndex + '.value'"
                     :rules="{
                       required: true,
-                      message: '请输入值',
+                      message: $t('enterValue'),
                       trigger: 'blur'
                     }"
                   >
-                    <el-input v-model="condition.value" placeholder="请输入值" />
+                    <el-input v-model="condition.value" :placeholder="$t('enterValue')" />
                   </el-form-item>
                 </el-col>
                 <el-col :span="1">
@@ -116,12 +116,12 @@
             @click="addCondition(index)"
             v-if="index !== form_data.branch.length - 1"
           >
-            <el-icon class="mr-4"><Plus /></el-icon> 添加条件
+            <el-icon class="mr-4"><Plus /></el-icon> {{ $t('addCondition') }}
           </el-button>
         </el-card>
       </template>
       <el-button link type="primary" @click="addBranch">
-        <el-icon class="mr-4"><Plus /></el-icon> 添加分支
+        <el-icon class="mr-4"><Plus /></el-icon> {{ $t('addBranch') }}
       </el-button>
     </el-form>
   </NodeContainer>
@@ -134,6 +134,7 @@ import type { FormInstance } from 'element-plus'
 import { ref, computed, onMounted, nextTick } from 'vue'
 import { randomId } from '@/utils/utils'
 import { compareList } from '@/workflow/common/data'
+import { t } from '@/locales' // 导入国际化配置
 
 const props = defineProps<{ nodeModel: any }>()
 const form = {

@@ -1,5 +1,5 @@
 <template>
-  <LayoutContainer header="设置">
+  <LayoutContainer :header="$t('settings')">
     <div class="dataset-setting main-calc-height">
       <el-scrollbar>
         <div class="p-24" v-loading="loading">
@@ -12,15 +12,15 @@
             label-position="top"
             require-asterisk-position="right"
           >
-            <el-form-item label="知识库类型" required>
+            <el-form-item :label="$t('knowledgeBaseType')" required>
               <el-card shadow="never" class="mb-8" v-if="detail.type === '0'">
                 <div class="flex align-center">
                   <AppAvatar class="mr-8" shape="square" :size="32">
                     <img src="@/assets/icon_document.svg" style="width: 58%" alt="" />
                   </AppAvatar>
                   <div>
-                    <div>通用型</div>
-                    <el-text type="info">可以通过上传文件或手动录入方式构建知识库</el-text>
+                    <div>{{ $t('generalType') }}</div>
+                    <el-text type="info">{{ $t('generalTypeInfo') }}</el-text>
                   </div>
                 </div>
               </el-card>
@@ -30,29 +30,29 @@
                     <img src="@/assets/icon_web.svg" style="width: 58%" alt="" />
                   </AppAvatar>
                   <div>
-                    <div>Web 站点</div>
-                    <el-text type="info"> 通过网站链接同步方式构建知识库 </el-text>
+                    <div>{{ $t('webSite') }}</div>
+                    <el-text type="info">{{ $t('webSiteInfo') }}</el-text>
                   </div>
                 </div>
               </el-card>
             </el-form-item>
-            <el-form-item label="Web 根地址" prop="source_url" v-if="detail.type === '1'">
+            <el-form-item :label="$t('webRootAddress')" prop="source_url" v-if="detail.type === '1'">
               <el-input
                 v-model="form.source_url"
-                placeholder="请输入 Web 根地址"
+                :placeholder="$t('enterWebRootAddress')"
                 @blur="form.source_url = form.source_url.trim()"
               />
             </el-form-item>
-            <el-form-item label="选择器" v-if="detail.type === '1'">
+            <el-form-item :label="$t('selector')" v-if="detail.type === '1'">
               <el-input
                 v-model="form.selector"
-                placeholder="默认为 body，可输入 .classname/#idname/tagname"
+                :placeholder="$t('defaultSelector')"
                 @blur="form.selector = form.selector.trim()"
               />
             </el-form-item>
           </el-form>
           <div v-if="application_id_list.length > 0">
-            <h4 class="title-decoration-1 mb-16">关联应用</h4>
+            <h4 class="title-decoration-1 mb-16">{{ $t('associatedApplications') }}</h4>
             <el-row :gutter="12">
               <el-col
                 :span="12"
@@ -91,7 +91,7 @@
           </div>
 
           <div class="text-right">
-            <el-button @click="submit" type="primary"> 保存 </el-button>
+            <el-button @click="submit" type="primary"> {{ $t('save') }} </el-button>
           </div>
         </div>
       </el-scrollbar>
@@ -107,6 +107,7 @@ import type { ApplicationFormType } from '@/api/type/application'
 import { MsgSuccess } from '@/utils/message'
 import { isAppIcon } from '@/utils/application'
 import useStore from '@/stores'
+import { t } from '@/locales'
 const route = useRoute()
 const {
   params: { id }
@@ -125,7 +126,7 @@ const form = ref<any>({
 })
 
 const rules = reactive({
-  source_url: [{ required: true, message: '请输入 Web 根地址', trigger: 'blur' }]
+  source_url: [{ required: true, message: t('enterWebRootAddress'), trigger: 'blur' }]
 })
 
 async function submit() {
@@ -136,18 +137,18 @@ async function submit() {
         const obj =
           detail.value.type === '1'
             ? {
-                application_id_list: application_id_list.value,
-                meta: form.value,
-                ...BaseFormRef.value.form
-              }
+              application_id_list: application_id_list.value,
+              meta: form.value,
+              ...BaseFormRef.value.form
+            }
             : {
-                application_id_list: application_id_list.value,
-                ...BaseFormRef.value.form
-              }
+              application_id_list: application_id_list.value,
+              ...BaseFormRef.value.form
+            }
         datasetApi
           .putDataset(id, obj)
           .then((res) => {
-            MsgSuccess('保存成功')
+            MsgSuccess(t('saveSuccess'))
             loading.value = false
           })
           .catch(() => {

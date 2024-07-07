@@ -30,15 +30,15 @@ class OllamaLLMModelCredential(BaseForm, BaseModelCredential):
     def is_valid(self, model_type: str, model_name, model_credential: Dict[str, object], raise_exception=False):
         model_type_list = OllamaModelProvider().get_model_type_list()
         if not any(list(filter(lambda mt: mt.get('value') == model_type, model_type_list))):
-            raise AppApiException(ValidCode.valid_error.value, f'{model_type} 模型类型不支持')
+            raise AppApiException(ValidCode.valid_error.value, f'{model_type} Model type not supported.')
         try:
             model_list = OllamaModelProvider.get_base_model_list(model_credential.get('api_base'))
         except Exception as e:
-            raise AppApiException(ValidCode.valid_error.value, "API 域名无效")
+            raise AppApiException(ValidCode.valid_error.value, "API domain name is invalid./API 域名无效")
         exist = [model for model in (model_list.get('models') if model_list.get('models') is not None else []) if
                  model.get('model') == model_name or model.get('model').replace(":latest", "") == model_name]
         if len(exist) == 0:
-            raise AppApiException(ValidCode.model_not_fount, "模型不存在,请先下载模型")
+            raise AppApiException(ValidCode.model_not_fount, "Model not found, please download the model first./模型不存在,请先下载模型")
         return True
 
     def encryption_dict(self, model_info: Dict[str, object]):
@@ -47,11 +47,11 @@ class OllamaLLMModelCredential(BaseForm, BaseModelCredential):
     def build_model(self, model_info: Dict[str, object]):
         for key in ['api_key', 'model']:
             if key not in model_info:
-                raise AppApiException(500, f'{key} 字段为必填字段')
+                raise AppApiException(500, f'{key}  is required.')
         self.api_key = model_info.get('api_key')
         return self
 
-    api_base = forms.TextInputField('API 域名', required=True)
+    api_base = forms.TextInputField('API Domain', required=True)
     api_key = forms.PasswordInputField('API Key', required=True)
 
 
@@ -175,11 +175,11 @@ class OllamaModelProvider(IModelProvider):
                          'ollama_icon_svg')))
 
     def get_model_type_list(self):
-        return [{'key': "大语言模型", 'value': "LLM"}]
+        return [{'key': "Large Language Model", 'value': "LLM"}]
 
     def get_model_list(self, model_type):
         if model_type is None:
-            raise AppApiException(500, '模型类型不能为空')
+            raise AppApiException(500, 'Model type cannot be empty.')
         return [model_dict.get(key).to_dict() for key in
                 list(filter(lambda key: model_dict.get(key).model_type == model_type, model_dict.keys()))]
 
