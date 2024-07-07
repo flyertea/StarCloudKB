@@ -103,6 +103,7 @@ export default {
       hybridSearchTooltip:
         '混合检索是一种基于向量和文本相似度的检索方式，适用于知识库中的中等数据量场景。',
       similarityThreshold: '相似度高于',
+      similarityThresholdtips: '相似度越高相关性越强。',
       topReferences: '引用分段数 TOP',
       maxCharacters: '最多引用字符数',
       noReferencesAction: '无引用知识库分段时',

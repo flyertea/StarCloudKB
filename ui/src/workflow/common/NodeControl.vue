@@ -1,20 +1,22 @@
 <template>
   <el-card shadow="always" style="--el-card-padding: 8px 12px; --el-card-border-radius: 8px">
     <el-button link @click="zoomOut">
-      <el-icon :size="16" title="缩小"><ZoomOut /></el-icon>
+      <el-icon :size="16" :title="$t('zoomOut')"><ZoomOut /></el-icon>
     </el-button>
     <el-button link @click="zoomIn">
-      <el-icon :size="16" title="放大"><ZoomIn /></el-icon>
+      <el-icon :size="16" :title="$t('zoomIn')"><ZoomIn /></el-icon>
     </el-button>
 
     <el-divider direction="vertical" />
     <el-button link @click="fitView">
-      <AppIcon iconName="app-fitview" title="适应"></AppIcon>
+      <AppIcon iconName="app-fitview" :title="$t('fitView')"></AppIcon>
     </el-button>
   </el-card>
 </template>
 
 <script setup lang="ts">
+//import { t } from '@/locales'; // 导入国际化配置
+
 const props = defineProps({
   lf: Object || String || null
 })

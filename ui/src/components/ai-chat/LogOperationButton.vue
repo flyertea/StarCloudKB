@@ -5,7 +5,7 @@
     </el-text>
   </div>
   <div>
-    <el-tooltip effect="dark" content="复制" placement="top">
+    <el-tooltip effect="dark" :content="$t('copy')" placement="top">
       <el-button text @click="copyClick(data?.answer_text)">
         <AppIcon iconName="app-copy"></AppIcon>
       </el-button>
@@ -14,7 +14,7 @@
     <el-tooltip
       v-if="data.improve_paragraph_id_list.length === 0"
       effect="dark"
-      content="修改内容"
+      :content="$t('editContent')"
       placement="top"
     >
       <el-button text @click="editContent(data)">
@@ -22,7 +22,7 @@
       </el-button>
     </el-tooltip>
 
-    <el-tooltip v-else effect="dark" content="修改标注" placement="top">
+    <el-tooltip v-else effect="dark" :content="$t('editMark')" placement="top">
       <el-button text @click="editMark(data)">
         <AppIcon iconName="app-document-active" class="primary"></AppIcon>
       </el-button>
@@ -46,6 +46,7 @@ import { copyClick } from '@/utils/clipboard'
 import EditContentDialog from '@/views/log/component/EditContentDialog.vue'
 import EditMarkDialog from '@/views/log/component/EditMarkDialog.vue'
 import { datetimeFormat } from '@/utils/time'
+//import { t } from '@/locales' // 导入国际化配置
 
 const props = defineProps({
   data: {

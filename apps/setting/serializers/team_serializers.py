@@ -71,7 +71,7 @@ class TeamMemberPermissionOperate(ApiMixin, serializers.Serializer):
 class UpdateTeamMemberItemPermissionSerializer(ApiMixin, serializers.Serializer):
     target_id = serializers.CharField(required=True, error_messages=ErrMessage.char("目标id"))
     type = serializers.CharField(required=True, error_messages=ErrMessage.char("目标类型"))
-    operate = TeamMemberPermissionOperate(required=True, many=False)
+    operate = TeamMemberPermissionOperate(required=True, many=False, error_messages=ErrMessage.char("Operate类型"))
 
     def get_request_body_api(self):
         return openapi.Schema(

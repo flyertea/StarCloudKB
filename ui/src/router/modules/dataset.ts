@@ -23,7 +23,7 @@ const datasetRouter = {
     {
       path: '/dataset/:id',
       name: 'DatasetDetail',
-      meta: { title: '文档', activeMenu: '/dataset' },
+      meta: { title: t('documents') , activeMenu: '/dataset' },
       component: Layout,
       hidden: true,
       children: [

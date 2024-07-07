@@ -9,7 +9,7 @@ export class Result<T> {
   }
 
   static success(data: any) {
-    return new Result("请求成功", 200, data);
+    return new Result("Request successful!", 200, data);
   }
   static error(message: string, code: number) {
     return new Result(message, code, null);

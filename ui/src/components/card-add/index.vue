@@ -6,15 +6,19 @@
     </div>
   </el-card>
 </template>
+
 <script setup lang="ts">
+import { t } from '@/locales'; // 引入国际化配置
+
 defineOptions({ name: 'CardAdd' })
 defineProps({
   title: {
     type: String,
-    default: '标题'
+    default: t('title') // 使用国际化文本
   }
 })
 </script>
+
 <style lang="scss" scoped>
 .card-add {
   width: 100%;

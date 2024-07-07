@@ -91,9 +91,9 @@ class PermissionConstants(Enum):
     """
      权限枚举
     """
-    USER_READ = Permission(group=Group.USER, operate=Operate.READ, roles=[RoleConstants.ADMIN, RoleConstants.USER])
-    USER_EDIT = Permission(group=Group.USER, operate=Operate.EDIT, roles=[RoleConstants.ADMIN, RoleConstants.USER])
-    USER_DELETE = Permission(group=Group.USER, operate=Operate.DELETE, roles=[RoleConstants.USER])
+    USER_READ = Permission(group=Group.USER, operate=Operate.READ, roles=[RoleConstants.ADMIN, RoleConstants.USER, RoleConstants.END_USER])
+    USER_EDIT = Permission(group=Group.USER, operate=Operate.EDIT, roles=[RoleConstants.ADMIN, RoleConstants.USER, RoleConstants.END_USER])
+    USER_DELETE = Permission(group=Group.USER, operate=Operate.DELETE, roles=[RoleConstants.USER, RoleConstants.END_USER])
 
     DATASET_CREATE = Permission(group=Group.DATASET, operate=Operate.CREATE,
                                 roles=[RoleConstants.ADMIN, RoleConstants.USER])

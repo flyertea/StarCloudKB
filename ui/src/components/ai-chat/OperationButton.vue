@@ -5,13 +5,13 @@
     </el-text>
   </div>
   <div>
-    <el-tooltip effect="dark" content="换个答案" placement="top">
+    <el-tooltip effect="dark" :content="$t('changeAnswer')" placement="top">
       <el-button :disabled="chat_loading" text @click="regeneration">
         <AppIcon iconName="VideoPlay"></AppIcon>
       </el-button>
     </el-tooltip>
     <el-divider direction="vertical" />
-    <el-tooltip effect="dark" content="复制" placement="top">
+    <el-tooltip effect="dark" :content="$t('copy')" placement="top">
       <el-button text @click="copyClick(data?.answer_text)">
         <AppIcon iconName="app-copy"></AppIcon>
       </el-button>
@@ -19,7 +19,7 @@
     <el-divider direction="vertical" />
     <el-tooltip
       effect="dark"
-      content="赞同"
+      :content="$t('agree')"
       placement="top"
       v-if="buttonData?.vote_status === '-1'"
     >
@@ -29,7 +29,7 @@
     </el-tooltip>
     <el-tooltip
       effect="dark"
-      content="取消赞同"
+      :content="$t('cancelAgree')"
       placement="top"
       v-if="buttonData?.vote_status === '0'"
     >
@@ -40,7 +40,7 @@
     <el-divider direction="vertical" v-if="buttonData?.vote_status === '-1'" />
     <el-tooltip
       effect="dark"
-      content="反对"
+      :content="$t('oppose')"
       placement="top"
       v-if="buttonData?.vote_status === '-1'"
     >
@@ -50,7 +50,7 @@
     </el-tooltip>
     <el-tooltip
       effect="dark"
-      content="取消反对"
+      :content="$t('cancelOppose')"
       placement="top"
       v-if="buttonData?.vote_status === '1'"
     >
@@ -60,11 +60,14 @@
     </el-tooltip>
   </div>
 </template>
+
 <script setup lang="ts">
-import { ref } from 'vue'
-import { copyClick } from '@/utils/clipboard'
-import applicationApi from '@/api/application'
-import { datetimeFormat } from '@/utils/time'
+import { ref } from 'vue';
+import { copyClick } from '@/utils/clipboard';
+import applicationApi from '@/api/application';
+import { datetimeFormat } from '@/utils/time';
+import { t } from '@/locales'; // 导入国际化配置
+
 const props = defineProps({
   data: {
     type: Object,
@@ -82,24 +85,25 @@ const props = defineProps({
     type: Boolean
   },
   log: Boolean
-})
+});
 
-const emit = defineEmits(['update:data', 'regeneration'])
+const emit = defineEmits(['update:data', 'regeneration']);
 
-const buttonData = ref(props.data)
-const loading = ref(false)
+const buttonData = ref(props.data);
+const loading = ref(false);
 
 function regeneration() {
-  emit('regeneration')
+  emit('regeneration');
 }
 
 function voteHandle(val: string) {
   applicationApi
     .putChatVote(props.applicationId, props.chatId, props.data.record_id, val, loading)
     .then(() => {
-      buttonData.value['vote_status'] = val
-      emit('update:data', buttonData.value)
-    })
+      buttonData.value['vote_status'] = val;
+      emit('update:data', buttonData.value);
+    });
 }
 </script>
+
 <style lang="scss" scoped></style>

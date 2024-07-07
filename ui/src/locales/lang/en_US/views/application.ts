@@ -113,6 +113,7 @@ export default {
       hybridSearchTooltip:
         'Hybrid search is a retrieval method based on both vector and text similarity, suitable for medium data volumes in the knowledge base.',
       similarityThreshold: 'Similarity Threshold',
+      similarityThresholdtips: 'The higher the similarity, the stronger the correlation.',
       topReferences: 'Top N References',
       maxCharacters: 'Maximum Characters per Reference',
       noReferencesAction: 'When there are no knowledge base references',

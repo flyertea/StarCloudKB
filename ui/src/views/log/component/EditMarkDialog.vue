@@ -1,8 +1,8 @@
 <template>
-  <el-dialog title="修改标注" v-model="dialogVisible" width="600" class="edit-mark-dialog">
+  <el-dialog :title="$t('editMark')" v-model="dialogVisible" width="600" class="edit-mark-dialog">
     <template #header="{ titleId, titleClass }">
       <div class="flex-between">
-        <h4 :id="titleId" :class="titleClass">修改标注</h4>
+        <h4 :id="titleId" :class="titleClass">{{ $t('editMark') }}</h4>
         <div class="text-right">
           <el-button text @click="isEdit = true" v-if="!isEdit">
             <el-icon><EditPen /></el-icon>
@@ -29,7 +29,7 @@
           <el-form-item prop="content">
             <el-input
               v-model="form.content"
-              placeholder="请输入分段内容"
+              :placeholder="$t('enterContent')"
               maxlength="4096"
               show-word-limit
               :rows="15"
@@ -44,12 +44,13 @@
 
     <template #footer>
       <span class="dialog-footer" v-if="isEdit">
-        <el-button @click.prevent="isEdit = false"> 取消 </el-button>
-        <el-button type="primary" @click="submit(formRef)" :loading="loading"> 保存 </el-button>
+        <el-button @click.prevent="isEdit = false">{{ $t('cancel') }}</el-button>
+        <el-button type="primary" @click="submit(formRef)" :loading="loading">{{ $t('save') }}</el-button>
       </span>
     </template>
   </el-dialog>
 </template>
+
 <script setup lang="ts">
 import { ref, watch, reactive } from 'vue'
 import { useRoute } from 'vue-router'
@@ -57,6 +58,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import logApi from '@/api/log'
 import useStore from '@/stores'
 import { MsgSuccess, MsgConfirm } from '@/utils/message'
+import { t } from '@/locales' // 导入国际化配置
 
 const route = useRoute()
 const {
@@ -77,7 +79,7 @@ const isEdit = ref(false)
 const detail = ref<any>({})
 
 const rules = reactive<FormRules>({
-  content: [{ required: true, message: '请输入内容', trigger: 'blur' }]
+  content: [{ required: true, message: t('enterContent'), trigger: 'blur' }]
 })
 
 watch(dialogVisible, (bool) => {
@@ -100,7 +102,7 @@ function deleteMark() {
     )
     .then(() => {
       emit('refresh')
-      MsgSuccess('删除成功')
+      MsgSuccess(t('deleteSuccess'))
       dialogVisible.value = false
     })
 }
