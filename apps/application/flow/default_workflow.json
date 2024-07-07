@@ -8,11 +8,11 @@
             "properties": {
                 "config": {},
                 "height": 517,
-                "stepName": "基本信息",
+                "stepName": "Basic Information",
                 "node_data": {
                     "desc": "",
                     "name": "",
-                    "prologue": "您好，我是 MaxKB 小助手，您可以向我提出 MaxKB 使用问题。\n- MaxKB 主要功能有什么？\n- MaxKB 支持哪些大语言模型？\n- MaxKB 支持哪些文档类型？"
+                    "prologue": "Hello, I am MaxKB assistant. You can ask me questions about using MaxKB.\n- What are the main features of MaxKB?\n- Which large language models does MaxKB support?\n- What document types does MaxKB support?"
                 }
             }
         },
@@ -25,28 +25,28 @@
                 "config": {
                     "fields": [
                         {
-                            "label": "用户问题",
+                            "label": "User Question",
                             "value": "question"
                         }
                     ],
                     "globalFields": [
                         {
                             "value": "time",
-                            "label": "当前时间"
+                            "label": "Current Time"
                         }
                     ]
                 },
                 "fields": [
                     {
-                        "label": "用户问题",
+                        "label": "User Question",
                         "value": "question"
                     }
                 ],
                 "height": 268.533,
-                "stepName": "开始",
+                "stepName": "Start",
                 "globalFields": [
                     {
-                        "label": "当前时间",
+                        "label": "Current Time",
                         "value": "time"
                     }
                 ]
@@ -61,25 +61,25 @@
                 "config": {
                     "fields": [
                         {
-                            "label": "检索结果的分段列表",
+                            "label": "Segment List of Search Results",
                             "value": "paragraph_list"
                         },
                         {
-                            "label": "满足直接回答的分段列表",
+                            "label": "Segment List Satisfying Direct Answer",
                             "value": "is_hit_handling_method_list"
                         },
                         {
-                            "label": "检索结果",
+                            "label": "Search Results",
                             "value": "data"
                         },
                         {
-                            "label": "满足直接回答的分段内容",
+                            "label": "Content of Segments Satisfying Direct Answer",
                             "value": "directly_return"
                         }
                     ]
                 },
                 "height": 754.8,
-                "stepName": "知识库检索",
+                "stepName": "Knowledge Base Search",
                 "node_data": {
                     "dataset_id_list": [],
                     "dataset_setting": {
@@ -105,13 +105,13 @@
                 "config": {
                     "fields": [
                         {
-                            "label": "分支名称",
+                            "label": "Branch Name",
                             "value": "branch_name"
                         }
                     ]
                 },
                 "height": 524.6669999999999,
-                "stepName": "判断器",
+                "stepName": "Condition Checker",
                 "node_data": {
                     "branch": [
                         {
@@ -180,13 +180,13 @@
                 "config": {
                     "fields": [
                         {
-                            "label": "内容",
+                            "label": "Content",
                             "value": "answer"
                         }
                     ]
                 },
                 "height": 312.267,
-                "stepName": "指定回复",
+                "stepName": "Specific Reply",
                 "node_data": {
                     "fields": [
                         "b931efe5-5b66-46e0-ae3b-0160cb18eeb5",
@@ -206,15 +206,15 @@
                 "config": {
                     "fields": [
                         {
-                            "label": "AI 回答内容",
+                            "label": "AI Answer Content",
                             "value": "answer"
                         }
                     ]
                 },
                 "height": 681.4,
-                "stepName": "AI 对话",
+                "stepName": "AI Chat",
                 "node_data": {
-                    "prompt": "已知信息：\n{{知识库检索.data}}\n问题：\n{{开始.question}}",
+                    "prompt": "Known Information:\n{{Knowledge Base Search.data}}\nQuestion:\n{{Start.question}}",
                     "system": "",
                     "model_id": "",
                     "dialogue_number": 0
@@ -230,15 +230,15 @@
                 "config": {
                     "fields": [
                         {
-                            "label": "AI 回答内容",
+                            "label": "AI Answer Content",
                             "value": "answer"
                         }
                     ]
                 },
                 "height": 681.4,
-                "stepName": "AI 对话1",
+                "stepName": "AI Chat1",
                 "node_data": {
-                    "prompt": "{{开始.question}}",
+                    "prompt": "{{Start.question}}",
                     "system": "",
                     "model_id": "",
                     "dialogue_number": 0
