@@ -11,6 +11,7 @@ import BaseChat from '@/views/chat/base/index.vue'
 import EmbedChat from '@/views/chat/embed/index.vue'
 import PcChat from '@/views/chat/pc/index.vue'
 
+
 const route = useRoute()
 const {
   query: { mode }
