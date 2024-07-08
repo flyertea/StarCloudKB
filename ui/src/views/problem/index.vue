@@ -120,7 +120,8 @@ import { datetimeFormat } from '@/utils/time'
 import { MsgSuccess, MsgConfirm, MsgError } from '@/utils/message'
 import type { Dict } from '@/api/type/common'
 import useStore from '@/stores'
-
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n() // 使用国际化
 const route = useRoute()
 const {
   params: { id } // 知识库id
@@ -180,7 +181,7 @@ function creatQuickHandle(val: string) {
     .asyncPostProblem(id, obj)
     .then((res) => {
       getList()
-      MsgSuccess($t('viewquestions.createSuccess'))
+      MsgSuccess(t('viewquestions.createSuccess'))
     })
     .catch(() => {
       loading.value = false
@@ -195,7 +196,7 @@ function deleteMulDocument() {
     }
   })
   problemApi.delMulProblem(id, arr, loading).then(() => {
-    MsgSuccess($t('viewquestions.batchDeleteSuccess'))
+    MsgSuccess(t('viewquestions.batchDeleteSuccess'))
     multipleTableRef.value?.clearSelection()
     getList()
   })
@@ -203,16 +204,16 @@ function deleteMulDocument() {
 
 function deleteProblem(row: any) {
   MsgConfirm(
-    $t('viewquestions.deleteConfirm', { content: row.content }),
-    $t('viewquestions.deleteWarning', { count: row.paragraph_count }),
+    t('viewquestions.deleteConfirm', { content: row.content }),
+    t('viewquestions.deleteWarning', { count: row.paragraph_count }),
     {
-      confirmButtonText: $t('viewquestions.deleteButton'),
+      confirmButtonText: t('viewquestions.deleteButton'),
       confirmButtonClass: 'danger'
     }
   )
     .then(() => {
       problemApi.delProblems(id, row.id, loading).then(() => {
-        MsgSuccess($t('viewquestions.deleteSuccess'))
+        MsgSuccess(t('viewquestions.deleteSuccess'))
         getList()
       })
     })
@@ -226,10 +227,10 @@ function editName(val: string, problemId: string) {
     }
     problemApi.putProblems(id, problemId, obj, loading).then(() => {
       getList()
-      MsgSuccess($t('viewquestions.editSuccess'))
+      MsgSuccess(t('viewquestions.editSuccess'))
     })
   } else {
-    MsgError($t('viewquestions.emptyError'))
+    MsgError(t('viewquestions.emptyError'))
   }
 }
 

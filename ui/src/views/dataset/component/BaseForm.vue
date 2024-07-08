@@ -33,6 +33,7 @@
 import { ref, reactive, onMounted, onUnmounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import useStore from '@/stores'
+import type { datasetData } from '@/api/type/dataset'
 import { isAllPropertiesEmpty } from '@/utils/utils'
 import { useI18n } from 'vue-i18n' // 导入国际化
 

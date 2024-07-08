@@ -99,7 +99,7 @@ const { changeLocale } = useLocale()
 const langList = computedLangList.value
 const currentLangLabel = computed(() => {
   const currentLang = locale.value
-  const lang = langList.find(l => l.value === currentLang)
+  const lang = langList.find((l: any)  => l.value === currentLang)
   return lang ? lang.label : ''
 })
 
@@ -154,7 +154,7 @@ const login = () => {
 .dropdown-content {
   display: flex;
   align-items: center;
-  color:#666；
+  color:#666666;
 }
 
 </style>
