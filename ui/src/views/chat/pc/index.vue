@@ -10,9 +10,9 @@
             <el-icon>
               <Plus />
             </el-icon>
-            <span class="ml-4">{{ t('newChat') }}</span>
+            <span class="ml-4">{{ $t('newChat') }}</span>
           </el-button>
-          <p class="mt-20 mb-8">{{ t('historyRecords') }}</p>
+          <p class="mt-20 mb-8">{{ $t('historyRecords') }}</p>
         </div>
         <div class="left-height pt-0">
           <el-scrollbar>
@@ -41,13 +41,13 @@
 
                 <template #empty>
                   <div class="text-center">
-                    <el-text type="info">{{ t('noHistoryRecords') }}</el-text>
+                    <el-text type="info">{{ $t('noHistoryRecords') }}</el-text>
                   </div>
                 </template>
               </common-list>
             </div>
             <div v-if="chatLogeData.length" class="gradient-divider lighter mt-8">
-              <span>{{ t('showRecentChats') }}</span>
+              <span>{{ $t('showRecentChats') }}</span>
             </div>
           </el-scrollbar>
         </div>
@@ -66,14 +66,14 @@
               style="font-size: 16px"
             ></AppIcon>
             <span v-if="paginationConfig.total" class="lighter">
-              {{ paginationConfig.total }} {{ t('questionCount') }}
+              {{ paginationConfig.total }} {{ $t('questionCount') }}
             </span>
             <el-dropdown class="ml-8">
               <AppIcon iconName="app-export" class="cursor" :title="t('exportChatRecords')"></AppIcon>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item @click="exportMarkdown">{{ t('exportMarkdown') }}</el-dropdown-item>
-                  <el-dropdown-item @click="exportHTML">{{ t('exportHTML') }}</el-dropdown-item>
+                  <el-dropdown-item @click="exportMarkdown">{{ $t('exportMarkdown') }}</el-dropdown-item>
+                  <el-dropdown-item @click="exportHTML">{{ $t('exportHTML') }}</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
