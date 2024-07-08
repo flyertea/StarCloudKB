@@ -4,7 +4,7 @@
     <div class="flex-center h-full">
       <div class="app-title-container cursor" @click="router.push('/')">
         <div class="logo flex-center">
-          <img src="@/assets/MaxKB-logo.svg" height="35" />
+          <img src="@/assets/StarCloudKB.svg" height="35" />
         </div>
       </div>
       <TopMenu></TopMenu>

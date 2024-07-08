@@ -166,7 +166,7 @@ function searchHandle() {
 }
 function getAccessToken(id: string) {
   application.asyncGetAccessToken(id, loading).then((res: any) => {
-    window.open(application.location + res?.data?.access_token)
+    window.open(application.location + res?.data?.access_token,'_self')
   })
 }
 

@@ -2,7 +2,7 @@
   <el-dialog v-model="aboutDialogVisible" class="about-dialog border-r-4">
     <template #header="{ titleId, titleClass }">
       <div class="logo flex-center" :id="titleId" :class="titleClass">
-        <img src="@/assets/MaxKB-logo.svg" height="59" />
+        <img src="@/assets/StarCloudKB.svg" height="59" />
       </div>
     </template>
 <!--    <div class="about-ui">-->
