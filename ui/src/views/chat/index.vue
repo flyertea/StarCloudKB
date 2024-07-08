@@ -1,23 +1,33 @@
 <template>
   <component :is="currentTemplate" :key="route.fullPath" />
 </template>
+
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-const components: any = import.meta.glob('@/views/chat/**/index.vue', {
-  eager: true
-})
+// 引入所有可能的组件
+import BaseChat from '@/views/chat/base/index.vue'
+import EmbedChat from '@/views/chat/embed/index.vue'
+import PcChat from '@/views/chat/pc/index.vue'
+
 const route = useRoute()
 const {
   query: { mode }
 } = route as any
 
+// 根据模式选择组件
 const currentTemplate = computed(() => {
-  const name = `/src/views/chat/${mode || 'pc'}/index.vue`
-  return components[name].default
+  switch (mode) {
+    case 'embed':
+      return EmbedChat
+    case 'base':
+      return BaseChat
+    case 'pc':
+    default:
+      return PcChat
+  }
 })
-
-onMounted(() => {})
 </script>
+
 <style lang="scss"></style>
