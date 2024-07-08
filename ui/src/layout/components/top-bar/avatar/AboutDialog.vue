@@ -5,30 +5,30 @@
         <img src="@/assets/MaxKB-logo.svg" height="59" />
       </div>
     </template>
-    <div class="about-ui">
-      <el-card
-        shadow="hover"
-        class="mb-16"
-        @click="toUrl('https://github.com/flyertea/StarCloudKB/wiki')"
-      >
-        <div class="flex align-center cursor">
-          <AppIcon iconName="app-reading" class="mr-16 ml-8" style="font-size: 24px"></AppIcon>
-          <span>{{ $t('layout.topbar.wiki') }}</span>
-        </div>
-      </el-card>
-      <el-card shadow="hover" class="mb-16" @click="toUrl('https://github.com/flyertea/StarCloudKB')">
-        <div class="flex align-center cursor">
-          <AppIcon iconName="app-github" class="mr-16 ml-8" style="font-size: 24px"></AppIcon>
-          <span>{{ $t('layout.topbar.github') }}</span>
-        </div>
-      </el-card>
-      <el-card shadow="hover" class="mb-16" @click="toUrl('https://github.com/flyertea/StarCloudKB/discussions')">
-        <div class="flex align-center cursor">
-          <AppIcon iconName="app-help" class="mr-16 ml-8" style="font-size: 24px"></AppIcon>
-          <span>{{ $t('layout.topbar.forum') }}</span>
-        </div>
-      </el-card>
-    </div>
+<!--    <div class="about-ui">-->
+<!--      <el-card-->
+<!--        shadow="hover"-->
+<!--        class="mb-16"-->
+<!--        @click="toUrl('https://github.com/flyertea/StarCloudKB/wiki')"-->
+<!--      >-->
+<!--        <div class="flex align-center cursor">-->
+<!--          <AppIcon iconName="app-reading" class="mr-16 ml-8" style="font-size: 24px"></AppIcon>-->
+<!--          <span>{{ $t('layout.topbar.wiki') }}</span>-->
+<!--        </div>-->
+<!--      </el-card>-->
+<!--      <el-card shadow="hover" class="mb-16" @click="toUrl('https://github.com/flyertea/StarCloudKB')">-->
+<!--        <div class="flex align-center cursor">-->
+<!--          <AppIcon iconName="app-github" class="mr-16 ml-8" style="font-size: 24px"></AppIcon>-->
+<!--          <span>{{ $t('layout.topbar.github') }}</span>-->
+<!--        </div>-->
+<!--      </el-card>-->
+<!--      <el-card shadow="hover" class="mb-16" @click="toUrl('https://github.com/flyertea/StarCloudKB/discussions')">-->
+<!--        <div class="flex align-center cursor">-->
+<!--          <AppIcon iconName="app-help" class="mr-16 ml-8" style="font-size: 24px"></AppIcon>-->
+<!--          <span>{{ $t('layout.topbar.forum') }}</span>-->
+<!--        </div>-->
+<!--      </el-card>-->
+<!--    </div>-->
     <div class="text-center">{{ $t('layout.topbar.avatar.version') }}:1.0</div>
   </el-dialog>
 </template>
