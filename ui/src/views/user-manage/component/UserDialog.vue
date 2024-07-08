@@ -8,36 +8,36 @@
       require-asterisk-position="right"
       @submit.prevent
     >
-      <el-form-item :prop="isEdit ? '' : 'username'" label="用户名">
+      <el-form-item :prop="isEdit ? '' : 'username'" :label="$t('views.login.userManagement.username')">
         <el-input
           v-model="userForm.username"
-          placeholder="请输入用户名"
+          :placeholder="$t('views.login.userManagement.enterUsername')"
           maxlength="20"
           show-word-limit
           :disabled="isEdit"
         >
         </el-input>
       </el-form-item>
-      <el-form-item label="姓名">
+      <el-form-item :label="$t('views.login.userManagement.nickname')">
         <el-input
           v-model="userForm.nick_name"
-          placeholder="请输入姓名"
+          :placeholder="$t('views.login.userManagement.enterNickname')"
           maxlength="64"
           show-word-limit
         >
         </el-input>
       </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input type="email" v-model="userForm.email" placeholder="请输入邮箱"> </el-input>
+      <el-form-item :label="$t('views.login.userManagement.email')" prop="email">
+        <el-input type="email" v-model="userForm.email" :placeholder="$t('views.login.userManagement.enterEmail')"> </el-input>
       </el-form-item>
-      <el-form-item label="手机号">
-        <el-input type="email" v-model="userForm.phone" placeholder="请输入手机号"> </el-input>
+      <el-form-item :label="$t('views.login.userManagement.phone')">
+        <el-input type="email" v-model="userForm.phone" :placeholder="$t('views.login.userManagement.enterPhone')"> </el-input>
       </el-form-item>
-      <el-form-item label="登录密码" prop="password" v-if="!isEdit">
+      <el-form-item :label="$t('views.login.userManagement.password')" prop="password" v-if="!isEdit">
         <el-input
           type="password"
           v-model="userForm.password"
-          placeholder="请输入密码"
+          :placeholder="$t('views.login.userManagement.enterPassword')"
           show-password
         >
         </el-input>
@@ -45,8 +45,8 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click.prevent="dialogVisible = false"> 取消 </el-button>
-        <el-button type="primary" @click="submit(userFormRef)" :loading="loading"> 保存 </el-button>
+        <el-button @click.prevent="dialogVisible = false">{{ $t('views.login.common.cancel') }}</el-button>
+        <el-button type="primary" @click="submit(userFormRef)" :loading="loading">{{ $t('views.login.common.save') }}</el-button>
       </span>
     </template>
   </el-dialog>
@@ -56,12 +56,15 @@ import { ref, reactive, watch } from 'vue'
 import type { FormInstance } from 'element-plus'
 import userApi from '@/api/user-manage'
 import { MsgSuccess } from '@/utils/message'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   title: String
 })
 
 const emit = defineEmits(['refresh'])
+
+const { t } = useI18n()
 
 const userFormRef = ref()
 const userForm = ref<any>({
@@ -74,25 +77,25 @@ const userForm = ref<any>({
 
 const rules = reactive({
   username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { required: true, message: t('views.login.userManagement.enterUsername'), trigger: 'blur' },
     {
       min: 6,
       max: 20,
-      message: '长度在 6 到 20 个字符',
+      message: t('views.login.userManagement.usernameLength'),
       trigger: 'blur'
     }
   ],
-  email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+  email: [{ required: true, message: t('views.login.userManagement.enterEmail'), trigger: 'blur' }],
   password: [
     {
       required: true,
-      message: '请输入密码',
+      message: t('views.login.userManagement.enterPassword'),
       trigger: 'blur'
     },
     {
       min: 6,
       max: 20,
-      message: '长度在 6 到 20 个字符',
+      message: t('views.login.userManagement.passwordLength'),
       trigger: 'blur'
     }
   ]
@@ -135,13 +138,13 @@ const submit = async (formEl: FormInstance | undefined) => {
       if (isEdit.value) {
         userApi.putUserManage(userForm.value.id, userForm.value, loading).then((res) => {
           emit('refresh')
-          MsgSuccess('编辑成功')
+          MsgSuccess(t('views.login.userManagement.editSuccess'))
           dialogVisible.value = false
         })
       } else {
         userApi.postUserManage(userForm.value, loading).then((res) => {
           emit('refresh')
-          MsgSuccess('创建成功')
+          MsgSuccess(t('views.login.userManagement.createSuccess'))
           dialogVisible.value = false
         })
       }

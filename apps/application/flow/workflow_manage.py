@@ -250,7 +250,7 @@ class WorkflowManage:
                 global_fields = node_config.get('globalFields')
                 if global_fields is not None:
                     for field in global_fields:
-                        globeLabel = f"全局变量.{field.get('value')}"
+                        globeLabel = f"globalVariables.{field.get('value')}"
                         globeValue = f"context['global'].{field.get('value')}"
                         prompt = prompt.replace(globeLabel, globeValue)
                 context[node.id] = node.context

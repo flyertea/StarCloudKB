@@ -12,13 +12,13 @@
         label-width="auto"
         ref="replyNodeFormRef"
       >
-        <el-form-item label="回复内容">
+        <el-form-item :label="$t('replyContent')">
           <template #label>
             <div class="flex-between">
-              <span>回复内容</span>
+              <span>{{ $t('replyContent') }}</span>
               <el-select v-model="form_data.reply_type" size="small" style="width: 85px">
-                <el-option label="引用变量" value="referencing" />
-                <el-option label="自定义" value="content" />
+                <el-option :label="$t('selectedVariable')" value="referencing" />
+                <el-option :label="$t('custom')" value="content" />
               </el-select>
             </div>
           </template>
@@ -42,28 +42,30 @@
             ref="nodeCascaderRef"
             :nodeModel="nodeModel"
             class="w-full"
-            placeholder="请选择检索问题输入"
+            :placeholder="$t('selectRetrievalQuestion')"
             v-model="form_data.fields"
           />
         </el-form-item>
       </el-form>
     </el-card>
     <!-- 回复内容弹出层 -->
-    <el-dialog v-model="dialogVisible" title="回复内容" append-to-body>
+    <el-dialog v-model="dialogVisible" :title="$t('dialogTitle')" append-to-body>
       <MdEditor v-model="cloneContent" :preview="false" :toolbars="[]" :footers="[]"> </MdEditor>
       <template #footer>
         <div class="dialog-footer mt-24">
-          <el-button type="primary" @click="submitDialog"> 确认 </el-button>
+          <el-button type="primary" @click="submitDialog"> {{ $t('confirm') }} </el-button>
         </div>
       </template>
     </el-dialog>
   </NodeContainer>
 </template>
+
 <script setup lang="ts">
 import { set } from 'lodash'
 import NodeContainer from '@/workflow/common/NodeContainer.vue'
 import NodeCascader from '@/workflow/common/NodeCascader.vue'
 import { ref, computed, onMounted } from 'vue'
+import { t } from '@/locales' // 导入国际化配置
 
 const props = defineProps<{ nodeModel: any }>()
 const form = {
@@ -114,6 +116,7 @@ onMounted(() => {
   set(props.nodeModel, 'validate', validate)
 })
 </script>
+
 <style lang="scss" scoped>
 .reply-node-editor {
   :deep(.md-editor-footer) {

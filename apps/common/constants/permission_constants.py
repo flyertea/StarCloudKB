@@ -14,15 +14,10 @@ class Group(Enum):
     权限组 一个组一般对应前端一个菜单
     """
     USER = "USER"
-
     DATASET = "DATASET"
-
     APPLICATION = "APPLICATION"
-
     SETTING = "SETTING"
-
     MODEL = "MODEL"
-
     TEAM = "TEAM"
 
 
@@ -57,12 +52,19 @@ class Role:
         self.group = group
 
 
-class RoleConstants(Enum):
-    ADMIN = Role("管理员", "管理员,预制目前不会使用", RoleGroup.USER)
-    USER = Role("用户", "用户所有权限", RoleGroup.USER)
-    APPLICATION_ACCESS_TOKEN = Role("会话", "只拥有应用会话框接口权限", RoleGroup.APPLICATION_ACCESS_TOKEN),
-    APPLICATION_KEY = Role("应用私钥", "应用私钥", RoleGroup.APPLICATION_KEY)
+# class RoleConstants(Enum):
+#     ADMIN = Role("管理员", "管理员,预制目前不会使用", RoleGroup.USER)
+#     USER = Role("用户", "用户所有权限", RoleGroup.USER)
+#     END_USER = Role("终端用户", "只拥有应用使用权限", RoleGroup.USER)  # 新增角色
+#     APPLICATION_ACCESS_TOKEN = Role("会话", "只拥有应用会话框接口权限", RoleGroup.APPLICATION_ACCESS_TOKEN),
+#     APPLICATION_KEY = Role("应用私钥", "应用私钥", RoleGroup.APPLICATION_KEY)
 
+class RoleConstants(Enum):
+    ADMIN = Role("Admin", "Administrator, currently not in use", RoleGroup.USER)
+    USER = Role("User", "All user permissions", RoleGroup.USER)
+    END_USER = Role("End User", "Only application usage permissions", RoleGroup.USER)
+    APPLICATION_ACCESS_TOKEN = Role("Session", "Only application session interface permissions", RoleGroup.APPLICATION_ACCESS_TOKEN)
+    APPLICATION_KEY = Role("Application Private Key", "Application private key", RoleGroup.APPLICATION_KEY)
 
 class Permission:
     """
@@ -89,9 +91,9 @@ class PermissionConstants(Enum):
     """
      权限枚举
     """
-    USER_READ = Permission(group=Group.USER, operate=Operate.READ, roles=[RoleConstants.ADMIN, RoleConstants.USER])
-    USER_EDIT = Permission(group=Group.USER, operate=Operate.EDIT, roles=[RoleConstants.ADMIN, RoleConstants.USER])
-    USER_DELETE = Permission(group=Group.USER, operate=Operate.DELETE, roles=[RoleConstants.USER])
+    USER_READ = Permission(group=Group.USER, operate=Operate.READ, roles=[RoleConstants.ADMIN, RoleConstants.USER, RoleConstants.END_USER])
+    USER_EDIT = Permission(group=Group.USER, operate=Operate.EDIT, roles=[RoleConstants.ADMIN, RoleConstants.USER, RoleConstants.END_USER])
+    USER_DELETE = Permission(group=Group.USER, operate=Operate.DELETE, roles=[RoleConstants.USER, RoleConstants.END_USER])
 
     DATASET_CREATE = Permission(group=Group.DATASET, operate=Operate.CREATE,
                                 roles=[RoleConstants.ADMIN, RoleConstants.USER])
@@ -103,7 +105,7 @@ class PermissionConstants(Enum):
                               roles=[RoleConstants.ADMIN, RoleConstants.USER])
 
     APPLICATION_READ = Permission(group=Group.APPLICATION, operate=Operate.READ,
-                                  roles=[RoleConstants.ADMIN, RoleConstants.USER])
+                                  roles=[RoleConstants.ADMIN, RoleConstants.USER, RoleConstants.END_USER])  # 增加 END_USER 权限
 
     APPLICATION_CREATE = Permission(group=Group.APPLICATION, operate=Operate.CREATE,
                                     roles=[RoleConstants.ADMIN, RoleConstants.USER])

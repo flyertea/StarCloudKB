@@ -8,6 +8,7 @@
 *.factorypath
 
 # IntelliJ IDEA
+.idea
 .idea/*
 !.idea/icon.png
 *.iws

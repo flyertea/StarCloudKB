@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-8">节点设置</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('nodeSettings') }}</h5>
     <el-card shadow="never" class="card-never" style="--el-card-padding: 12px">
       <el-form
         @submit.prevent
@@ -16,11 +16,11 @@
         ref="questionNodeFormRef"
       >
         <el-form-item
-          label="AI 模型"
+          :label="$t('aiModel')"
           prop="model_id"
           :rules="{
             required: true,
-            message: '请选择 AI 模型',
+            message: $t('selectAIModel'),
             trigger: 'change'
           }"
         >
@@ -30,7 +30,7 @@
             @keyup="isKeyDown = false"
             :teleported="false"
             v-model="form_data.model_id"
-            placeholder="请选择 AI 模型"
+            :placeholder="$t('selectAIModel')"
             class="w-full"
             popper-class="select-model"
             :clearable="true"
@@ -55,7 +55,7 @@
                   <span>{{ item.name }}</span>
                 </div>
                 <el-icon class="check-icon" v-if="item.id === form_data.model_id"
-                  ><Check
+                ><Check
                 /></el-icon>
               </el-option>
               <!-- 不可用 -->
@@ -73,10 +73,10 @@
                     class="model-icon mr-8"
                   ></span>
                   <span>{{ item.name }}</span>
-                  <span class="danger">（不可用）</span>
+                  <span class="danger">{{ $t('modelUnavailable') }}</span>
                 </div>
                 <el-icon class="check-icon" v-if="item.id === form_data.model_id"
-                  ><Check
+                ><Check
                 /></el-icon>
               </el-option>
             </el-option-group>
@@ -84,30 +84,30 @@
               <div class="w-full text-left cursor" @click="openCreateModel()">
                 <el-button type="primary" link>
                   <el-icon class="mr-4"><Plus /></el-icon>
-                  添加模型
+                  {{ $t('addModel') }}
                 </el-button>
               </div>
             </template>
           </el-select>
         </el-form-item>
-        <el-form-item label="角色设定">
+        <el-form-item :label="$t('roleSetting')">
           <el-input
             v-model="form_data.system"
-            placeholder="角色设定"
+            :placeholder="$t('roleSetting')"
             type="textarea"
             :autosize="{ minRows: 1, maxRows: 3 }"
           />
         </el-form-item>
-        <el-form-item label="提示词" prop="prompt">
+        <el-form-item :label="$t('prompt')" prop="prompt">
           <template #label>
             <div class="flex align-center">
               <div class="mr-4">
-                <span>提示词<span class="danger">*</span></span>
+                <span>{{ $t('prompt') }}<span class="danger">*</span></span>
               </div>
               <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
-                <template #content
-                  >通过调整提示词内容，可以引导大模型聊天方向，该提示词会被固定在上下文的开头，可以使用变量。</template
-                >
+                <template #content>
+                  {{ $t('promptTooltip') }}
+                </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
                 <el-icon><EditPen /></el-icon>
               </el-tooltip>
@@ -121,7 +121,7 @@
             :placeholder="defaultPrompt"
           />
         </el-form-item>
-        <el-form-item label="历史聊天记录">
+        <el-form-item :label="$t('historyChatRecords')">
           <el-input-number
             v-model="form_data.dialogue_number"
             :min="0"
@@ -141,8 +141,7 @@
     <SelectProviderDialog ref="selectProviderRef" @change="openCreateModel($event)" />
   </NodeContainer>
 </template>
-<script setup lang="ts">
-import { set, groupBy } from 'lodash'
+<script setup lang="ts">import { set, groupBy } from 'lodash'
 import { app } from '@/main'
 import NodeContainer from '@/workflow/common/NodeContainer.vue'
 import CreateModelDialog from '@/views/template/component/CreateModelDialog.vue'
@@ -153,6 +152,8 @@ import applicationApi from '@/api/application'
 import useStore from '@/stores'
 import { relatedObject } from '@/utils/utils'
 import type { Provider } from '@/api/type/model'
+import { t } from '@/locales' // 导入国际化配置
+
 const { model } = useStore()
 const isKeyDown = ref(false)
 const wheel = (e: any) => {
@@ -168,11 +169,10 @@ const {
 } = app.config.globalProperties.$route as any
 
 // @ts-ignore
-const defaultPrompt = `根据上下文优化和完善用户问题：{{开始.question}}
-请输出一个优化后的问题。`
+const defaultPrompt = t('questionnodedefaultPrompt')
 const form = {
   model_id: '',
-  system: '你是一个问题优化大师',
+  system: t('youAreAQuestionOptimizationMaster'),
   prompt: defaultPrompt,
   dialogue_number: 1
 }

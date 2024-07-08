@@ -3,7 +3,10 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { i18n, langCode, localeConfigKey } from '@/locales/index';
-
+// 导入ElementPlus库
+// import ElementPlus from 'element-plus'
+// import zhCn from 'element-plus/es/locale/lang/zh-cn';
+// import en from 'element-plus/es/locale/lang/en';
 export function useLocale() {
     const { locale } = useI18n({ useScope: 'global' });
     function changeLocale(lang: string) {
@@ -14,6 +17,20 @@ export function useLocale() {
 
         locale.value = lang;
         useLocalStorage(localeConfigKey, 'zh_CN').value = lang;
+        // 根据语言切换 ElementPlus 的语言
+        // let elementPlusLang;
+        // switch (lang) {
+        //     case 'zh_CN':
+        //         elementPlusLang = zhCn;
+        //         break;
+        //     case 'en_US':
+        //         elementPlusLang = en;
+        //         break;
+        //     default:
+        //         elementPlusLang = en;
+        // }
+        // // // 动态更新 ElementPlus 的语言配置
+        // ElementPlus.locale(elementPlusLang);
     }
 
     const getComponentsLocale = computed(() => {

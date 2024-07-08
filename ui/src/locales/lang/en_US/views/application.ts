@@ -11,7 +11,7 @@ export default {
       setting: 'Settings',
       delete: {
         tooltip: 'Delete',
-        confirmTitle: 'Are you sure you want to delete this application?',
+        confirmTitle: 'Are you sure you want to delete this application - ',
         confirmMessage:
           'Deleting this application will no longer provide its services. Please proceed with caution.',
         confirmButton: 'Delete',
@@ -26,9 +26,17 @@ export default {
     }
   },
   applicationForm: {
+    saveTime: "Last save at",
+    addComponent: "Add Component",
+    debug: "Debug",
+    save: "Save",
+    publish: "Publish",
+    publishSuccess: "Publish Success",
+    basicComponents: "Basic Components",
     title: {
       create: 'Create Application',
       edit: 'Edit Settings',
+      save_publish: 'Save & Publish',
       info: 'Application Information'
     },
     form: {
@@ -40,7 +48,14 @@ export default {
       appDescription: {
         label: 'Application Description',
         placeholder:
-          'Describe the application scenario and use, e.g.: MaxKB assistant answering user questions about MaxKB product usage'
+          'Describe the application scenario and use, e.g.: StarCloudKB assistant answering user questions about StarCloudKB product usage'
+      },
+      appType: {
+        label: "Select Application Type",
+        simple: "Simple",
+        simpleDescription: "Suitable for beginners to create assistants",
+        advanced: "Advanced",
+        advancedDescription: "Suitable for advanced users to customize assistant workflows"
       },
       aiModel: {
         label: 'AI Model',
@@ -53,6 +68,13 @@ export default {
         tooltip:
           'By adjusting the content of the prompt, you can guide the direction of the large model conversation. This prompt will be fixed at the beginning of the context. Variables used: {data} carries known information from the knowledge base; {question} is the question posed by the user.'
       },
+      saveTime: "Last save at",
+      addComponent: "Add Component",
+      debug: "Debug",
+      save: "Save",
+      publish: "Publish",
+      publishSuccess: "Publish Success",
+      basicComponents: "Basic Components",
       multipleRoundsDialogue: 'Multiple Rounds Dialogue',
       relatedKnowledgeBase: 'Related Knowledge Base',
       relatedKnowledgeBaseWhere: 'Associated knowledge bases are displayed here',
@@ -91,6 +113,7 @@ export default {
       hybridSearchTooltip:
         'Hybrid search is a retrieval method based on both vector and text similarity, suitable for medium data volumes in the knowledge base.',
       similarityThreshold: 'Similarity Threshold',
+      similarityThresholdtips: 'The higher the similarity, the stronger the correlation.',
       topReferences: 'Top N References',
       maxCharacters: 'Maximum Characters per Reference',
       noReferencesAction: 'When there are no knowledge base references',
@@ -101,13 +124,13 @@ export default {
       concent: 'Content',
       concentPlaceholder: 'Please enter content',
       designated_answer:
-        'Hello, I am MaxKB Assistant. My knowledge base only contains information related to MaxKB products. Please rephrase your question.'
+        'Hello, I am StarCloudKB Assistant. My knowledge base only contains information related to StarCloudKB products. Please rephrase your question.'
     }
   },
   prompt: {
     defaultPrompt:
       'Known information:\n{data}\nResponse requirements:\n- Please use concise and professional language to answer the user\'s question.\n- If you do not know the answer, reply, "No relevant information was found in the knowledge base; it is recommended to consult technical support or refer to the official documentation for operations."\n- Avoid mentioning that your knowledge is obtained from known information.\n- Ensure the answer is consistent with the information described in the known data.\n- Please use Markdown syntax to optimize the format of the answer.\n- Directly return any images, link addresses, and script languages found in the known information.\n- Please respond in the same language as the question.\nQuestion:\n{question}',
     defaultPrologue:
-      'Hello, I am MaxKB Assistant. You can ask me questions about using MaxKB.\n- What are the main features of MaxKB?\n- Which large language models does MaxKB support?\n- What document types does MaxKB support?'
+      'Hello, I am StarCloudKB Assistant. You can ask me questions about using StarCloudKB.\n- What are the main features of StarCloudKB?\n- Which large language models does StarCloudKB support?\n- What document types does StarCloudKB support?'
   }
 }

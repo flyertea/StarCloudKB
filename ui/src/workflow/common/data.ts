@@ -1,4 +1,5 @@
 import { WorkflowType } from '@/enums/workflow'
+import { t } from '@/locales'
 
 export const startNode = {
   id: WorkflowType.Start,
@@ -7,23 +8,24 @@ export const startNode = {
   y: 720,
   properties: {
     height: 200,
-    stepName: '开始',
+    stepName: t('startNode'),
     config: {
       fields: [
         {
-          label: '用户问题',
+          label: t('baseNode.nodeData.question'),
           value: 'question'
         }
       ],
       globalFields: [
         {
           value: 'time',
-          label: '当前时间'
+          label: t('baseNode.nodeData.time')
         }
       ]
     }
   }
 }
+
 export const baseNode = {
   id: WorkflowType.Base,
   type: WorkflowType.Base,
@@ -31,12 +33,11 @@ export const baseNode = {
   y: 270,
   properties: {
     height: 200,
-    stepName: '基本信息',
+    stepName: t('baseNode.stepName'),
     node_data: {
       name: '',
       desc: '',
-      prologue:
-        '您好，我是 MaxKB 小助手，您可以向我提出 MaxKB 使用问题。\n- MaxKB 主要功能有什么？\n- MaxKB 支持哪些大语言模型？\n- MaxKB 支持哪些文档类型？'
+      prologue: t('baseNode.nodeData.prologue')
     },
     config: {}
   }
@@ -51,14 +52,14 @@ export const baseNodes = [baseNode, startNode]
  */
 export const aiChatNode = {
   type: WorkflowType.AiChat,
-  text: '与 AI 大模型进行对话',
-  label: 'AI 对话',
+  text: t('aiChatNode.text'),
+  label: t('aiChatNode.label'),
   properties: {
-    stepName: 'AI 对话',
+    stepName: t('aiChatNode.stepName'),
     config: {
       fields: [
         {
-          label: 'AI 回答内容',
+          label: t('aiChatNode.fields.answer'),
           value: 'answer'
         }
       ]
@@ -70,20 +71,20 @@ export const aiChatNode = {
  */
 export const searchDatasetNode = {
   type: WorkflowType.SearchDataset,
-  text: '关联知识库，查找与问题相关的分段',
-  label: '知识库检索',
+  text: t('searchDatasetNode.text'),
+  label: t('searchDatasetNode.label'),
   properties: {
-    stepName: '知识库检索',
+    stepName: t('searchDatasetNode.stepName'),
     config: {
       fields: [
-        { label: '检索结果的分段列表', value: 'paragraph_list' },
-        { label: '满足直接回答的分段列表', value: 'is_hit_handling_method_list' },
+        { label: t('searchDatasetNode.fields.paragraphList'), value: 'paragraph_list' },
+        { label: t('searchDatasetNode.fields.isHitHandlingMethodList'), value: 'is_hit_handling_method_list' },
         {
-          label: '检索结果',
+          label: t('searchDatasetNode.fields.data'),
           value: 'data'
         },
         {
-          label: '满足直接回答的分段内容',
+          label: t('searchDatasetNode.fields.directlyReturn'),
           value: 'directly_return'
         }
       ]
@@ -92,14 +93,14 @@ export const searchDatasetNode = {
 }
 export const questionNode = {
   type: WorkflowType.Question,
-  text: '根据历史聊天记录优化完善当前问题，更利于匹配知识库分段',
-  label: '问题优化',
+  text: t('questionNode.text'),
+  label: t('questionNode.label'),
   properties: {
-    stepName: '问题优化',
+    stepName: t('questionNode.stepName'),
     config: {
       fields: [
         {
-          label: '问题优化结果',
+          label: t('questionNode.fields.answer'),
           value: 'answer'
         }
       ]
@@ -108,15 +109,15 @@ export const questionNode = {
 }
 export const conditionNode = {
   type: WorkflowType.Condition,
-  text: '根据不同条件执行不同的节点',
-  label: '判断器',
+  text: t('conditionNode.text'),
+  label: t('conditionNode.label'),
   properties: {
     width: 600,
-    stepName: '判断器',
+    stepName: t('conditionNode.stepName'),
     config: {
       fields: [
         {
-          label: '分支名称',
+          label: t('conditionNode.fields.branchName'),
           value: 'branch_name'
         }
       ]
@@ -125,14 +126,14 @@ export const conditionNode = {
 }
 export const replyNode = {
   type: WorkflowType.Reply,
-  text: '指定回复内容，引用变量会转换为字符串进行输出',
-  label: '指定回复',
+  text: t('replyNode.text'),
+  label: t('replyNode.label'),
   properties: {
-    stepName: '指定回复',
+    stepName: t('replyNode.stepName'),
     config: {
       fields: [
         {
-          label: '内容',
+          label: t('replyNode.fields.answer'),
           value: 'answer'
         }
       ]
@@ -142,20 +143,20 @@ export const replyNode = {
 export const menuNodes = [aiChatNode, searchDatasetNode, questionNode, conditionNode, replyNode]
 
 export const compareList = [
-  { value: 'is_null', label: '为空' },
-  { value: 'is_not_null', label: '不为空' },
-  { value: 'contain', label: '包含' },
-  { value: 'not_contain', label: '不包含' },
-  { value: 'eq', label: '等于' },
-  { value: 'ge', label: '大于等于' },
-  { value: 'gt', label: '大于' },
-  { value: 'le', label: '小于等于' },
-  { value: 'len_eq', label: '长度等于' },
-  { value: 'len_ge', label: '长度大于等于' },
-  { value: 'len_gt', label: '长度大于' },
-  { value: 'len_le', label: '长度小于等于' },
-  { value: 'len_lt', label: '长度小于' },
-  { value: 'lt', label: '小于' }
+  { value: 'is_null', label: t('compareList.is_null') },
+  { value: 'is_not_null', label: t('compareList.is_not_null') },
+  { value: 'contain', label: t('compareList.contain') },
+  { value: 'not_contain', label: t('compareList.not_contain') },
+  { value: 'eq', label: t('compareList.eq') },
+  { value: 'ge', label: t('compareList.ge') },
+  { value: 'gt', label: t('compareList.gt') },
+  { value: 'le', label: t('compareList.le') },
+  { value: 'len_eq', label: t('compareList.len_eq') },
+  { value: 'len_ge', label: t('compareList.len_ge') },
+  { value: 'len_gt', label: t('compareList.len_gt') },
+  { value: 'len_le', label: t('compareList.len_le') },
+  { value: 'len_lt', label: t('compareList.len_lt') },
+  { value: 'lt', label: t('compareList.lt') }
 ]
 
 export const nodeDict: any = {

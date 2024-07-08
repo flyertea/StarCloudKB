@@ -8,8 +8,8 @@
     class="member-dialog"
   >
     <template #header="{ titleId, titleClass }">
-      <h4 :id="titleId" :class="titleClass">添加成员</h4>
-      <div class="dialog-sub-title">成员登录后可以访问到您授权的数据。</div>
+      <h4 :id="titleId" :class="titleClass">{{ $t('views.login.team.addMemberTitle') }}</h4>
+      <div class="dialog-sub-title">{{ $t('views.login.team.addMemberSubTitle') }}</div>
     </template>
 
     <el-form
@@ -20,8 +20,8 @@
       require-asterisk-position="right"
       @submit.prevent
     >
-      <el-form-item label="用户名/邮箱" prop="users">
-        <tags-input v-model:tags="memberForm.users" placeholder="请输入成员的用户名或邮箱" />
+      <el-form-item :label="$t('views.login.team.usernameOrEmail')" prop="users">
+        <tags-input v-model:tags="memberForm.users" :placeholder="$t('views.login.team.enterUsernameOrEmail')" />
         <!-- <el-select
           ref="SelectRemoteRef"
           class="custom-select-multiple"
@@ -30,8 +30,8 @@
           filterable
           remote
           reserve-keyword
-          placeholder="请输入成员的用户名或邮箱"
-          no-data-text="用户不存在"
+          :placeholder="$t('views.login.team.enterUsernameOrEmail')"
+          :no-data-text="$t('views.login.team.userNotFound')"
           :remote-method="remoteMethod"
           :loading="loading"
           @change="changeSelectHandle"
@@ -47,9 +47,9 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click.prevent="dialogVisible = false"> 取消 </el-button>
+        <el-button @click.prevent="dialogVisible = false">{{ $t('views.login.common.cancel') }}</el-button>
         <el-button type="primary" @click="submitMember(addMemberFormRef)" :loading="loading">
-          添加
+          {{ $t('views.login.team.add') }}
         </el-button>
       </span>
     </template>
@@ -60,6 +60,9 @@ import { ref, watch, onMounted } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { MsgSuccess } from '@/utils/message'
 import TeamApi from '@/api/team'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const emit = defineEmits(['refresh'])
 
@@ -78,7 +81,7 @@ const rules = ref<FormRules>({
     {
       type: 'array',
       required: true,
-      message: '请输入用户名/邮箱',
+      message: t('views.login.team.enterUsernameOrEmail'),
       trigger: 'change'
     }
   ]
@@ -103,7 +106,7 @@ const submitMember = async (formEl: FormInstance | undefined) => {
       loading.value = true
       let idsArray = memberForm.value.users.map((obj: any) => obj.id)
       TeamApi.postCreatTeamMember(idsArray).then((res) => {
-        MsgSuccess('提交成功')
+        MsgSuccess(t('views.login.team.submitSuccess'))
         emit('refresh', idsArray)
         dialogVisible.value = false
         loading.value = false

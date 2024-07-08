@@ -1,18 +1,18 @@
 <template>
-  <LayoutContainer header="问题">
+  <LayoutContainer :header="$t('viewquestions.header')">
     <div class="main-calc-height">
       <div class="p-24">
         <div class="flex-between">
           <div>
-            <el-button type="primary" @click="createProblem">创建问题</el-button>
-            <el-button @click="deleteMulDocument" :disabled="multipleSelection.length === 0"
-              >批量删除</el-button
-            >
+            <el-button type="primary" @click="createProblem">{{ $t('viewquestions.createButton') }}</el-button>
+            <el-button @click="deleteMulDocument" :disabled="multipleSelection.length === 0">
+              {{ $t('viewquestions.batchDeleteButton') }}
+            </el-button>
           </div>
 
           <el-input
             v-model="filterText"
-            placeholder="搜索内容"
+            :placeholder="$t('viewquestions.searchPlaceholder')"
             prefix-icon="Search"
             class="w-240"
             @change="getList"
@@ -25,8 +25,8 @@
           :data="problemData"
           :pagination-config="paginationConfig"
           quick-create
-          quickCreateName="问题"
-          quickCreatePlaceholder="快速创建问题"
+          :quickCreateName="$t('viewquestions.quickCreateName')"
+          :quickCreatePlaceholder="$t('viewquestions.quickCreatePlaceholder')"
           :quickCreateMaxlength="256"
           @sizeChange="handleSizeChange"
           @changePage="getList"
@@ -40,7 +40,7 @@
           :row-key="(row: any) => row.id"
         >
           <el-table-column type="selection" width="55" :reserve-selection="true" />
-          <el-table-column prop="content" label="问题" min-width="280">
+          <el-table-column prop="content" :label="$t('viewquestions.contentLabel')" min-width="280">
             <template #default="{ row }">
               <ReadWrite
                 @change="editName($event, row.id)"
@@ -50,7 +50,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column prop="paragraph_count" label="关联分段数" align="right" min-width="100">
+          <el-table-column prop="paragraph_count" :label="$t('viewquestions.paragraphCountLabel')" align="right" min-width="100">
             <template #default="{ row }">
               <el-link type="primary" @click.stop="rowClickHandle(row)" v-if="row.paragraph_count">
                 {{ row.paragraph_count }}
@@ -60,28 +60,28 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop="create_time" label="创建时间" width="170">
+          <el-table-column prop="create_time" :label="$t('viewquestions.createTimeLabel')" width="170">
             <template #default="{ row }">
               {{ datetimeFormat(row.create_time) }}
             </template>
           </el-table-column>
-          <el-table-column prop="update_time" label="更新时间" width="170">
+          <el-table-column prop="update_time" :label="$t('viewquestions.updateTimeLabel')" width="170">
             <template #default="{ row }">
               {{ datetimeFormat(row.update_time) }}
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="left" fixed="right">
+          <el-table-column :label="$t('viewquestions.actionsLabel')" align="left" fixed="right">
             <template #default="{ row }">
               <div>
                 <span class="mr-4">
-                  <el-tooltip effect="dark" content="关联分段" placement="top">
+                  <el-tooltip effect="dark" :content="$t('viewquestions.relateButton')" placement="top">
                     <el-button type="primary" text @click.stop="relateProblem(row)">
                       <el-icon><Connection /></el-icon>
                     </el-button>
                   </el-tooltip>
                 </span>
                 <span>
-                  <el-tooltip effect="dark" content="删除" placement="top">
+                  <el-tooltip effect="dark" :content="$t('viewquestions.deleteButton')" placement="top">
                     <el-button type="primary" text @click.stop="deleteProblem(row)">
                       <el-icon><Delete /></el-icon>
                     </el-button>
@@ -107,6 +107,7 @@
     <RelateProblemDialog ref="RelateProblemDialogRef" @refresh="refresh" />
   </LayoutContainer>
 </template>
+
 <script setup lang="ts">
 import { ref, onMounted, reactive, onBeforeUnmount, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -119,7 +120,8 @@ import { datetimeFormat } from '@/utils/time'
 import { MsgSuccess, MsgConfirm, MsgError } from '@/utils/message'
 import type { Dict } from '@/api/type/common'
 import useStore from '@/stores'
-
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n() // 使用国际化
 const route = useRoute()
 const {
   params: { id } // 知识库id
@@ -179,7 +181,7 @@ function creatQuickHandle(val: string) {
     .asyncPostProblem(id, obj)
     .then((res) => {
       getList()
-      MsgSuccess('创建成功')
+      MsgSuccess(t('viewquestions.createSuccess'))
     })
     .catch(() => {
       loading.value = false
@@ -194,7 +196,7 @@ function deleteMulDocument() {
     }
   })
   problemApi.delMulProblem(id, arr, loading).then(() => {
-    MsgSuccess('批量删除成功')
+    MsgSuccess(t('viewquestions.batchDeleteSuccess'))
     multipleTableRef.value?.clearSelection()
     getList()
   })
@@ -202,16 +204,16 @@ function deleteMulDocument() {
 
 function deleteProblem(row: any) {
   MsgConfirm(
-    `是否删除问题：${row.content} ?`,
-    `删除问题关联的 ${row.paragraph_count} 个分段会被取消关联，请谨慎操作。`,
+    t('viewquestions.deleteConfirm', { content: row.content }),
+    t('viewquestions.deleteWarning', { count: row.paragraph_count }),
     {
-      confirmButtonText: '删除',
+      confirmButtonText: t('viewquestions.deleteButton'),
       confirmButtonClass: 'danger'
     }
   )
     .then(() => {
       problemApi.delProblems(id, row.id, loading).then(() => {
-        MsgSuccess('删除成功')
+        MsgSuccess(t('viewquestions.deleteSuccess'))
         getList()
       })
     })
@@ -225,10 +227,10 @@ function editName(val: string, problemId: string) {
     }
     problemApi.putProblems(id, problemId, obj, loading).then(() => {
       getList()
-      MsgSuccess('修改成功')
+      MsgSuccess(t('viewquestions.editSuccess'))
     })
   } else {
-    MsgError('问题不能为空！')
+    MsgError(t('viewquestions.emptyError'))
   }
 }
 
@@ -272,7 +274,7 @@ const next_disable = computed(() => {
   return (
     index >= problemData.value.length &&
     index + (paginationConfig.current_page - 1) * paginationConfig.page_size >=
-      paginationConfig.total - 1
+    paginationConfig.total - 1
   )
 })
 /**
@@ -343,3 +345,4 @@ onMounted(() => {
 onBeforeUnmount(() => {})
 </script>
 <style lang="scss" scoped></style>
+

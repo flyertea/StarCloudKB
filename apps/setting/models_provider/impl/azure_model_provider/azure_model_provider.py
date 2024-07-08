@@ -27,22 +27,22 @@ class DefaultAzureLLMModelCredential(BaseForm, BaseModelCredential):
     def is_valid(self, model_type: str, model_name, model_credential: Dict[str, object], raise_exception=False):
         model_type_list = AzureModelProvider().get_model_type_list()
         if not any(list(filter(lambda mt: mt.get('value') == model_type, model_type_list))):
-            raise AppApiException(ValidCode.valid_error.value, f'{model_type} 模型类型不支持')
+            raise AppApiException(ValidCode.valid_error.value, f'{model_type} Model type not supported.')
 
         for key in ['api_base', 'api_key', 'deployment_name', 'api_version']:
             if key not in model_credential:
                 if raise_exception:
-                    raise AppApiException(ValidCode.valid_error.value, f'{key} 字段为必填字段')
+                    raise AppApiException(ValidCode.valid_error.value, f'{key}  is required.')
                 else:
                     return False
         try:
             model = AzureModelProvider().get_model(model_type, model_name, model_credential)
-            model.invoke([HumanMessage(content='你好')])
+            model.invoke([HumanMessage(content='Hello')])
         except Exception as e:
             if isinstance(e, AppApiException):
                 raise e
             if raise_exception:
-                raise AppApiException(ValidCode.valid_error.value, '校验失败,请检查参数是否正确')
+                raise AppApiException(ValidCode.valid_error.value, 'Validation failed, please check if the parameters are correct.')
             else:
                 return False
 
@@ -63,7 +63,7 @@ class DefaultAzureLLMModelCredential(BaseForm, BaseModelCredential):
 base_azure_llm_model_credential = DefaultAzureLLMModelCredential()
 
 model_dict = {
-    'deployment_name': ModelInfo('Azure OpenAI', '具体的基础模型由部署名决定', ModelTypeConst.LLM,
+    'deployment_name': ModelInfo('Azure OpenAI', 'The specific base model is determined by the deployment name./具体的基础模型由部署名决定', ModelTypeConst.LLM,
                                  base_azure_llm_model_credential, api_version='2024-02-15-preview'
                                  )
 }
@@ -96,9 +96,9 @@ class AzureModelProvider(IModelProvider):
 
     def get_model_list(self, model_type: str):
         if model_type is None:
-            raise AppApiException(500, '模型类型不能为空')
+            raise AppApiException(500, 'Model type cannot be empty.')
         return [model_dict.get(key).to_dict() for key in
                 list(filter(lambda key: model_dict.get(key).model_type == model_type, model_dict.keys()))]
 
     def get_model_type_list(self):
-        return [{'key': "大语言模型", 'value': "LLM"}]
+        return [{'key': "Large Language Model", 'value': "LLM"}]

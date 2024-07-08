@@ -30,22 +30,22 @@ class XunFeiLLMModelCredential(BaseForm, BaseModelCredential):
     def is_valid(self, model_type: str, model_name, model_credential: Dict[str, object], raise_exception=False):
         model_type_list = XunFeiModelProvider().get_model_type_list()
         if not any(list(filter(lambda mt: mt.get('value') == model_type, model_type_list))):
-            raise AppApiException(ValidCode.valid_error.value, f'{model_type} 模型类型不支持')
+            raise AppApiException(ValidCode.valid_error.value, f'{model_type} Model type not supported.')
 
         for key in ['spark_api_url', 'spark_app_id', 'spark_api_key', 'spark_api_secret']:
             if key not in model_credential:
                 if raise_exception:
-                    raise AppApiException(ValidCode.valid_error.value, f'{key} 字段为必填字段')
+                    raise AppApiException(ValidCode.valid_error.value, f'{key}  is required.')
                 else:
                     return False
         try:
             model = XunFeiModelProvider().get_model(model_type, model_name, model_credential)
-            model.invoke([HumanMessage(content='你好')])
+            model.invoke([HumanMessage(content='Hello')])
         except Exception as e:
             if isinstance(e, AppApiException):
                 raise e
             if raise_exception:
-                raise AppApiException(ValidCode.valid_error.value, f'校验失败,请检查参数是否正确: {str(e)}')
+                raise AppApiException(ValidCode.valid_error.value, f'Validation failed, please check if the parameters are correct.: {str(e)}')
             else:
                 return False
         return True
@@ -89,15 +89,15 @@ class XunFeiModelProvider(IModelProvider):
         return qwen_model_credential
 
     def get_model_provide_info(self):
-        return ModelProvideInfo(provider='model_xf_provider', name='讯飞星火', icon=get_file_content(
+        return ModelProvideInfo(provider='model_xf_provider', name='讯飞星火/IFlytek Spark', icon=get_file_content(
             os.path.join(PROJECT_DIR, "apps", "setting", 'models_provider', 'impl', 'xf_model_provider', 'icon',
                          'xf_icon_svg')))
 
     def get_model_list(self, model_type: str):
         if model_type is None:
-            raise AppApiException(500, '模型类型不能为空')
+            raise AppApiException(500, 'Model type cannot be empty.')
         return [model_dict.get(key).to_dict() for key in
                 list(filter(lambda key: model_dict.get(key).model_type == model_type, model_dict.keys()))]
 
     def get_model_type_list(self):
-        return [{'key': "大语言模型", 'value': "LLM"}]
+        return [{'key': "Large Language Model", 'value': "LLM"}]

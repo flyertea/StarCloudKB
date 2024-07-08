@@ -1,12 +1,12 @@
 <template>
-  <LayoutContainer header="用户管理">
+  <LayoutContainer :header="t('views.login.userManagement.header')">
     <div class="p-24">
       <div class="flex-between">
-        <el-button type="primary" @click="createUser">创建用户</el-button>
+        <el-button type="primary" @click="createUser">{{ t('views.login.userManagement.createUser') }}</el-button>
         <el-input
           v-model="searchValue"
           @change="searchHandle"
-          placeholder="搜索"
+          :placeholder="t('views.login.userManagement.search')"
           prefix-icon="Search"
           class="w-240"
           clearable
@@ -21,11 +21,11 @@
         @changePage="getList"
         v-loading="loading"
       >
-        <el-table-column prop="username" label="用户名" />
-        <el-table-column prop="nick_name" label="姓名" />
-        <el-table-column prop="email" label="邮箱" show-overflow-tooltip />
-        <el-table-column prop="phone" label="手机号" />
-        <el-table-column label="状态" width="60">
+        <el-table-column prop="username" :label="t('views.login.userManagement.username')" />
+        <el-table-column prop="nick_name" :label="t('views.login.userManagement.nickname')" />
+        <el-table-column prop="email" :label="t('views.login.userManagement.email')" show-overflow-tooltip />
+        <el-table-column prop="phone" :label="t('views.login.userManagement.phone')" />
+        <el-table-column :label="t('views.login.userManagement.status')" width="80">
           <template #default="{ row }">
             <div @click.stop>
               <el-switch
@@ -37,30 +37,30 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" width="180">
+        <el-table-column :label="t('views.login.userManagement.creationTime')" width="180">
           <template #default="{ row }">
             {{ datetimeFormat(row.create_time) }}
           </template>
         </el-table-column>
 
-        <el-table-column label="操作" width="110" align="left" fixed="right">
+        <el-table-column :label="t('views.login.userManagement.actions')" width="110" align="left" fixed="right">
           <template #default="{ row }">
             <span class="mr-4">
-              <el-tooltip effect="dark" content="编辑" placement="top">
+              <el-tooltip effect="dark" :content="t('views.login.userManagement.edit')" placement="top">
                 <el-button type="primary" text @click.stop="editUser(row)">
                   <el-icon><EditPen /></el-icon>
                 </el-button>
               </el-tooltip>
             </span>
             <span class="mr-4">
-              <el-tooltip effect="dark" content="修改用户密码" placement="top">
+              <el-tooltip effect="dark" :content="t('views.login.userManagement.changePassword')" placement="top">
                 <el-button type="primary" text @click.stop="editPwdUser(row)">
                   <el-icon><Lock /></el-icon>
                 </el-button>
               </el-tooltip>
             </span>
             <span class="mr-4">
-              <el-tooltip effect="dark" content="删除" placement="top">
+              <el-tooltip effect="dark" :content="t('views.login.userManagement.delete')" placement="top">
                 <el-button
                   :disabled="row.role === 'ADMIN'"
                   type="primary"
@@ -86,6 +86,9 @@ import UserPwdDialog from './component/UserPwdDialog.vue'
 import { MsgSuccess, MsgConfirm } from '@/utils/message'
 import userApi from '@/api/user-manage'
 import { datetimeFormat } from '@/utils/time'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const UserDialogRef = ref()
 const UserPwdDialogRef = ref()
@@ -111,7 +114,7 @@ function changeState(bool: Boolean, row: any) {
   const obj = {
     is_active: bool
   }
-  const str = bool ? '启用成功' : '禁用成功'
+  const str = bool ? t('views.login.userManagement.enableSuccess') : t('views.login.userManagement.disableSuccess')
   userApi.putUserManage(row.id, obj, loading).then((res) => {
     getList()
     MsgSuccess(str)
@@ -122,28 +125,28 @@ function editPwdUser(row: any) {
   UserPwdDialogRef.value.open(row)
 }
 function editUser(row: any) {
-  title.value = '编辑用户'
+  title.value = t('views.login.userManagement.editUser')
   UserDialogRef.value.open(row)
 }
 
 function createUser() {
-  title.value = '创建用户'
+  title.value = t('views.login.userManagement.createUser')
   UserDialogRef.value.open()
 }
 
 function deleteUserManage(row: any) {
   MsgConfirm(
-    `是否删除用户：${row.username} ?`,
-    `删除用户，该用户创建的资源（应用、知识库、模型）都会删除，请谨慎操作。`,
+    t('views.login.userManagement.deleteConfirm', { username: row.username }),
+    t('views.login.userManagement.deleteWarning'),
     {
-      confirmButtonText: '删除',
+      confirmButtonText: t('views.login.common.delete'),
       confirmButtonClass: 'danger'
     }
   )
     .then(() => {
       loading.value = true
       userApi.delUserManage(row.id, loading).then(() => {
-        MsgSuccess('删除成功')
+        MsgSuccess(t('views.login.userManagement.deleteSuccess'))
         getList()
       })
     })

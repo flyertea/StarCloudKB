@@ -19,7 +19,7 @@
       >
         <template #operateBefore>
           <el-button type="primary" link class="new-chat-button mb-8" @click="newChat">
-            <el-icon><Plus /></el-icon><span class="ml-4">新建对话</span>
+            <el-icon><Plus /></el-icon><span class="ml-4">{{ $t('newChat') }}</span>
           </el-button>
         </template>
       </AiChat>
@@ -33,7 +33,7 @@
     <el-collapse-transition>
       <div v-show="show" class="chat-popover w-full" v-click-outside="clickoutside">
         <div class="border-b p-16-24">
-          <span>历史记录</span>
+          <span>{{ $t('historyRecords') }}</span>
         </div>
 
         <el-scrollbar max-height="300">
@@ -60,13 +60,13 @@
               </template>
               <template #empty>
                 <div class="text-center">
-                  <el-text type="info">暂无历史记录</el-text>
+                  <el-text type="info">{{ $t('noHistoryRecords') }}</el-text>
                 </div>
               </template>
             </common-list>
           </div>
           <div v-if="chatLogeData.length" class="gradient-divider lighter mt-8">
-            <span>仅显示最近 20 条对话</span>
+            <span>{{ $t('recentConversations') }}</span>
           </div>
         </el-scrollbar>
       </div>
@@ -79,6 +79,8 @@ import { ref, onMounted, reactive, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import applicationApi from '@/api/application'
 import useStore from '@/stores'
+import { t } from '@/locales' // 导入国际化配置
+
 const route = useRoute()
 const {
   params: { accessToken }

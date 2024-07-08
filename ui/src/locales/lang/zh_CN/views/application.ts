@@ -25,9 +25,17 @@ export default {
     }
   },
   applicationForm: {
+    saveTime: "保存时间",
+    addComponent: "添加组件",
+    debug: "调试",
+    save: "保存",
+    publish: "发布",
+    publishSuccess: "发布成功",
+    basicComponents: "基础组件",
     title: {
       create: '创建应用',
       edit: '设置',
+      save_publish: '保存并发布',
       info: '应用信息'
     },
     form: {
@@ -38,7 +46,14 @@ export default {
       },
       appDescription: {
         label: '应用描述',
-        placeholder: '描述该应用的应用场景及用途，如：MaxKB 小助手回答用户提出的 MaxKB 产品使用问题'
+        placeholder: '描述该应用的应用场景及用途，如：StarCloudKB 小助手回答用户提出的 StarCloudKB 产品使用问题'
+      },
+      appType: {
+        label: "选择应用类型",
+        simple: "简单配置",
+        simpleDescription: "适合新手创建小助手",
+        advanced: "高级编排",
+        advancedDescription: "适合高级用户自定义小助手的工作流"
       },
       aiModel: {
         label: 'AI 模型',
@@ -51,6 +66,7 @@ export default {
         tooltip:
           '通过调整提示词内容，可以引导大模型聊天方向，该提示词会被固定在上下文的开头。可以使用变量：{data} 是携带知识库中已知信息；{question} 是用户提出的问题。'
       },
+
       multipleRoundsDialogue: '多轮对话',
       relatedKnowledgeBase: '关联知识库',
       relatedKnowledgeBaseWhere: '关联知识库展示在这里',
@@ -87,6 +103,7 @@ export default {
       hybridSearchTooltip:
         '混合检索是一种基于向量和文本相似度的检索方式，适用于知识库中的中等数据量场景。',
       similarityThreshold: '相似度高于',
+      similarityThresholdtips: '相似度越高相关性越强。',
       topReferences: '引用分段数 TOP',
       maxCharacters: '最多引用字符数',
       noReferencesAction: '无引用知识库分段时',
@@ -97,13 +114,13 @@ export default {
       concent: '内容',
       concentPlaceholder: '请输入内容',
       designated_answer:
-        '你好，我是 MaxKB 小助手，我的知识库只包含了 MaxKB 产品相关知识，请重新描述您的问题。'
+        '你好，我是 StarCloudKB 小助手，我的知识库只包含了 StarCloudKB 产品相关知识，请重新描述您的问题。'
     }
   },
   prompt: {
     defaultPrompt:
       '已知信息：\n{data}\n回答要求：\n- 请使用简洁且专业的语言来回答用户的问题。\n- 如果你不知道答案，请回答“没有在知识库中查找到相关信息，建议咨询相关技术支持或参考官方文档进行操作”。\n- 避免提及你是从已知信息中获得的知识。\n- 请保证答案与已知信息中描述的一致。\n- 请使用 Markdown 语法优化答案的格式。\n- 已知信息中的图片、链接地址和脚本语言请直接返回。\n- 请使用与问题相同的语言来回答。\n问题：\n{question}',
     defaultPrologue:
-      '您好，我是 MaxKB 小助手，您可以向我提出 MaxKB 使用问题。\n- MaxKB 主要功能有什么？\n- MaxKB 支持哪些大语言模型？\n- MaxKB 支持哪些文档类型？'
+      '您好，我是 StarCloudKB 小助手，您可以向我提出 StarCloudKB 使用问题。\n- StarCloudKB 主要功能有什么？\n- StarCloudKB 支持哪些大语言模型？\n- StarCloudKB 支持哪些文档类型？'
   }
 }

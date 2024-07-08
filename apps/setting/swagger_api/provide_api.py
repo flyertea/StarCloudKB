@@ -105,7 +105,7 @@ class ProvideApi(ApiMixin):
                 required=['key', 'value'],
                 properties={
                     'key': openapi.Schema(type=openapi.TYPE_STRING, title="模型类型描述",
-                                          description="模型类型描述", default="大语言模型"),
+                                          description="模型类型描述", default="Large Language Model"),
                     'value': openapi.Schema(type=openapi.TYPE_STRING, title="模型类型值",
                                             description="模型类型值", default="LLM"),
 

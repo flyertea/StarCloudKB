@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     class="execution-details-dialog"
-    title="执行详情"
+    :title="$t('executionDetails')"
     v-model="dialogVisible"
     destroy-on-close
     align-center
@@ -38,18 +38,18 @@
                   <!-- 开始 -->
                   <template v-if="item.type === WorkflowType.Start">
                     <div class="card-never border-r-4">
-                      <h5 class="p-8-12">参数输入</h5>
+                      <h5 class="p-8-12">{{$t('parameterInput')}}</h5>
                       <div class="p-8-12 border-t-dashed lighter">{{ item.question || '-' }}</div>
                     </div>
                   </template>
                   <!-- 知识库检索 -->
                   <template v-if="item.type == WorkflowType.SearchDataset">
                     <div class="card-never border-r-4">
-                      <h5 class="p-8-12">检索内容</h5>
+                      <h5 class="p-8-12">{{$t('searchContent')}}</h5>
                       <div class="p-8-12 border-t-dashed lighter">{{ item.question || '-' }}</div>
                     </div>
                     <div class="card-never border-r-4 mt-8">
-                      <h5 class="p-8-12">检索结果</h5>
+                      <h5 class="p-8-12">{{$t('searchResults')}}</h5>
                       <div class="p-8-12 border-t-dashed lighter">
                         <template v-if="item.paragraph_list?.length > 0">
                           <template
@@ -66,7 +66,7 @@
                   <!-- 判断器 -->
                   <template v-if="item.type == WorkflowType.Condition">
                     <div class="card-never border-r-4">
-                      <h5 class="p-8-12">判断结果</h5>
+                      <h5 class="p-8-12">{{$t('judgmentResult')}}</h5>
                       <div class="p-8-12 border-t-dashed lighter">
                         {{ item.branch_name || '-' }}
                       </div>
@@ -77,13 +77,13 @@
                     v-if="item.type == WorkflowType.AiChat || item.type == WorkflowType.Question"
                   >
                     <div class="card-never border-r-4">
-                      <h5 class="p-8-12">角色设定 (System)</h5>
+                      <h5 class="p-8-12">{{$t('roleSetting')}}</h5>
                       <div class="p-8-12 border-t-dashed lighter">
                         {{ item.system || '-' }}
                       </div>
                     </div>
                     <div class="card-never border-r-4 mt-8">
-                      <h5 class="p-8-12">历史记录</h5>
+                      <h5 class="p-8-12">{{$t('historyRecord')}}</h5>
                       <div class="p-8-12 border-t-dashed lighter">
                         <template v-if="item.history_message?.length > 0">
                           <p
@@ -99,13 +99,13 @@
                       </div>
                     </div>
                     <div class="card-never border-r-4 mt-8">
-                      <h5 class="p-8-12">本次对话</h5>
+                      <h5 class="p-8-12">{{$t('currentConversation')}}</h5>
                       <div class="p-8-12 border-t-dashed lighter pre-line">
                         {{ item.question || '-' }}
                       </div>
                     </div>
                     <div class="card-never border-r-4 mt-8">
-                      <h5 class="p-8-12">AI 回答</h5>
+                      <h5 class="p-8-12">{{$t('aiAnswer')}}</h5>
                       <div class="p-8-12 border-t-dashed lighter">
                         <MdPreview
                           v-if="item.answer"
@@ -122,7 +122,7 @@
                   <!-- 指定回复 -->
                   <template v-if="item.type === WorkflowType.Reply">
                     <div class="card-never border-r-4">
-                      <h5 class="p-8-12">回复内容</h5>
+                      <h5 class="p-8-12">{{$t('replyContent')}}</h5>
                       <div class="p-8-12 border-t-dashed lighter">
                         <el-scrollbar height="150">
                           <MdPreview
@@ -140,7 +140,7 @@
                 </template>
                 <template v-else>
                   <div class="card-never border-r-4">
-                    <h5 class="p-8-12">错误日志</h5>
+                    <h5 class="p-8-12">{{$t('errorLog')}}</h5>
                     <div class="p-8-12 border-t-dashed lighter">{{ item.err_message || '-' }}</div>
                   </div>
                 </template>
@@ -159,6 +159,7 @@ import ParagraphCard from './component/ParagraphCard.vue'
 import { arraySort } from '@/utils/utils'
 import { iconComponent } from '@/workflow/icons/utils'
 import { WorkflowType } from '@/enums/workflow'
+import { t } from '@/locales' // 导入国际化配置
 
 const dialogVisible = ref(false)
 const detail = ref<any[]>([])

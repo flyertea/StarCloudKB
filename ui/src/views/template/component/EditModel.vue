@@ -9,11 +9,9 @@
   >
     <template #header="{ close, titleId, titleClass }">
       <el-breadcrumb separator=">">
-        <el-breadcrumb-item
-          ><span class="active-breadcrumb">{{
-            `编辑 ${providerValue?.name}`
-          }}</span></el-breadcrumb-item
-        >
+        <el-breadcrumb-item>
+          <span class="active-breadcrumb">{{ $t('editModel', { name: providerValue?.name }) }}</span>
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </template>
 
@@ -31,11 +29,11 @@
           <template #label>
             <div class="flex align-center" style="display: inline-flex">
               <div class="flex-between mr-4">
-                <span>模型名称 </span>
+                <span>{{ $t('modelName') }} </span>
               </div>
               <el-tooltip effect="dark" placement="right">
                 <template #content>
-                  <p>MaxKB 中自定义的模型名称</p>
+                  <p>{{ $t('modelNameTooltip') }}</p>
                 </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
               </el-tooltip>
@@ -45,19 +43,19 @@
             v-model="base_form_data.name"
             maxlength="20"
             show-word-limit
-            placeholder="请给基础模型设置一个名称"
+            :placeholder="$t('modelNameTooltip')"
           />
         </el-form-item>
         <el-form-item prop="model_type" :rules="base_form_data_rule.model_type">
           <template #label>
-            <span>模型类型</span>
+            <span>{{ $t('modelType') }}</span>
           </template>
           <el-select
             v-loading="model_type_loading"
             @change="list_base_model($event)"
             v-model="base_form_data.model_type"
             class="w-full m-2"
-            placeholder="请选择模型类型"
+            :placeholder="$t('selectModelType')"
           >
             <el-option
               v-for="item in model_type_list"
@@ -71,12 +69,11 @@
           <template #label>
             <div class="flex align-center" style="display: inline-flex">
               <div class="flex-between mr-4">
-                <span>基础模型 </span>
+                <span>{{ $t('baseModel') }} </span>
               </div>
               <el-tooltip effect="dark" placement="right">
                 <template #content>
-                  <p>若下拉选项没有列出想要添加的LLM模型，自定义输入模型名称后回车即可</p>
-                  <p>注意，基础模型需要与供应商的模型名称一致</p>
+                  <p>{{ $t('baseModelTooltip') }}</p>
                 </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
               </el-tooltip>
@@ -87,7 +84,7 @@
             v-loading="base_model_loading"
             v-model="base_form_data.model_name"
             class="w-full m-2"
-            placeholder="请选择基础模型"
+            :placeholder="$t('customBaseModel')"
             filterable
             allow-create
             default-first-option
@@ -113,8 +110,8 @@
     </DynamicsForm>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="submit" :loading="loading"> 修改 </el-button>
+        <el-button @click="close">{{ $t('cancel') }}</el-button>
+        <el-button type="primary" @click="submit" :loading="loading">{{ $t('update') }}</el-button>
       </span>
     </template>
   </el-dialog>
@@ -129,7 +126,9 @@ import DynamicsForm from '@/components/dynamics-form/index.vue'
 import type { FormRules } from 'element-plus'
 import { MsgSuccess } from '@/utils/message'
 import AppIcon from '@/components/icons/AppIcon.vue'
+import { useI18n } from 'vue-i18n' // 导入国际化
 
+const { t } = useI18n() // 使用国际化
 const providerValue = ref<Provider>()
 const dynamicsFormRef = ref<InstanceType<typeof DynamicsForm>>()
 const emit = defineEmits(['change', 'submit'])
@@ -144,16 +143,14 @@ const model_form_field = ref<Array<FormField>>([])
 const dialogVisible = ref<boolean>(false)
 
 const base_form_data_rule = ref<FormRules>({
-  name: { required: true, trigger: 'blur', message: '模型名不能为空' },
-  model_type: { required: true, trigger: 'change', message: '模型类型不能为空' },
-  model_name: { required: true, trigger: 'change', message: '基础模型不能为空' }
+  name: { required: true, trigger: 'blur', message: t('modelNameNotEmpty') },
+  model_type: { required: true, trigger: 'change', message: t('modelTypeNotEmpty') },
+  model_name: { required: true, trigger: 'change', message: t('basemodelNameNotEmpty') }
 })
 
 const base_form_data = ref<{
   name: string
-
   model_type: string
-
   model_name: string
 }>({ name: '', model_type: '', model_name: '' })
 
@@ -233,7 +230,7 @@ const submit = () => {
         },
         loading
       ).then((ok) => {
-        MsgSuccess('修改模型成功')
+        MsgSuccess(t('updateModelSuccess'))
         close()
         emit('submit')
       })

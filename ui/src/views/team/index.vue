@@ -1,9 +1,9 @@
 <template>
-  <LayoutContainer header="团队成员">
+  <LayoutContainer :header="$t('teamMembers')">
     <div class="team-manage flex main-calc-height">
       <div class="team-member p-8 border-r">
         <div class="flex-between p-16">
-          <h4>成员</h4>
+          <h4>{{ $t('members') }}</h4>
           <el-button type="primary" link @click="addMember">
             <AppIcon iconName="app-add-users" class="add-user-icon" />
           </el-button>
@@ -11,7 +11,7 @@
         <div class="team-member-input">
           <el-input
             v-model="filterText"
-            placeholder="请输入用户名搜索"
+            :placeholder="$t('searchByUsername')"
             prefix-icon="Search"
             clearable
           />
@@ -27,7 +27,7 @@
             <div class="flex-between">
               <div>
                 <span class="mr-8">{{ row.username }}</span>
-                <el-tag v-if="isManage(row.type)" class="default-tag">所有者</el-tag>
+                <el-tag v-if="isManage(row.type)" class="default-tag">{{ $t('owner') }}</el-tag>
               </div>
               <div @click.stop style="margin-top: 5px">
                 <el-dropdown trigger="click" v-if="!isManage(row.type)">
@@ -36,7 +36,7 @@
                   </span>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item @click.prevent="deleteMember(row)">移除</el-dropdown-item>
+                      <el-dropdown-item @click.prevent="deleteMember(row)">{{ $t('remove') }}</el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
@@ -47,7 +47,7 @@
       </div>
       <div class="permission-setting flex" v-loading="rLoading">
         <div class="team-manage__table">
-          <h4 class="p-24 pb-0 mb-4">权限设置</h4>
+          <h4 class="p-24 pb-0 mb-4">{{ $t('permissionSettings') }}</h4>
           <el-tabs v-model="activeName" class="team-manage__tabs">
             <el-tab-pane
               v-for="(item, index) in settingTags"
@@ -67,7 +67,7 @@
         </div>
 
         <div class="submit-button">
-          <el-button type="primary" @click="submitPermissions">保存</el-button>
+          <el-button type="primary" @click="submitPermissions">{{ $t('save') }}</el-button>
         </div>
       </div>
     </div>
@@ -83,6 +83,9 @@ import CreateMemberDialog from './component/CreateMemberDialog.vue'
 import PermissionSetting from './component/PermissionSetting.vue'
 import { MsgSuccess, MsgConfirm } from '@/utils/message'
 import { TeamEnum } from '@/enums/team'
+import { useI18n } from 'vue-i18n' // 导入国际化
+
+const { t } = useI18n() // 使用国际化
 
 const CreateMemberRef = ref<InstanceType<typeof CreateMemberDialog>>()
 const loading = ref(false)
@@ -99,12 +102,12 @@ const tableHeight = ref(0)
 
 const settingTags = reactive([
   {
-    label: '知识库',
+    label: t('knowledgeBase'),
     value: TeamEnum.DATASET,
     data: [] as any
   },
   {
-    label: '应用',
+    label: t('application'),
     value: TeamEnum.APPLICATION,
     data: [] as any
   }
@@ -138,7 +141,7 @@ function submitPermissions() {
   })
   TeamApi.putMemberPermissions(currentUser.value, obj)
     .then(() => {
-      MsgSuccess('提交成功')
+      MsgSuccess(t('submitSuccess'))
       MemberPermissions(currentUser.value)
     })
     .catch(() => {
@@ -166,11 +169,10 @@ function MemberPermissions(id: String) {
 
 function deleteMember(row: TeamMember) {
   MsgConfirm(
-    `是否移除成员：${row.username}?`,
-    '移除后将会取消成员拥有的知识库和应用权限。',
-
+    t('removeMember', { username: row.username }),
+    t('removeWarning'),
     {
-      confirmButtonText: '移除',
+      confirmButtonText: t('remove'),
       confirmButtonClass: 'danger'
     }
   )
@@ -178,7 +180,7 @@ function deleteMember(row: TeamMember) {
       loading.value = true
       TeamApi.delTeamMember(row.id)
         .then(() => {
-          MsgSuccess('删除成功')
+          MsgSuccess(t('removeSuccess'))
           getMember()
         })
         .catch(() => {

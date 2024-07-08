@@ -27,22 +27,22 @@ class OpenAILLMModelCredential(BaseForm, BaseModelCredential):
     def is_valid(self, model_type: str, model_name, model_credential: Dict[str, object], raise_exception=False):
         model_type_list = OpenAIModelProvider().get_model_type_list()
         if not any(list(filter(lambda mt: mt.get('value') == model_type, model_type_list))):
-            raise AppApiException(ValidCode.valid_error.value, f'{model_type} 模型类型不支持')
+            raise AppApiException(ValidCode.valid_error.value, f'{model_type} Model type not supported.')
 
         for key in ['api_base', 'api_key']:
             if key not in model_credential:
                 if raise_exception:
-                    raise AppApiException(ValidCode.valid_error.value, f'{key} 字段为必填字段')
+                    raise AppApiException(ValidCode.valid_error.value, f'{key}  is required.')
                 else:
                     return False
         try:
             model = OpenAIModelProvider().get_model(model_type, model_name, model_credential)
-            model.invoke([HumanMessage(content='你好')])
+            model.invoke([HumanMessage(content='Hello')])
         except Exception as e:
             if isinstance(e, AppApiException):
                 raise e
             if raise_exception:
-                raise AppApiException(ValidCode.valid_error.value, f'校验失败,请检查参数是否正确: {str(e)}')
+                raise AppApiException(ValidCode.valid_error.value, f'Validation failed, please check if the parameters are correct.: {str(e)}')
             else:
                 return False
         return True
@@ -50,25 +50,25 @@ class OpenAILLMModelCredential(BaseForm, BaseModelCredential):
     def encryption_dict(self, model: Dict[str, object]):
         return {**model, 'api_key': super().encryption(model.get('api_key', ''))}
 
-    api_base = forms.TextInputField('API 域名', required=True)
+    api_base = forms.TextInputField('API Domain', required=True)
     api_key = forms.PasswordInputField('API Key', required=True)
 
 
 openai_llm_model_credential = OpenAILLMModelCredential()
 
 model_dict = {
-    'gpt-3.5-turbo': ModelInfo('gpt-3.5-turbo', '最新的gpt-3.5-turbo，随OpenAI调整而更新', ModelTypeConst.LLM,
+    'gpt-3.5-turbo': ModelInfo('gpt-3.5-turbo', 'gpt-3.5-turbo', ModelTypeConst.LLM,
                                openai_llm_model_credential,
                                ),
-    'gpt-4': ModelInfo('gpt-4', '最新的gpt-4，随OpenAI调整而更新', ModelTypeConst.LLM, openai_llm_model_credential,
+    'gpt-4': ModelInfo('gpt-4', 'gpt-4', ModelTypeConst.LLM, openai_llm_model_credential,
                        ),
-    'gpt-4o': ModelInfo('gpt-4o', '最新的GPT-4o，比gpt-4-turbo更便宜、更快，随OpenAI调整而更新',
+    'gpt-4o': ModelInfo('gpt-4o', 'GPT-4o is cheaper and faster than GPT-4-turbo./GPT-4o，比gpt-4-turbo更便宜、更快',
                         ModelTypeConst.LLM, openai_llm_model_credential,
                         ),
-    'gpt-4-turbo': ModelInfo('gpt-4-turbo', '最新的gpt-4-turbo，随OpenAI调整而更新', ModelTypeConst.LLM,
+    'gpt-4-turbo': ModelInfo('gpt-4-turbo', 'gpt-4-turbo', ModelTypeConst.LLM,
                              openai_llm_model_credential,
                              ),
-    'gpt-4-turbo-preview': ModelInfo('gpt-4-turbo-preview', '最新的gpt-4-turbo-preview，随OpenAI调整而更新',
+    'gpt-4-turbo-preview': ModelInfo('gpt-4-turbo-preview', 'gpt-4-turbo-preview',
                                      ModelTypeConst.LLM, openai_llm_model_credential,
                                      ),
     'gpt-3.5-turbo-0125': ModelInfo('gpt-3.5-turbo-0125',
@@ -125,9 +125,9 @@ class OpenAIModelProvider(IModelProvider):
 
     def get_model_list(self, model_type: str):
         if model_type is None:
-            raise AppApiException(500, '模型类型不能为空')
+            raise AppApiException(500, 'Model type cannot be empty.')
         return [model_dict.get(key).to_dict() for key in
                 list(filter(lambda key: model_dict.get(key).model_type == model_type, model_dict.keys()))]
 
     def get_model_type_list(self):
-        return [{'key': "大语言模型", 'value': "LLM"}]
+        return [{'key': "Large Language Model", 'value': "LLM"}]

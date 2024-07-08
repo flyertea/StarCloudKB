@@ -8,7 +8,7 @@ export default {
         copyLinkText: 'Copy Link',
         refreshLinkText: 'Refresh Link',
         demo: 'Demo',
-        embedThirdParty: 'Embed Third Party',
+        embedThirdParty: 'Embed AI Chat Quickly',
         accessRestrictions: 'Access Restrictions',
         apiAccessCredentials: 'API Access Credentials',
         apiKey: 'API Key',
@@ -53,7 +53,7 @@ export default {
             uploadImagePrompt: 'Please upload an image'
         },
         EmbedDialog: {
-            embedDialogTitle: 'Embed Third Party',
+            embedDialogTitle: 'Embed AI Chat Quickly',
             fullscreenModeTitle: 'Fullscreen Mode',
             copyInstructions: 'Copy the following code to embed',
             floatingModeTitle: 'Floating Mode'

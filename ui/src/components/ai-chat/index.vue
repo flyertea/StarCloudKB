@@ -64,7 +64,7 @@
                   class="dialog-card"
                 >
                   <MdRenderer
-                    source=" 抱歉，没有查找到相关内容，请重新描述您的问题或提供更多信息。"
+                    :source="$t('sorryNoContent')"
                   ></MdRenderer>
                   <!-- 知识来源 -->
                   <div v-if="showSource(item)">
@@ -72,10 +72,10 @@
                   </div>
                 </el-card>
                 <el-card v-else-if="item.is_stop" shadow="always" class="dialog-card">
-                  已停止回答
+                  {{ $t('stoppedAnswer') }}
                 </el-card>
                 <el-card v-else shadow="always" class="dialog-card">
-                  回答中 <span class="dotting"></span>
+                  {{ $t('answering') }} <span class="dotting"></span>
                 </el-card>
               </div>
 
@@ -97,10 +97,10 @@
                     v-if="item.is_stop && !item.write_ed"
                     @click="startChat(item)"
                     link
-                    >继续</el-button
+                  >{{ $t('continue') }}</el-button
                   >
                   <el-button type="primary" v-else-if="!item.write_ed" @click="stopChat(item)" link
-                    >停止回答</el-button
+                  >{{ $t('stopAnswer') }}</el-button
                   >
                 </div>
               </div>
@@ -124,7 +124,7 @@
         <el-input
           ref="quickInputRef"
           v-model="inputValue"
-          placeholder="请输入"
+          :placeholder="$t('pleaseEnter')"
           :autosize="{ minRows: 1, maxRows: isMobile ? 4 : 10 }"
           type="textarea"
           :maxlength="100000"
@@ -165,6 +165,9 @@ import { isWorkFlow } from '@/utils/application'
 import { debounce } from 'lodash'
 defineOptions({ name: 'AiChat' })
 const route = useRoute()
+import { useI18n } from 'vue-i18n' // 导入国际化
+
+const { t } = useI18n() // 使用国际化
 const {
   params: { accessToken, id },
   query: { mode }
@@ -215,7 +218,7 @@ const isMdArray = (val: string) => val.match(/^-\s.*/m)
 const prologueList = computed(() => {
   const temp = props.available
     ? props.data?.prologue
-    : '抱歉，当前正在维护，无法提供服务，请稍后再试！'
+    : t('underMaintenance')
   const lines = temp?.split('\n')
   return lines
     .reduce((pre_array: Array<any>, current: string, index: number) => {
@@ -452,7 +455,7 @@ const getWrite = (chat: any, reader: any, stream: boolean) => {
 const errorWrite = (chat: any, message?: string) => {
   ChatManagement.addChatRecord(chat, 50, loading)
   ChatManagement.write(chat.id)
-  ChatManagement.append(chat.id, message || '抱歉，当前正在维护，无法提供服务，请稍后再试！')
+  ChatManagement.append(chat.id, message ||  t('underMaintenance'))
   ChatManagement.updateStatus(chat.id, 500)
   ChatManagement.close(chat.id)
 }
@@ -502,9 +505,9 @@ function chatMessage(chat?: any, problem?: string, re_chat?: boolean) {
               errorWrite(chat)
             })
         } else if (response.status === 460) {
-          return Promise.reject('无法识别用户身份')
+          return Promise.reject( t('notidentifyUser') )
         } else if (response.status === 461) {
-          return Promise.reject('抱歉，您的提问已达到最大限制，请明天再来吧！')
+          return Promise.reject(t('limitedQuestion') )
         } else {
           nextTick(() => {
             // 将滚动条滚动到最下面

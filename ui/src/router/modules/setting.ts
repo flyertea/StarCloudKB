@@ -1,10 +1,13 @@
 import { hasPermission } from '@/utils/permission/index'
 import Layout from '@/layout/main-layout/index.vue'
 import { Role } from '@/utils/permission/type'
+
+import { t } from '@/locales'
+
 const settingRouter = {
   path: '/setting',
   name: 'setting',
-  meta: { icon: 'Setting', title: '系统设置', permission: 'SETTING:READ' },
+  meta: { icon: 'Setting', title: t('systemSettings'), permission: 'SETTING:READ' },
   redirect: () => {
     if (hasPermission(new Role('ADMIN'), 'AND')) {
       return '/user'
@@ -19,7 +22,7 @@ const settingRouter = {
       meta: {
         icon: 'User',
         iconActive: 'UserFilled',
-        title: '用户管理',
+        title: t('userManagement'),
         activeMenu: '/setting',
         parentPath: '/setting',
         parentName: 'setting',
@@ -33,7 +36,7 @@ const settingRouter = {
       meta: {
         icon: 'app-team',
         iconActive: 'app-team-active',
-        title: '团队成员',
+        title: t('teamMembers'),
         activeMenu: '/setting',
         parentPath: '/setting',
         parentName: 'setting'
@@ -46,7 +49,7 @@ const settingRouter = {
       meta: {
         icon: 'app-template',
         iconActive: 'app-template-active',
-        title: '模型设置',
+        title: t('modelSettings'),
         activeMenu: '/setting',
         parentPath: '/setting',
         parentName: 'setting'
@@ -58,7 +61,7 @@ const settingRouter = {
       name: 'email',
       meta: {
         icon: 'Message',
-        title: '邮箱设置',
+        title: t('emailSettings'),
         activeMenu: '/setting',
         parentPath: '/setting',
         parentName: 'setting',

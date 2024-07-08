@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300px" height="78px" viewBox="0 0 300 78" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>画板</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="79.8869283%" id="linearGradient-1">
+            <stop stop-color="#4DB0FF" offset="0%"></stop>
+            <stop stop-color="#2D7CFE" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="画板" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="TTNorms-Bold, TT Norms" font-size="48.7408611" font-weight="bold">
+        <g id="StarCloudKB备份" transform="translate(0.000000, 10.000000)" fill="url(#linearGradient-1)">
+            <text id="StarCloudKB">
+                <tspan x="0" y="47">StarCloudKB</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

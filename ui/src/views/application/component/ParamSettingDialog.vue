@@ -63,7 +63,7 @@
                       <span class="mr-4">{{
                         $t('views.application.applicationForm.dialogues.similarityThreshold')
                       }}</span>
-                      <el-tooltip effect="dark" content="相似度越高相关性越强。" placement="right">
+                      <el-tooltip effect="dark" :content="$t('views.application.applicationForm.dialogues.similarityThresholdtips')" placement="right">
                         <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
                       </el-tooltip>
                     </div>

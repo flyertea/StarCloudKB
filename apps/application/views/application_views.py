@@ -177,7 +177,7 @@ class Application(APIView):
                              tags=["应用"],
                              manual_parameters=ApplicationApi.ApiKey.get_request_params_api())
         @has_permissions(ViewPermission(
-            [RoleConstants.ADMIN, RoleConstants.USER],
+            [RoleConstants.ADMIN, RoleConstants.USER, RoleConstants.END_USER],
             [lambda r, keywords: Permission(group=Group.APPLICATION, operate=Operate.USE,
                                             dynamic_tag=keywords.get('application_id'))],
             compare=CompareConstants.AND))
@@ -282,7 +282,7 @@ class Application(APIView):
                              manual_parameters=ApplicationApi.AccessToken.get_request_params_api(),
                              request_body=ApplicationApi.AccessToken.get_request_body_api())
         @has_permissions(ViewPermission(
-            [RoleConstants.ADMIN, RoleConstants.USER],
+            [RoleConstants.ADMIN, RoleConstants.USER, RoleConstants.END_USER],
             [lambda r, keywords: Permission(group=Group.APPLICATION, operate=Operate.MANAGE,
                                             dynamic_tag=keywords.get('application_id'))],
             compare=CompareConstants.AND))
@@ -297,7 +297,7 @@ class Application(APIView):
                              tags=['应用/公开访问'],
                              )
         @has_permissions(ViewPermission(
-            [RoleConstants.ADMIN, RoleConstants.USER],
+            [RoleConstants.ADMIN, RoleConstants.USER, RoleConstants.END_USER],
             [lambda r, keywords: Permission(group=Group.APPLICATION, operate=Operate.USE,
                                             dynamic_tag=keywords.get('application_id'))],
             compare=CompareConstants.AND))

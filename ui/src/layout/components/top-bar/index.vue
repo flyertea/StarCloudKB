@@ -4,37 +4,37 @@
     <div class="flex-center h-full">
       <div class="app-title-container cursor" @click="router.push('/')">
         <div class="logo flex-center">
-          <img src="@/assets/MaxKB-logo.svg" height="35" />
+          <img src="@/assets/StarCloudKB.svg" height="35" />
         </div>
       </div>
       <TopMenu></TopMenu>
     </div>
     <div class="flex-center avatar">
-      <el-tooltip effect="dark" :content="$t('layout.topbar.github')" placement="top">
-        <AppIcon
-          iconName="app-github"
-          class="cursor color-secondary mr-8 ml-8"
-          style="font-size: 20px"
-          @click="toUrl('https://github.com/1Panel-dev/MaxKB')"
-        ></AppIcon>
-      </el-tooltip>
-      <el-tooltip effect="dark" :content="$t('layout.topbar.wiki')" placement="top">
-        <AppIcon
-          iconName="app-reading"
-          class="cursor color-secondary mr-8 ml-8"
-          style="font-size: 20px"
-          @click="toUrl('https://maxkb.cn/docs/')"
-        ></AppIcon>
-      </el-tooltip>
-      <el-tooltip effect="dark" :content="$t('layout.topbar.forum')" placement="top">
-        <AppIcon
-          iconName="app-help"
-          class="cursor color-secondary mr-8 ml-8"
-          style="font-size: 20px"
-          @click="toUrl('https://bbs.fit2cloud.com/c/mk/11')"
-        ></AppIcon>
-      </el-tooltip>
-      <el-dropdown v-if="false" trigger="click" type="primary">
+<!--      <el-tooltip effect="dark" :content="$t('layout.topbar.github')" placement="top">-->
+<!--        <AppIcon-->
+<!--          iconName="app-github"-->
+<!--          class="cursor color-secondary mr-8 ml-8"-->
+<!--          style="font-size: 20px"-->
+<!--          @click="toUrl('https://github.com/flyertea/StarCloudKB')"-->
+<!--        ></AppIcon>-->
+<!--      </el-tooltip>-->
+<!--      <el-tooltip effect="dark" :content="$t('layout.topbar.wiki')" placement="top">-->
+<!--        <AppIcon-->
+<!--          iconName="app-reading"-->
+<!--          class="cursor color-secondary mr-8 ml-8"-->
+<!--          style="font-size: 20px"-->
+<!--          @click="toUrl('https://github.com/flyertea/StarCloudKB/wiki')"-->
+<!--        ></AppIcon>-->
+<!--      </el-tooltip>-->
+<!--      <el-tooltip effect="dark" :content="$t('layout.topbar.forum')" placement="top">-->
+<!--        <AppIcon-->
+<!--          iconName="app-help"-->
+<!--          class="cursor color-secondary mr-8 ml-8"-->
+<!--          style="font-size: 20px"-->
+<!--          @click="toUrl('https://github.com/flyertea/StarCloudKB/discussions')"-->
+<!--        ></AppIcon>-->
+<!--      </el-tooltip>-->
+      <el-dropdown  trigger="click" type="primary">
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item

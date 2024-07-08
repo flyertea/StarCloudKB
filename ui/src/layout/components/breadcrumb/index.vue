@@ -94,14 +94,14 @@
           <template v-if="isApplication">
             <div class="w-full text-left cursor" @click="openCreateDialog">
               <el-button link>
-                <el-icon class="mr-4"><Plus /></el-icon> 创建应用
+                <el-icon class="mr-4"><Plus /></el-icon>  {{ $t('createApplication') }}
               </el-button>
             </div>
           </template>
           <template v-else-if="isDataset">
             <div class="w-full text-left cursor" @click="router.push({ path: '/dataset/create' })">
               <el-button link>
-                <el-icon class="mr-4"><Plus /></el-icon> 创建知识库
+                <el-icon class="mr-4"><Plus /></el-icon> {{ $t('createKnowledgeBase') }}
               </el-button>
             </div>
           </template>
@@ -118,6 +118,9 @@ import { onBeforeRouteLeave, useRouter, useRoute } from 'vue-router'
 import CreateApplicationDialog from '@/views/application/component/CreateApplicationDialog.vue'
 import { isAppIcon, isWorkFlow } from '@/utils/application'
 import useStore from '@/stores'
+import { useI18n } from 'vue-i18n' // 导入国际化
+
+const { t } = useI18n() // 使用国际化
 const { common, dataset, application } = useStore()
 const route = useRoute()
 const router = useRouter()

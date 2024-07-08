@@ -26,22 +26,22 @@ class GeminiLLMModelCredential(BaseForm, BaseModelCredential):
     def is_valid(self, model_type: str, model_name, model_credential: Dict[str, object], raise_exception=False):
         model_type_list = GeminiModelProvider().get_model_type_list()
         if not any(list(filter(lambda mt: mt.get('value') == model_type, model_type_list))):
-            raise AppApiException(ValidCode.valid_error.value, f'{model_type} 模型类型不支持')
+            raise AppApiException(ValidCode.valid_error.value, f'{model_type} Model type not supported.')
 
         for key in ['api_key']:
             if key not in model_credential:
                 if raise_exception:
-                    raise AppApiException(ValidCode.valid_error.value, f'{key} 字段为必填字段')
+                    raise AppApiException(ValidCode.valid_error.value, f'{key}  is required.')
                 else:
                     return False
         try:
             model = GeminiModelProvider().get_model(model_type, model_name, model_credential)
-            model.invoke([HumanMessage(content='你好')])
+            model.invoke([HumanMessage(content='Hello')])
         except Exception as e:
             if isinstance(e, AppApiException):
                 raise e
             if raise_exception:
-                raise AppApiException(ValidCode.valid_error.value, f'校验失败,请检查参数是否正确: {str(e)}')
+                raise AppApiException(ValidCode.valid_error.value, f'Validation failed, please check if the parameters are correct.: {str(e)}')
             else:
                 return False
         return True
@@ -55,11 +55,11 @@ class GeminiLLMModelCredential(BaseForm, BaseModelCredential):
 gemini_llm_model_credential = GeminiLLMModelCredential()
 
 model_dict = {
-    'gemini-1.0-pro': ModelInfo('gemini-1.0-pro', '最新的Gemini 1.0 Pro模型，随Google更新而更新',
+    'gemini-1.0-pro': ModelInfo('gemini-1.0-pro', 'Gemini 1.0 Pro',
                                 ModelTypeConst.LLM,
                                 gemini_llm_model_credential,
                                 ),
-    'gemini-1.0-pro-vision': ModelInfo('gemini-1.0-pro-vision', '最新的Gemini 1.0 Pro Vision模型，随Google更新而更新',
+    'gemini-1.0-pro-vision': ModelInfo('gemini-1.0-pro-vision', 'Gemini 1.0 Pro Vision',
                                        ModelTypeConst.LLM,
                                        gemini_llm_model_credential,
                                        ),
@@ -91,9 +91,9 @@ class GeminiModelProvider(IModelProvider):
 
     def get_model_list(self, model_type: str):
         if model_type is None:
-            raise AppApiException(500, '模型类型不能为空')
+            raise AppApiException(500, 'Model type cannot be empty.')
         return [model_dict.get(key).to_dict() for key in
                 list(filter(lambda key: model_dict.get(key).model_type == model_type, model_dict.keys()))]
 
     def get_model_type_list(self):
-        return [{'key': "大语言模型", 'value': "LLM"}]
+        return [{'key': "Large Language Model", 'value': "LLM"}]

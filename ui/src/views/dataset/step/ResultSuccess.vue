@@ -1,27 +1,27 @@
 <template>
   <el-scrollbar>
-    <el-result icon="success" title="🎉 知识库创建成功 🎉">
+    <el-result icon="success" :title="$t('knowledgeBaseCreated')">
       <template #sub-title>
         <div class="mt-8">
           <span class="bold">{{ data?.document_list.length || 0 }}</span>
-          <el-text type="info" class="ml-4">文档</el-text>
+          <el-text type="info" class="ml-4">{{ $t('documents') }}</el-text>
           <el-divider direction="vertical" />
           <span class="bold">{{ paragraph_count || 0 }}</span>
-          <el-text type="info" class="ml-4">分段</el-text>
+          <el-text type="info" class="ml-4">{{ $t('segments') }}</el-text>
           <el-divider direction="vertical" />
           <span class="bold">{{ numberFormat(char_length) || 0 }}</span>
-          <el-text type="info" class="ml-4">字符</el-text>
+          <el-text type="info" class="ml-4">{{ $t('characters') }}</el-text>
         </div>
       </template>
       <template #extra>
-        <el-button @click="router.push({ path: `/dataset` })">返回知识库列表</el-button>
-        <el-button type="primary" @click="router.push({ path: `/dataset/${data?.id}/document` })"
-          >前往文档</el-button
-        >
+        <el-button @click="router.push({ path: `/dataset` })">{{ $t('backToKnowledgeBaseList') }}</el-button>
+        <el-button type="primary" @click="router.push({ path: `/dataset/${data?.id}/document` })">
+          {{ $t('goToDocument') }}
+        </el-button>
       </template>
     </el-result>
     <div class="result-success">
-      <p class="bolder">文档列表</p>
+      <p class="bolder">{{ $t('documentList') }}</p>
       <el-card
         shadow="never"
         class="file-List-card mt-8"
@@ -37,7 +37,7 @@
             </div>
           </div>
           <div>
-            <el-text type="info" class="mr-16">{{ item && item?.paragraph_count }} 个分段</el-text>
+            <el-text type="info" class="mr-16">{{ $t('segmentsCount', { count: item?.paragraph_count }) }}</el-text>
             <el-text v-if="item.status === '1'">
               <el-icon class="success"><SuccessFilled /></el-icon>
             </el-text>
@@ -45,7 +45,7 @@
               <el-icon class="danger"><CircleCloseFilled /></el-icon>
             </el-text>
             <el-text v-else-if="item.status === '0'">
-              <el-icon class="is-loading primary"><Loading /></el-icon> 导入中...
+              <el-icon class="is-loading primary"><Loading /></el-icon> {{ $t('importing') }}
             </el-text>
           </div>
         </div>

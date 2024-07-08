@@ -4,15 +4,17 @@
   </div>
   <div style="padding: 16px 10px">
     <el-divider v-if="size > 0 && loading">
-      <el-text type="info"> 加载中...</el-text>
+      <el-text type="info"> {{ $t('loading') }} </el-text>
     </el-divider>
     <el-divider v-if="noMore">
-      <el-text type="info"> 到底啦！</el-text>
+      <el-text type="info"> {{ $t('noMore') }} </el-text>
     </el-divider>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+//import { t } from '@/locales' // 导入国际化配置
 
 defineOptions({ name: 'InfiniteScroll' })
 const props = defineProps({

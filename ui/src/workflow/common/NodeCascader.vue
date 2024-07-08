@@ -28,6 +28,8 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { iconComponent } from '../icons/utils'
+import { t } from '@/locales' // 导入国际化配置
+
 const props = defineProps<{
   nodeModel: any
   modelValue: Array<any>
@@ -74,7 +76,7 @@ function _getIncomingNode(id: String, startId: String, value: Array<any>) {
         if (item.properties?.globalFields && item.type === 'start-node') {
           firstElement = {
             value: 'global',
-            label: '全局变量',
+            label: t('globalVariables'), // 使用国际化标识符
             type: 'global',
             children: item.properties?.config?.globalFields || []
           }
@@ -98,21 +100,21 @@ const validate = () => {
   const incomingNodeValue = getIncomingNode(props.nodeModel.id)
   options.value = incomingNodeValue
   if (!data.value || data.value.length === 0) {
-    return Promise.reject('引用变量必填')
+    return Promise.reject(t('referenceVariableRequired')) // 使用国际化标识符
   }
   if (data.value.length < 2) {
-    return Promise.reject('引用变量错误')
+    return Promise.reject(t('referenceVariableError')) // 使用国际化标识符
   }
   const node_id = data.value[0]
   const node_field = data.value[1]
   const nodeParent = incomingNodeValue.find((item: any) => item.value === node_id)
   if (!nodeParent) {
     data.value = []
-    return Promise.reject('不存在的引用变量')
+    return Promise.reject(t('nonExistentReferenceVariable')) // 使用国际化标识符
   }
   if (!nodeParent.children.some((item: any) => item.value === node_field)) {
     data.value = []
-    return Promise.reject('不存在的引用变量')
+    return Promise.reject(t('nonExistentReferenceVariable')) // 使用国际化标识符
   }
   return Promise.resolve('')
 }

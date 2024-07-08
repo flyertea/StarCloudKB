@@ -35,8 +35,8 @@
               </el-button>
               <template #dropdown>
                 <el-dropdown-menu style="min-width: 80px">
-                  <el-dropdown-item @click="copyNode" class="p-8">复制</el-dropdown-item>
-                  <el-dropdown-item @click="deleteNode" class="border-t p-8">删除</el-dropdown-item>
+                  <el-dropdown-item @click="copyNode" class="p-8">{{ $t('copy') }}</el-dropdown-item>
+                  <el-dropdown-item @click="deleteNode" class="border-t p-8">{{ $t('delete') }}</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -46,7 +46,7 @@
         <div @mousedown.stop @keydown.stop @click.stop>
           <slot></slot>
           <template v-if="nodeFields.length > 0">
-            <h5 class="title-decoration-1 mb-8 mt-8">参数输出</h5>
+            <h5 class="title-decoration-1 mb-8 mt-8">{{ $t('paramOutput') }}</h5>
             <template v-for="(item, index) in nodeFields" :key="index">
               <div
                 class="flex-between border-r-4 p-8-12 mb-8 layout-bg lighter"
@@ -56,7 +56,7 @@
                 <span style="max-width: 92%">{{ item.label }} {{ '{' + item.value + '}' }}</span>
                 <el-tooltip
                   effect="dark"
-                  content="复制参数"
+                  :content="$t('copyParam')"
                   placement="top"
                   v-if="showicon === index"
                 >
@@ -72,6 +72,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { set } from 'lodash'
@@ -79,6 +80,8 @@ import { iconComponent } from '../icons/utils'
 import { copyClick } from '@/utils/clipboard'
 import { WorkflowType } from '@/enums/workflow'
 import { MsgError, MsgConfirm } from '@/utils/message'
+import { t } from '@/locales' // 导入国际化配置
+
 const height = ref<{
   stepContainerHeight: number
   inputContainerHeight: number
@@ -100,7 +103,7 @@ function editName(val: string) {
     ) {
       set(props.nodeModel.properties, 'stepName', val.trim())
     } else {
-      MsgError('节点名称已存在！')
+      MsgError(t('nodeNameExists')) // 使用国际化文本
     }
   }
 }
@@ -119,8 +122,8 @@ const copyNode = () => {
   props.nodeModel.graphModel.toFront(cloneNode.id)
 }
 const deleteNode = () => {
-  MsgConfirm(`提示`, `确定删除该节点？`, {
-    confirmButtonText: '删除',
+  MsgConfirm(t('提示'), t('confirmDeleteNode'), {
+    confirmButtonText: t('delete'),
     confirmButtonClass: 'danger'
   }).then(() => {
     props.nodeModel.graphModel.deleteNode(props.nodeModel.id)

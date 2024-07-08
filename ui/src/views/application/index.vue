@@ -40,8 +40,7 @@
             <CardBox
               :title="item.name"
               :description="item.desc"
-              class="application-card cursor"
-              @click="router.push({ path: `/application/${item.id}/${item.type}/overview` })"
+              class="application-card cursor" @click.stop @click="getAccessToken(item.id)"
             >
               <template #icon>
                 <AppAvatar
@@ -63,12 +62,23 @@
                 />
               </template>
               <div class="status-tag">
-                <el-tag type="warning" v-if="isWorkFlow(item.type)">高级编排</el-tag>
-                <el-tag v-else>简单配置</el-tag>
+                <el-tag type="warning" v-if="isWorkFlow(item.type)">{{ $t('views.application.applicationForm.form.appType.advanced') }}</el-tag>
+                <el-tag v-else>{{ $t('views.application.applicationForm.form.appType.simple') }}</el-tag>
               </div>
 
-              <template #footer>
+              <!-- Footer will only be displayed if 'MANAGE' is included in 'operate' -->
+              <template v-if="item.operate.includes('MANAGE')" #footer>
                 <div class="footer-content">
+                   <el-tooltip
+                    effect="dark"
+                    :content="$t('views.application.applicationList.card.overview')"
+                    placement="top"
+                  >
+                    <el-button text @click.stop @click="viewOverview(item)">
+                      <el-icon><Monitor /></el-icon>
+                    </el-button>
+                  </el-tooltip>
+                  <el-divider direction="vertical" />
                   <el-tooltip
                     effect="dark"
                     :content="$t('views.application.applicationList.card.demo')"
@@ -98,6 +108,7 @@
                       <el-icon><Delete /></el-icon>
                     </el-button>
                   </el-tooltip>
+
                 </div>
               </template>
             </CardBox>
@@ -108,6 +119,7 @@
     <CreateApplicationDialog ref="CreateApplicationDialogRef" />
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue'
 import applicationApi from '@/api/application'
@@ -154,7 +166,7 @@ function searchHandle() {
 }
 function getAccessToken(id: string) {
   application.asyncGetAccessToken(id, loading).then((res: any) => {
-    window.open(application.location + res?.data?.access_token)
+    window.open(application.location + res?.data?.access_token,'_self')
   })
 }
 
@@ -179,19 +191,28 @@ function deleteApplication(row: any) {
     .catch(() => {})
 }
 
+function viewOverview(item: any) {
+  router.push({ path: `/application/${item.id}/${item.type}/overview` })
+}
+
 function getList() {
   applicationApi
     .getApplication(paginationConfig, searchValue.value && { name: searchValue.value }, loading)
     .then((res) => {
-      applicationList.value = [...applicationList.value, ...res.data.records]
-      paginationConfig.total = res.data.total
+  //    console.log("Fetched application data:", res.data.records); // 打印获取的数据
+      applicationList.value = [...applicationList.value, ...res.data.records];
+      paginationConfig.total = res.data.total;
     })
+    .catch((error) => {
+      console.error("Error fetching application data:", error); // 打印错误信息
+    });
 }
 
 onMounted(() => {
   getList()
 })
 </script>
+
 <style lang="scss" scoped>
 .application-card {
   .status-tag {

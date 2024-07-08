@@ -1,7 +1,7 @@
 <template>
   <div class="login-form-container">
     <div class="login-title">
-      <div class="logo text-center"><img src="@/assets/MaxKB-logo.svg" height="45" /></div>
+      <div class="logo text-center"><img src="@/assets/StarCloudKB.svg" height="45" /></div>
       <div class="sub-title text-center" v-if="subTitle">
         <el-text type="info">{{ subTitle }}</el-text>
       </div>

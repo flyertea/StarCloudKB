@@ -1,11 +1,11 @@
 <template>
   <div class="dataset-list-container p-24" style="padding-top: 16px">
     <div class="flex-between mb-16">
-      <h4>知识库</h4>
+      <h4>{{ $t('knowledgeBase') }}</h4>
       <el-input
         v-model="searchValue"
         @change="searchHandle"
-        placeholder="按名称搜索"
+        :placeholder="$t('searchByName')"
         prefix-icon="Search"
         class="w-240"
         clearable
@@ -22,7 +22,7 @@
       >
         <el-row :gutter="15">
           <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb-16">
-            <CardAdd title="创建知识库" @click="router.push({ path: '/dataset/create' })" />
+            <CardAdd :title="$t('createKnowledgeBase')" @click="router.push({ path: '/dataset/create' })" />
           </el-col>
           <template v-for="(item, index) in datasetList" :key="index">
             <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb-16">
@@ -46,9 +46,9 @@
                   </AppAvatar>
                 </template>
                 <div class="delete-button">
-                  <el-tag v-if="item.type === '0'">通用型</el-tag>
+                  <el-tag v-if="item.type === '0'">{{ $t('generalType') }}</el-tag>
                   <el-tag class="purple-tag" v-else-if="item.type === '1'" type="warning"
-                    >Web 站点</el-tag
+                  >{{ $t('webSite') }}</el-tag
                   >
                 </div>
 
@@ -56,11 +56,11 @@
                   <div class="footer-content flex-between">
                     <div>
                       <span class="bold">{{ item?.document_count || 0 }}</span>
-                      文档<el-divider direction="vertical" />
+                      {{ $t('documents') }}<el-divider direction="vertical" />
                       <span class="bold">{{ numberFormat(item?.char_length) || 0 }}</span>
-                      字符<el-divider direction="vertical" />
+                      {{ $t('characters') }}<el-divider direction="vertical" />
                       <span class="bold">{{ item?.application_mapping_count || 0 }}</span>
-                      关联应用
+                      {{ $t('associatedApplications') }}
                     </div>
                     <div @click.stop>
                       <el-dropdown trigger="click">
@@ -73,26 +73,26 @@
                               icon="Refresh"
                               @click.stop="syncDataset(item)"
                               v-if="item.type === '1'"
-                              >同步</el-dropdown-item
+                            >{{ $t('sync') }}</el-dropdown-item
                             >
                             <el-dropdown-item @click="reEmbeddingDataset(item)">
                               <AppIcon
                                 iconName="app-document-refresh"
                                 style="font-size: 16px"
                               ></AppIcon>
-                              重新向量化</el-dropdown-item
+                              {{ $t('reEmbed') }}</el-dropdown-item
                             >
                             <el-dropdown-item
                               icon="Setting"
                               @click.stop="router.push({ path: `/dataset/${item.id}/setting` })"
                             >
-                              设置</el-dropdown-item
+                              {{ $t('settings') }}</el-dropdown-item
                             >
                             <el-dropdown-item @click.stop="export_dataset(item)">
-                              <AppIcon iconName="app-export"></AppIcon>导出</el-dropdown-item
+                              <AppIcon iconName="app-export"></AppIcon>{{ $t('export') }}</el-dropdown-item
                             >
                             <el-dropdown-item icon="Delete" @click.stop="deleteDataset(item)"
-                              >删除</el-dropdown-item
+                            >{{ $t('delete') }}</el-dropdown-item
                             >
                           </el-dropdown-menu>
                         </template>
@@ -116,6 +116,9 @@ import datasetApi from '@/api/dataset'
 import { MsgSuccess, MsgConfirm } from '@/utils/message'
 import { useRouter } from 'vue-router'
 import { numberFormat } from '@/utils/utils'
+import { useI18n } from 'vue-i18n' // 导入国际化
+
+const { t } = useI18n() // 使用国际化
 const router = useRouter()
 
 const SyncWebDialogRef = ref()
@@ -130,12 +133,12 @@ const paginationConfig = reactive({
 const searchValue = ref('')
 
 function refresh() {
-  MsgSuccess('同步任务发送成功')
+  MsgSuccess(t('syncTaskSuccess'))
 }
 
 function reEmbeddingDataset(row: any) {
   datasetApi.putReEmbeddingDataset(row.id).then(() => {
-    MsgSuccess('提交成功')
+    MsgSuccess(t('submitSuccess'))
   })
 }
 
@@ -150,16 +153,16 @@ function searchHandle() {
 }
 const export_dataset = (item: any) => {
   datasetApi.exportDataset(item.name, item.id, loading).then((ok) => {
-    MsgSuccess('导出成功')
+    MsgSuccess(t('exportSuccess'))
   })
 }
 
 function deleteDataset(row: any) {
   MsgConfirm(
-    `是否删除知识库：${row.name} ?`,
-    `此知识库关联 ${row.application_mapping_count} 个应用，删除后无法恢复，请谨慎操作。`,
+    t('confirmDelete', { name: row.name }),
+    t('confirmDeleteWarning', { count: row.application_mapping_count }),
     {
-      confirmButtonText: '删除',
+      confirmButtonText: t('confirmDeleteButton'),
       confirmButtonClass: 'danger'
     }
   )
@@ -167,7 +170,7 @@ function deleteDataset(row: any) {
       datasetApi.delDataset(row.id, loading).then(() => {
         const index = datasetList.value.findIndex((v) => v.id === row.id)
         datasetList.value.splice(index, 1)
-        MsgSuccess('删除成功')
+        MsgSuccess(t('deleteSuccess'))
       })
     })
     .catch(() => {})

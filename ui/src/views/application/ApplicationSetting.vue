@@ -6,7 +6,7 @@
           {{ $t('views.application.applicationForm.title.edit') }}
         </h3>
         <el-button type="primary" @click="submit(applicationFormRef)" :disabled="loading">
-          保存并发布
+          {{ $t('views.application.applicationForm.title.save_publish') }}
         </el-button>
       </div>
     </template>

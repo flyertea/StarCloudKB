@@ -1,14 +1,14 @@
 <template>
   <el-input
     v-model="filterText"
-    placeholder="搜索"
+    :placeholder="$t('search')"
     prefix-icon="Search"
     class="p-24 pt-0 pb-0 mb-16 mt-4"
     clearable
   />
   <div class="p-24 pt-0">
     <el-table :data="filterData" :max-height="tableHeight">
-      <el-table-column prop="name" :label="isApplication ? '应用名称' : '知识库名称'">
+      <el-table-column :prop="'name'" :label="isApplication ? $t('applicationName') : $t('knowledgeBaseName')">
         <template #default="{ row }">
           <div class="flex align-center">
             <AppAvatar
@@ -28,7 +28,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="管理" align="center" width="60" fixed="right">
+      <el-table-column :label="$t('manage')" align="center" width="60" fixed="right">
         <!-- <template #header>
         <el-checkbox
           v-model="allChecked[MANAGE]"
@@ -44,7 +44,7 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="使用" align="center" width="60" fixed="right">
+      <el-table-column :label="$t('use')" align="center" width="60">
         <!-- <template #header>
         <el-checkbox
           v-model="allChecked[USE]"
@@ -66,6 +66,9 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import { TeamEnum } from '@/enums/team'
+import { useI18n } from 'vue-i18n' // 导入国际化
+
+const { t } = useI18n() // 使用国际化
 
 const props = defineProps({
   data: {
