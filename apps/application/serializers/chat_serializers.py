@@ -175,9 +175,15 @@ class ChatSerializers(serializers.Serializer):
             workbook = xlwt.Workbook(encoding='utf-8')
             # 添加工作表
             worksheet = workbook.add_sheet('Sheet1')
+            # data = [
+            #     ['会话ID', '摘要', '用户问题', '优化后问题', '回答', '用户反馈', '引用分段数', '分段标题+内容',
+            #      '标注', '消耗tokens', '耗时（s）', '提问时间'],
+            #     *[self.to_row(row) for row in data_list]
+            # ]
             data = [
-                ['会话ID', '摘要', '用户问题', '优化后问题', '回答', '用户反馈', '引用分段数', '分段标题+内容',
-                 '标注', '消耗tokens', '耗时（s）', '提问时间'],
+                ['Conversation ID', 'Summary', 'User Question', 'Optimized Question', 'Answer', 'User Feedback',
+                 'Number of Referenced Segments', 'Segment Title + Content',
+                 'Annotation', 'Tokens Consumed', 'Time Taken (s)', 'Question Time'],
                 *[self.to_row(row) for row in data_list]
             ]
             # 写入数据到工作表
