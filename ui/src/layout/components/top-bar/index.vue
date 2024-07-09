@@ -69,6 +69,7 @@ const defaultTitle = import.meta.env.VITE_APP_TITLE
 const { changeLocale } = useLocale()
 const changeLang = (lang: string) => {
   changeLocale(lang)
+  router.replace(router.currentRoute.value.fullPath)
 }
 function toUrl(url: string) {
   window.open(url, '_blank')

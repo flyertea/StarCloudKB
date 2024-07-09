@@ -86,6 +86,7 @@ export default {
         password: "Login Password",
         enterPassword: "Please enter password",
         usernameLength: "Length should be 6 to 20 characters",
+        passwordLength: "Length should be 6 to 20 characters",
         editSuccess: "Edit Success",
         createSuccess: "Create Success"
     },

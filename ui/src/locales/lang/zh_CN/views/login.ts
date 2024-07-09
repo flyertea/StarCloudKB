@@ -86,6 +86,7 @@ export default {
     password: "登录密码",
     enterPassword: "请输入密码",
     usernameLength: "长度在 6 到 20 个字符",
+    passwordLength: "长度在 6 到 20 个字符",
     editSuccess: "编辑成功",
     createSuccess: "创建成功"
   },
