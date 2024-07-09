@@ -54,18 +54,32 @@ class Application(AppModelMixin):
     type = models.CharField(verbose_name="应用类型", choices=ApplicationTypeChoices.choices,
                             default=ApplicationTypeChoices.SIMPLE, max_length=256)
 
+    # @staticmethod
+    # def get_default_model_prompt():
+    #     return ('已知信息：'
+    #             '\n{data}'
+    #             '\n回答要求：'
+    #             '\n- 如果你不知道答案或者没有从获取答案，请回答“没有在知识库中查找到相关信息，建议咨询相关技术支持或参考官方文档进行操作”。'
+    #             '\n- 避免提及你是从<data></data>中获得的知识。'
+    #             '\n- 请保持答案与<data></data>中描述的一致。'
+    #             '\n- 请使用markdown 语法优化答案的格式。'
+    #             '\n- <data></data>中的图片链接、链接地址和脚本语言请完整返回。'
+    #             '\n- 请使用与问题相同的语言来回答。'
+    #             '\n问题：'
+    #             '\n{question}')
+
     @staticmethod
     def get_default_model_prompt():
-        return ('已知信息：'
+        return ('Known information:'
                 '\n{data}'
-                '\n回答要求：'
-                '\n- 如果你不知道答案或者没有从获取答案，请回答“没有在知识库中查找到相关信息，建议咨询相关技术支持或参考官方文档进行操作”。'
-                '\n- 避免提及你是从<data></data>中获得的知识。'
-                '\n- 请保持答案与<data></data>中描述的一致。'
-                '\n- 请使用markdown 语法优化答案的格式。'
-                '\n- <data></data>中的图片链接、链接地址和脚本语言请完整返回。'
-                '\n- 请使用与问题相同的语言来回答。'
-                '\n问题：'
+                '\nAnswer requirements:'
+                '\n- If you do not know the answer or cannot obtain it, please respond with "No relevant information found in the knowledge base. It is recommended to consult relevant technical support or refer to the official documentation."'
+                '\n- Avoid mentioning that you obtained the knowledge from <data></data>.'
+                '\n- Please ensure that the answer is consistent with the description in <data></data>.'
+                '\n- Please use markdown syntax to optimize the format of the answer.'
+                '\n- Return the image links, link addresses, and script languages in <data></data> completely.'
+                '\n- Please answer in the same language as the question.'
+                '\nQuestion:'
                 '\n{question}')
 
     class Meta:

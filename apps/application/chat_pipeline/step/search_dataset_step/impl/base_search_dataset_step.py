@@ -27,6 +27,11 @@ class BaseSearchDatasetStep(ISearchDatasetStep):
                 exclude_paragraph_id_list: list[str], top_n: int, similarity: float, padding_problem_text: str = None,
                 search_mode: str = None,
                 **kwargs) -> List[ParagraphPipelineModel]:
+
+        # 如果 dataset_id_list 为空，则直接返回空列表
+        if not dataset_id_list:
+            return []
+
         exec_problem_text = padding_problem_text if padding_problem_text is not None else problem_text
         embedding_model = EmbeddingModel.get_embedding_model()
         embedding_value = embedding_model.embed_query(exec_problem_text)
