@@ -7,6 +7,9 @@ import sys
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'smartdoc.settings')
+    os.environ['HF_HOME'] = '/opt/maxkb/model/base'
+    os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
