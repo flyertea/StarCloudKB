@@ -109,6 +109,7 @@ class Chat(AppModelMixin):
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
     abstract = models.CharField(max_length=1024, verbose_name="摘要")
     client_id = models.UUIDField(verbose_name="客户端id", default=None, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="用户ID", null=True, blank=True)
     is_deleted = models.BooleanField(verbose_name="", default=False)
 
     class Meta:
