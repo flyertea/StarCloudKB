@@ -460,6 +460,7 @@ const errorWrite = (chat: any, message?: string) => {
   ChatManagement.close(chat.id)
 }
 function chatMessage(chat?: any, problem?: string, re_chat?: boolean) {
+  const unlockScroll = lockScrollPosition();
   loading.value = true
   if (!chat) {
     chat = reactive({
@@ -479,7 +480,11 @@ function chatMessage(chat?: any, problem?: string, re_chat?: boolean) {
     inputValue.value = ''
     nextTick(() => {
       // 将滚动条滚动到最下面
-      scrollDiv.value.setScrollTop(getMaxHeight())
+      // scrollDiv.value.setScrollTop(getMaxHeight())
+      requestAnimationFrame(() => {
+        unlockScroll();
+        //scrollDiv.value.setScrollTop(getMaxHeight());
+      });
     })
   }
   if (!chartOpenId.value) {
@@ -511,7 +516,10 @@ function chatMessage(chat?: any, problem?: string, re_chat?: boolean) {
         } else {
           nextTick(() => {
             // 将滚动条滚动到最下面
-            scrollDiv.value.setScrollTop(getMaxHeight())
+            requestAnimationFrame(() => {
+              scrollDiv.value.setScrollTop(getMaxHeight());
+            });
+            // scrollDiv.value.setScrollTop(getMaxHeight())
           })
           const reader = response.body.getReader()
           // 处理流数据
@@ -566,7 +574,7 @@ const scrollTop = ref(0)
 const scorll = ref(true)
 
 const getMaxHeight = () => {
-  return dialogScrollbar.value!.scrollHeight
+  return dialogScrollbar.value ? dialogScrollbar.value.scrollHeight : 0;
 }
 const handleScrollTop = ($event: any) => {
   scrollTop.value = $event.scrollTop
@@ -583,19 +591,74 @@ const handleScrollTop = ($event: any) => {
 
 const handleScroll = () => {
   if (!props.log && scrollDiv.value) {
-    // 内部高度小于外部高度 就需要出滚动条
-    if (scrollDiv.value.wrapRef.offsetHeight < dialogScrollbar.value.scrollHeight) {
+    const wrapRef = scrollDiv.value.wrapRef;
+    const dialogRef = dialogScrollbar.value;
+
+    // 动态计算缓冲高度，可以根据内容的实际高度调整
+    const scrollBuffer = 200; // 预留的滚动缓冲高度
+
+    // 内部高度 加上 缓冲 区 小于外部高度 就需要出滚动条
+    if (wrapRef.offsetHeight - scrollBuffer < dialogRef.scrollHeight) {
       // 如果当前滚动条距离最下面的距离在 规定距离 滚动条就跟随
       if (scorll.value) {
-        scrollDiv.value.setScrollTop(getMaxHeight())
+        // 延迟执行，以确保内容更新完成后再调整滚动位置
+        setTimeout(() => {
+          requestAnimationFrame(() => {
+            scrollDiv.value.setScrollTop(dialogRef.scrollHeight);
+          });
+        }, 50); // 尝试减少延迟时间
       }
     }
   }
+};
+
+function lockScrollPosition() {
+  if (scrollDiv.value) {
+    const wrapRef = scrollDiv.value.wrapRef;
+    const scrollTop = wrapRef.scrollTop;
+    const scrollHeight = wrapRef.scrollHeight;
+
+    // 返回一个函数，用于恢复滚动位置
+    return () => {
+      nextTick(() => {
+        const newScrollHeight = wrapRef.scrollHeight;
+        const scrollDelta = newScrollHeight - scrollHeight;
+        if (scrollDelta > 0) {
+          wrapRef.scrollTop = scrollTop + scrollDelta;
+        }
+      });
+    };
+  }
+  return () => {};
 }
+
+// function handleScroll() {
+//   if (!props.log && scrollDiv.value) {
+//     const wrapRef = scrollDiv.value.wrapRef;
+//     const dialogRef = dialogScrollbar.value;
+//
+//     if (wrapRef.offsetHeight < dialogRef.scrollHeight) {
+//       if (scorll.value) {
+//         const scrollBuffer = 500; // 预留的滚动缓冲高度
+//         wrapRef.scrollTop += scrollBuffer;
+//
+//         // 延迟执行，以确保内容更新完成后再调整滚动位置
+//         setTimeout(() => {
+//           requestAnimationFrame(() => {
+//             scrollDiv.value.setScrollTop(dialogRef.scrollHeight + scrollBuffer);
+//           });
+//         }, 150); // 延迟150毫秒
+//       }
+//     }
+//   }
+// }
 
 function setScrollBottom() {
   // 将滚动条滚动到最下面
-  scrollDiv.value.setScrollTop(getMaxHeight())
+  requestAnimationFrame(() => {
+    scrollDiv.value.setScrollTop(getMaxHeight());
+  });
+  // scrollDiv.value.setScrollTop(getMaxHeight())
 }
 
 watch(
@@ -724,6 +787,7 @@ defineExpose({
   .dialog-card {
     border: none;
     border-radius: 8px;
+    transition: height 0.3s ease-out, opacity 0.3s ease-out;
   }
 }
 .chat-width {
