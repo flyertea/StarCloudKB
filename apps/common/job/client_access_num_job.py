@@ -24,10 +24,22 @@ def client_access_num_reset_job():
     logging.getLogger("max_kb").info('结束重置access_num')
 
 
+# def run():
+#     scheduler.start()
+#     access_num_reset = scheduler.get_job(job_id='access_num_reset')
+#     if access_num_reset is not None:
+#         access_num_reset.remove()
+#     scheduler.add_job(client_access_num_reset_job, 'cron', hour='0', minute='0', second='0',
+#                       id='access_num_reset')
+
+
 def run():
-    scheduler.start()
+    # 只有一个进程需要启动 scheduler
+    if not scheduler.running:
+        scheduler.start()
+
+    # 检查任务是否存在
     access_num_reset = scheduler.get_job(job_id='access_num_reset')
-    if access_num_reset is not None:
-        access_num_reset.remove()
-    scheduler.add_job(client_access_num_reset_job, 'cron', hour='0', minute='0', second='0',
-                      id='access_num_reset')
+    if access_num_reset is None:
+        scheduler.add_job(client_access_num_reset_job, 'cron', hour='0', minute='0', second='0',
+                          id='access_num_reset')
