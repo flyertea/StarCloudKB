@@ -19,7 +19,7 @@ class TokenizerManage:
                 TokenizerManage.tokenizer = BertTokenizerFast.from_pretrained(
                     'hfl/chinese-roberta-wwm-ext',
                     cache_dir="/opt/maxkb/model/tokenizer",
-                    local_files_only=True,
+                    local_files_only=False,
                     resume_download=False,
                     force_download=False
                 )

@@ -129,20 +129,20 @@ class RegisterSerializer(ApiMixin, serializers.Serializer):
                                      min_length=6,
                                      validators=[
                                          validators.RegexValidator(regex=re.compile("^[a-zA-Z][a-zA-Z0-9_]{5,20}$"),
-                                                                   message="用户名字符数为 6-20 个字符，必须以字母开头，可使用字母、数字、下划线等")
+                                                                   message="Username must be 6-20 characters long, start with a letter, and can include letters, numbers, underscores, etc.")
                                      ])
     password = serializers.CharField(required=True, error_messages=ErrMessage.char("密码"),
                                      validators=[validators.RegexValidator(regex=re.compile(
                                          "^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z_!@#$%^&*`~.()-+=]+$)(?![a-z0-9]+$)(?![a-z_!@#$%^&*`~()-+=]+$)"
                                          "(?![0-9_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9_!@#$%^&*`~.()-+=]{6,20}$")
-                                         , message="密码长度6-20个字符，必须字母、数字、特殊字符组合")])
+                                         , message="Password must be 6-20 characters long and include a combination of letters, numbers, and special characters.")])
 
     re_password = serializers.CharField(required=True,
                                         error_messages=ErrMessage.char("确认密码"),
                                         validators=[validators.RegexValidator(regex=re.compile(
                                             "^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z_!@#$%^&*`~.()-+=]+$)(?![a-z0-9]+$)(?![a-z_!@#$%^&*`~()-+=]+$)"
                                             "(?![0-9_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9_!@#$%^&*`~.()-+=]{6,20}$")
-                                            , message="确认密码长度6-20个字符，必须字母、数字、特殊字符组合")])
+                                            , message="Password must be 6-20 characters long and include a combination of letters, numbers, and special characters.")])
 
     code = serializers.CharField(required=True, error_messages=ErrMessage.char("验证码"))
 
@@ -265,13 +265,13 @@ class RePasswordSerializer(ApiMixin, serializers.Serializer):
                                      validators=[validators.RegexValidator(regex=re.compile(
                                          "^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z_!@#$%^&*`~.()-+=]+$)(?![a-z0-9]+$)(?![a-z_!@#$%^&*`~()-+=]+$)"
                                          "(?![0-9_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9_!@#$%^&*`~.()-+=]{6,20}$")
-                                         , message="确认密码长度6-20个字符，必须字母、数字、特殊字符组合")])
+                                         , message="Password must be 6-20 characters long and include a combination of letters, numbers, and special characters.")])
 
     re_password = serializers.CharField(required=True, error_messages=ErrMessage.char("确认密码"),
                                         validators=[validators.RegexValidator(regex=re.compile(
                                             "^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z_!@#$%^&*`~.()-+=]+$)(?![a-z0-9]+$)(?![a-z_!@#$%^&*`~()-+=]+$)"
                                             "(?![0-9_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9_!@#$%^&*`~.()-+=]{6,20}$")
-                                            , message="确认密码长度6-20个字符，必须字母、数字、特殊字符组合")]
+                                            , message="Password must be 6-20 characters long and include a combination of letters, numbers, and special characters.")]
                                         )
 
     class Meta:
@@ -381,7 +381,7 @@ class SendEmailSerializer(ApiMixin, serializers.Serializer):
                                       system_setting.meta.get('email_use_ssl')
                                       )
             # 发送邮件
-            send_mail(f'【MaxKB 智能知识库-{"用户注册" if state == "register" else "修改密码"}】',
+            send_mail(f' [StarCloudKB -{"Register" if state == "register" else "Change Password"}]',
                       '',
                       html_message=f'{content.replace("${code}", code)}',
                       from_email=system_setting.meta.get('from_email'),
@@ -583,13 +583,13 @@ class UserManageSerializer(serializers.Serializer):
                                          min_length=6,
                                          validators=[
                                              validators.RegexValidator(regex=re.compile("^[a-zA-Z][a-zA-Z0-9_]{5,20}$"),
-                                                                       message="用户名字符数为 6-20 个字符，必须以字母开头，可使用字母、数字、下划线等")
+                                                                       message="Username must be 6-20 characters long, start with a letter, and can include letters, numbers, underscores, etc.")
                                          ])
         password = serializers.CharField(required=True, error_messages=ErrMessage.char("密码"),
                                          validators=[validators.RegexValidator(regex=re.compile(
                                              "^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z_!@#$%^&*`~.()-+=]+$)(?![a-z0-9]+$)(?![a-z_!@#$%^&*`~()-+=]+$)"
                                              "(?![0-9_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9_!@#$%^&*`~.()-+=]{6,20}$")
-                                             , message="密码长度6-20个字符，必须字母、数字、特殊字符组合")])
+                                             , message="Password must be 6-20 characters long and include a combination of letters, numbers, and special characters.")])
 
         nick_name = serializers.CharField(required=False, error_messages=ErrMessage.char("姓名"), max_length=64,
                                           allow_null=True, allow_blank=True)
@@ -656,12 +656,12 @@ class UserManageSerializer(serializers.Serializer):
                                          validators=[validators.RegexValidator(regex=re.compile(
                                              "^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z_!@#$%^&*`~.()-+=]+$)(?![a-z0-9]+$)(?![a-z_!@#$%^&*`~()-+=]+$)"
                                              "(?![0-9_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9_!@#$%^&*`~.()-+=]{6,20}$")
-                                             , message="密码长度6-20个字符，必须字母、数字、特殊字符组合")])
+                                             , message="Password must be 6-20 characters long and include a combination of letters, numbers, and special characters.")])
         re_password = serializers.CharField(required=True, error_messages=ErrMessage.char("确认密码"),
                                             validators=[validators.RegexValidator(regex=re.compile(
                                                 "^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z_!@#$%^&*`~.()-+=]+$)(?![a-z0-9]+$)(?![a-z_!@#$%^&*`~()-+=]+$)"
                                                 "(?![0-9_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9_!@#$%^&*`~.()-+=]{6,20}$")
-                                                , message="确认密码长度6-20个字符，必须字母、数字、特殊字符组合")]
+                                                , message="Password must be 6-20 characters long and include a combination of letters, numbers, and special characters.")]
                                             )
 
         @staticmethod

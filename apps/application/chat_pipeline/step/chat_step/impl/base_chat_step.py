@@ -109,6 +109,11 @@ class BaseChatStep(IChatStep):
                 client_id=None, client_type=None,
                 no_references_setting=None,
                 **kwargs):
+        # Log all parameters
+        logging.info(f"Parameters: message_list={message_list}, chat_id={chat_id}, problem_text={problem_text}, "
+                     f"post_response_handler={post_response_handler}, chat_model={chat_model}, paragraph_list={paragraph_list}, "
+                     f"manage={manage}, padding_problem_text={padding_problem_text}, stream={stream}, client_id={client_id}, "
+                     f"client_type={client_type}, no_references_setting={no_references_setting}, kwargs={kwargs}")
         if stream:
             return self.execute_stream(message_list, chat_id, problem_text, post_response_handler, chat_model,
                                        paragraph_list,

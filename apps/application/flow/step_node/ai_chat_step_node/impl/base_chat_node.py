@@ -126,6 +126,13 @@ class BaseChatNode(IChatNode):
     def execute(self, model_id, system, prompt, dialogue_number, history_chat_record, stream, chat_id, chat_record_id,
                 **kwargs) -> NodeResult:
         model = QuerySet(Model).filter(id=model_id).first()
+        # Log all parameters
+
+        logging.info(
+            f"Parameters: model_id={model_id}, system={system}, prompt={prompt}, dialogue_number={dialogue_number}, "
+            f"history_chat_record={history_chat_record}, stream={stream}, chat_id={chat_id}, chat_record_id={chat_record_id}, "
+            f"kwargs={kwargs}")
+
         if model is None:
             raise Exception("模型不存在")
         chat_model = ModelProvideConstants[model.provider].value.get_model(model.model_type, model.model_name,
